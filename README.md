@@ -4,14 +4,14 @@ A miniproject building a SAT solver and exploring its extension and performance.
 The following schedule is just a rough sketch.  Work will spill across the boundaries of the weeks to fill up the entire project duration based on our interests, what parts are more or less challenging, and other factors.  
 
 ### Getting started
-   - account setup
-   - github account
+   ~~- account setup~~
+   ~~- github account
      - set up a private repository for your summer project
      - invite Matt, Mitch, and Sonya to be contributors
-     - create a README.md to document your progress
+     - create a README.md to document your progress~~
    - slack
-   - ssh keys
-     - explore how this works on Windows 10
+ ~~- ssh keys
+     - explore how this works on Windows 10~~
    - getting comfortable with `portal.cs.virginia.edu` and CentOS modules
      - `module avail` : to find out what modules are available
      - `module show` : to find out what is in a module
