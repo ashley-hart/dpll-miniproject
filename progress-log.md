@@ -13,5 +13,5 @@
 
 #### June 3rd, 2020
 - Forwarded Slack link to everyone
-- Review [this talk](https://www.youtube.com watch?v=d76e4hV1iJY&t) on YouTube
+- Review [this talk](https://www.youtube.com/watch?v=d76e4hV1iJY&t) on YouTube
 - Meeting with Mitch
