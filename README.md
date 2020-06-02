@@ -4,14 +4,14 @@ A miniproject building a SAT solver and exploring its extension and performance.
 The following schedule is just a rough sketch.  Work will spill across the boundaries of the weeks to fill up the entire project duration based on our interests, what parts are more or less challenging, and other factors.  
 
 ### Getting started
-   ~~- account setup~~  
-   ~~- github account~~  
-   ~~- set up a private repository for your summer project~~   
-   ~~- invite Matt, Mitch, and Sonya to be contributors~~   
-   ~~- create a README.md to document your progress~~ 
+   - ~~account setup~~  
+   - ~~github account~~  
+   - ~~set up a private repository for your summer project~~   
+   - ~~invite Matt, Mitch, and Sonya to be contributors~~   
+   - ~~create a README.md to document your progress~~ 
    - slack  
- ~~- ssh keys~~   
-    ~~- explore how this works on Windows 10~~
+ - ~~ssh keys~~   
+   - ~~explore how this works on Windows 10~~
    - getting comfortable with `portal.cs.virginia.edu` and CentOS modules
      - `module avail` : to find out what modules are available
      - `module show` : to find out what is in a module
@@ -30,7 +30,7 @@ The following schedule is just a rough sketch.  Work will spill across the bound
 ### Programs to check for satisfiability
    - An incomplete list of [SAT solvers](https://en.wikipedia.org/wiki/Boolean_satisfiability_problem#Offline_SAT_solvers)
    - You will be exploring satisfiability experimentally by running solvers; it will be best to use `portal.cs.virginia.edu` since it is fast and has lots of memory 
-     - download, install and run [MiniSat](http://minisat.se/). assuming you are logged into your node in uva's portal, executing the following commands will build a minisat executable within `minisat/simp` (this builds a version of minisat extended with a simplification library):
+     - ~~download, install and run [MiniSat](http://minisat.se/). assuming you are logged into your node in uva's portal, executing the following commands will build a minisat executable within `minisat/simp` (this builds a version of minisat extended with a simplification library):~~
      ```
      wget http://minisat.se/downloads/minisat-2.2.0.tar.gz
      tar zxvf minisat-2.2.0.tar.gz
