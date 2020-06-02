@@ -5,13 +5,13 @@ The following schedule is just a rough sketch.  Work will spill across the bound
 
 ### Getting started
    ~~- account setup~~
-   ~~- github account
-     - set up a private repository for your summer project
-     - invite Matt, Mitch, and Sonya to be contributors
-     - create a README.md to document your progress~~
+   ~~- github account~~
+    ~~- set up a private repository for your summer project~~
+     ~~- invite Matt, Mitch, and Sonya to be contributors~~
+     ~~- create a README.md to document your progress~~
    - slack
- ~~- ssh keys
-     - explore how this works on Windows 10~~
+ ~~- ssh keys~~
+     ~~- explore how this works on Windows 10~~
    - getting comfortable with `portal.cs.virginia.edu` and CentOS modules
      - `module avail` : to find out what modules are available
      - `module show` : to find out what is in a module
