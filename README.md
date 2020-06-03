@@ -20,15 +20,16 @@ The following schedule is just a rough sketch.  Work will spill across the bound
 
 ### Propositional logic and satisfiability
    - A nice interactive [Introduction to Logic](http://intrologic.stanford.edu/public/index.php); we will reference concepts from the following book chapters 
-     - [introduction](http://intrologic.stanford.edu/chapters/chapter_01.html) 
-     - [propositional logic](http://intrologic.stanford.edu/chapters/chapter_02.html) 
-     - [propositional analysis](http://intrologic.stanford.edu/chapters/chapter_03.html) 
+     - [introduction*](http://intrologic.stanford.edu/chapters/chapter_01.html) 
+     - [propositional logic*](http://intrologic.stanford.edu/chapters/chapter_02.html) 
+     - [propositional analysis*](http://intrologic.stanford.edu/chapters/chapter_03.html) 
      - [satisfiability and DPLL](http://intrologic.stanford.edu/extras/satisfiability.html) 
-   - The [Boolean satisfiability problem](https://en.wikipedia.org/wiki/Boolean_satisfiability_problem) wiki page has lots of useful information
-   - You don't need to read all of this immediately and plan to reread parts as needed; that's normal
+   - The [Boolean satisfiability problem*](https://en.wikipedia.org/wiki/Boolean_satisfiability_problem) wiki page has lots of useful information
+   - You don't need to read all of this immediately and plan to reread parts as needed; that's normal 
+   -  **NOTE: All reading materials marked with an '*' have been looked at at least once**
 
 ### Programs to check for satisfiability
-   - An incomplete list of [SAT solvers](https://en.wikipedia.org/wiki/Boolean_satisfiability_problem#Offline_SAT_solvers)
+   - ~~An incomplete list of [SAT solvers](https://en.wikipedia.org/wiki/Boolean_satisfiability_problem#Offline_SAT_solvers)~~
    - You will be exploring satisfiability experimentally by running solvers; it will be best to use `portal.cs.virginia.edu` since it is fast and has lots of memory 
      - ~~download, install and run [MiniSat](http://minisat.se/). assuming you are logged into your node in uva's portal, executing the following commands will build a minisat executable within `minisat/simp` (this builds a version of minisat extended with a simplification library):~~
      ```
@@ -65,7 +66,7 @@ The following schedule is just a rough sketch.  Work will spill across the bound
   - does this match what you expected?
 
 ### Some formulae are harder to check than others
-- download [CNF benchmarks](http://sat-race-2019.ciirc.cvut.cz/index.php?cat=downloads)
+- ~~download [CNF benchmarks](http://sat-race-2019.ciirc.cvut.cz/index.php?cat=downloads)~~  
 - write a python program that: 
   - runs each benchmark on a set of solvers
   - reports their results and their execution time
