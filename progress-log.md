@@ -1,6 +1,7 @@
 ## UVA SUMMER RESEARCH PROGRESS LOG
 ### Ashley Hart
 
+### WEEK 1
 #### June 1st, 2020
 - Orientation and planning day
 - Recieved open-ended project outline
@@ -13,5 +14,15 @@
 
 #### June 3rd, 2020
 - Forwarded Slack link to everyone
-- Review [this talk](https://www.youtube.com watch?v=d76e4hV1iJY&t) on YouTube
-- Meeting with Mitch
+- Met with Dr. Dwyer and UVA PhD students
+- Reviewed [this talk](https://www.youtube.com/watch?v=d76e4hV1iJY&t) on YouTube
+- Meeting with Mitch --> gained deeper understanding of SAT, CNF, Python and Minisat
+
+#### June 4th, 2020
+ - Begun solver.py -> setting up parser for CNF file I/O
+ - Reviewed notes from meeting with Mitch
+ - Wrote out propositional formulae + created a log of them for furture testing
+ - Gained understanding of CNF file formatting
+ 
+#### June 5th, 2020
+  - Meeting with Soneya
