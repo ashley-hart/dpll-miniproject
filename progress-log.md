@@ -15,14 +15,14 @@
 #### June 3rd, 2020
 - Forwarded Slack link to everyone
 - Met with Dr. Dwyer and UVA PhD students
-- Review [this talk](https://www.youtube.com/watch?v=d76e4hV1iJY&t) on YouTube
+- Reviewed [this talk](https://www.youtube.com/watch?v=d76e4hV1iJY&t) on YouTube
 - Meeting with Mitch --> gained deeper understanding of SAT, CNF, Python and Minisat
 
 #### June 4th, 2020
- - Begin solver.py
- - Review notes from meeting with Mitch
- - Write out propositional formulae
- - Try converting them into CNF files
+ - Begun solver.py -> setting up parser for CNF file I/O
+ - Reviewed notes from meeting with Mitch
+ - Wrote out propositional formulae + created a log of them for furture testing
+ - Gained understanding of CNF file formatting
  
 #### June 5th, 2020
   - Meeting with Soneya
