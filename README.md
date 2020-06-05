@@ -9,10 +9,10 @@ The following schedule is just a rough sketch.  Work will spill across the bound
    - ~~set up a private repository for your summer project~~   
    - ~~invite Matt, Mitch, and Sonya to be contributors~~   
    - ~~create a README.md to document your progress~~ 
-   - slack  
+   - ~~slack~~
  - ~~ssh keys~~   
    - ~~explore how this works on Windows 10~~
-   - getting comfortable with `portal.cs.virginia.edu` and CentOS modules
+   - ~~getting comfortable with `portal.cs.virginia.edu` and CentOS modules~~
      - `module avail` : to find out what modules are available
      - `module show` : to find out what is in a module
      - `module load` : to load a module so that you can use it
@@ -23,7 +23,7 @@ The following schedule is just a rough sketch.  Work will spill across the bound
      - [introduction*](http://intrologic.stanford.edu/chapters/chapter_01.html) 
      - [propositional logic*](http://intrologic.stanford.edu/chapters/chapter_02.html) 
      - [propositional analysis*](http://intrologic.stanford.edu/chapters/chapter_03.html) 
-     - [satisfiability and DPLL](http://intrologic.stanford.edu/extras/satisfiability.html) 
+     - [satisfiability and DPLL*](http://intrologic.stanford.edu/extras/satisfiability.html) 
    - The [Boolean satisfiability problem*](https://en.wikipedia.org/wiki/Boolean_satisfiability_problem) wiki page has lots of useful information
    - You don't need to read all of this immediately and plan to reread parts as needed; that's normal 
    -  **NOTE: All reading materials marked with an '*' have been looked at at least once**
@@ -52,14 +52,14 @@ The following schedule is just a rough sketch.  Work will spill across the bound
      (now to actually execute `cryptominisat5_simple`, you will need to either be within `cryptominisat-5.7.1/build` to call it, or you need to give its absolute path, e.g., `/u/mjg6v/cryptominisat-5.7.1/build/cryptominisat5_simple`; run `cryptominisat5_simple -h` to see a list of this program's options)
 
 ### Writing your own formulae 
-- write some propositional formulae 
+- ~~write some propositional formulae ~~
   - create formula that are satisfiable, unsatisfiable, valid, and invalid
-  - think about what you expect the answer to be 
+  - think about what you expect the answer to be --> truth tables & unit propagation
 - translate your formulae to [CNF](https://en.wikipedia.org/wiki/Conjunctive_normal_form)
   - this will be easy for simple formula, but it can get tedious for large formula
 - translate your CNF formulae to [DIMACS-CNF](https://en.wikipedia.org/wiki/Boolean_satisfiability_problem#SAT_problem_format) format
   - this will not be very readable
-- install the [BC](http://users.ics.aalto.fi/tjunttil/bcsat/) translator
+- ~~install the [BC](http://users.ics.aalto.fi/tjunttil/bcsat/) translator~~
   - how do your translations compare to the one's produced by BC
 - run the DIMAC-CNF formula through a SAT solver
   - what's the result?
@@ -74,15 +74,15 @@ The following schedule is just a rough sketch.  Work will spill across the bound
 - use your program to select a benchmark of 100 "easy" problems
 
 ### SAT solving by hand
-- recursive definition
+- recursive definition --> with backtracking?
 - representing assignments
 - checking consistency of a set of literals
 - checking emptyness of a set of literals
 
 ### Parsing
-- what is parsing?
-- parsing CNF files
-- write a Python program named solver.py to accept or reject a CNF file
+- what is parsing? 
+- parsing CNF files --> touched on this with Mitch
+- (WIP) write a Python program named solver.py to accept or reject a CNF file 
 
 ### Writing your first SAT solver
 - extend the above program to implement a recursive SAT solver with a command line option "--recursive"
@@ -95,12 +95,13 @@ The following schedule is just a rough sketch.  Work will spill across the bound
 - compare stats against previous implementation
 
 ### Pure literal elimination
+- Note to self: READ UP ON THIS!
 - a motivating example of pure literal elimination
 - extend solver.py to include pure literal elimination with the command line option "--lit-elim"
 - compare stats against previous implementation
 
 ### DPLL
-- why this name?
+- why this name? --> named after four contributors
 - the two above observations allow the recursive implementation to be *much* faster
 - extend solver.py to enable *both* unit propogation and pure literal elimination with the command line option "--dpll"
 - make the "--dpll" option the default if no other options are given
