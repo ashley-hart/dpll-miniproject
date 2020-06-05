@@ -52,15 +52,15 @@ The following schedule is just a rough sketch.  Work will spill across the bound
      (now to actually execute `cryptominisat5_simple`, you will need to either be within `cryptominisat-5.7.1/build` to call it, or you need to give its absolute path, e.g., `/u/mjg6v/cryptominisat-5.7.1/build/cryptominisat5_simple`; run `cryptominisat5_simple -h` to see a list of this program's options)
 
 ### Writing your own formulae 
-- ~~write some propositional formulae ~~
+- ~~write some propositional formulae~~
   - create formula that are satisfiable, unsatisfiable, valid, and invalid
   - think about what you expect the answer to be --> truth tables & unit propagation
-- translate your formulae to [CNF](https://en.wikipedia.org/wiki/Conjunctive_normal_form)
+- ~~translate your formulae to [CNF](https://en.wikipedia.org/wiki/Conjunctive_normal_form)~~
   - this will be easy for simple formula, but it can get tedious for large formula
-- translate your CNF formulae to [DIMACS-CNF](https://en.wikipedia.org/wiki/Boolean_satisfiability_problem#SAT_problem_format) format
+- ~~translate your CNF formulae to [DIMACS-CNF](https://en.wikipedia.org/wiki/Boolean_satisfiability_problem#SAT_problem_format) format~~
   - this will not be very readable
 - ~~install the [BC](http://users.ics.aalto.fi/tjunttil/bcsat/) translator~~
-  - how do your translations compare to the one's produced by BC
+  - how do your translations compare to the one's produced by BC?
 - run the DIMAC-CNF formula through a SAT solver
   - what's the result?
   - does this match what you expected?
@@ -80,7 +80,7 @@ The following schedule is just a rough sketch.  Work will spill across the bound
 - checking emptyness of a set of literals
 
 ### Parsing
-- what is parsing? 
+- what is parsing? -> reading and using data from files in code
 - parsing CNF files --> touched on this with Mitch
 - (WIP) write a Python program named solver.py to accept or reject a CNF file 
 
