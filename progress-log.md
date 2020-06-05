@@ -19,10 +19,12 @@
 - Meeting with Mitch --> gained deeper understanding of SAT, CNF, Python and Minisat
 
 #### June 4th, 2020
- - Begun solver.py -> setting up parser for CNF file I/O
+ - Began solver.py -> setting up parser for CNF file I/O
  - Reviewed notes from meeting with Mitch
- - Wrote out propositional formulae + created a log of them for furture testing
+ - Wrote out propositional formulae + created a log of them for future testing
  - Gained understanding of CNF file formatting
  
 #### June 5th, 2020
   - Meeting with Soneya
+  - Created more propositional formulae + pushed pdf to repo
+  - solver.py work --> CNF file parsing
