@@ -25,6 +25,11 @@
  - Gained understanding of CNF file formatting
  
 #### June 5th, 2020
-  - Meeting with Soneya
   - Created more propositional formulae + pushed pdf to repo
   - solver.py work --> CNF file parsing
+  
+ ### WEEK 1
+ #### June 6th, 2020
+  - Looked into [this](https://sahandsaba.com/understanding-sat-by-implementing-a-simple-sat-solver-in-python.html)
+  - Meeting with Dr. Dwyer
+  - Further project planning
