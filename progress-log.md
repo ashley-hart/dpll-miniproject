@@ -28,7 +28,7 @@
   - Created more propositional formulae + pushed pdf to repo
   - solver.py work --> CNF file parsing
   
- ### WEEK 1
+ ### WEEK 2
  #### June 6th, 2020
   - Looked into [this](https://sahandsaba.com/understanding-sat-by-implementing-a-simple-sat-solver-in-python.html)
   - Meeting with Dr. Dwyer
