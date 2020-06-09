@@ -29,7 +29,11 @@
   - solver.py work --> CNF file parsing
   
  ### WEEK 2
- #### June 6th, 2020
+ #### June 8th, 2020
   - Looked into [this](https://sahandsaba.com/understanding-sat-by-implementing-a-simple-sat-solver-in-python.html)
   - Meeting with Dr. Dwyer
+  - Further project planning
+  
+   #### June 9th, 2020
+  - Worked on parser program, developing better ideas
   - Further project planning
