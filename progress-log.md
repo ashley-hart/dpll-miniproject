@@ -37,3 +37,6 @@
    #### June 9th, 2020
   - Worked on parser program, developing better ideas
   - Further project planning
+  
+  #### June 10th, 2020
+   - No work today in support of the #ShutDownAcademia initiative and Black Lives Matter
