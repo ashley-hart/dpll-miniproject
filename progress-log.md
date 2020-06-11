@@ -40,3 +40,8 @@
   
   #### June 10th, 2020
    - No work today in support of the #ShutDownAcademia initiative and Black Lives Matter
+   
+  #### June 11, 2020
+   - Meeting with Mitch
+   - Parser code, parser code, parser code
+   - Experimenting with data structures in Python for clause operations
