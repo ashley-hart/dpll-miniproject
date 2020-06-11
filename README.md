@@ -82,7 +82,7 @@ The following schedule is just a rough sketch.  Work will spill across the bound
 ### Parsing
 - what is parsing? -> reading and using data from files in code
 - parsing CNF files --> touched on this with Mitch
-- (WIP) write a Python program named solver.py to accept or reject a CNF file 
+- ~~write a Python program named solver.py to accept or reject a CNF file~~
 
 ### Writing your first SAT solver
 - extend the above program to implement a recursive SAT solver with a command line option "--recursive"
