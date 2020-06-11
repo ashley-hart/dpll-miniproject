@@ -5,6 +5,7 @@
 import sys 
 
 # 6/4/2020 - CNF is currently the only supported input format.
+# NOTE: Get it working, then optimize it.  
 
 class Solver:
 
@@ -15,44 +16,55 @@ class Solver:
     def printFilename(self):
         print(self.filename)
 
-    # Ensures that the file is in proper CNF format
-    def checkFile(self):
-        p_flag = 0
+    # My intention for this function is to have it be the "Sorting Hat" of this class.
+    # It will evaluate the file and see which method will be best. 
+    # NOTE: This funtion will need to support flags from the command line. These flags will 
+    # determine what the solver does. Default flag will be ""
+    #
+    # --recursive -> attempt with backtracking
+    # --unit-prop -> attempt with unit propogation
+    # --lit-elim -> attempt with literal elimination
+    # --dpll -> attempt with dpll
+    def solve(self, flag):
+        print("Attempting to solve " + self.filename)
+        print(flag)
 
-        with open(self.filename, 'r') as f:
-            print(f.name)
+        if flag == "--recursive":
+           print("--recursive flag recieved")
 
-            for lines in f:
-                l = lines
+        if flag == "--unit-prop":
+            print("--unit-prop flag received")
 
-                first_char = l[0]
-                print("first_char = " + first_char)
-                
-                # Ensures the file has a 'p' line that determines the input format
-                if first_char == 'p':
-                    p_flag = 1
+        if flag == "--lit-elim":
+            print("--lit-elim flag receieved")
 
-                    if "cnf" in l: 
-                        print("cnf substring found in p-line")
-    
-        if p_flag != 1:
-            print("Line header \"p\" not detected. Please revise file formmating.")
-            print("Terminating process.")
+        if flag == "--dpll":
+            print("--dpll flag recieved")
 
-
+# (6/11) This main will be used for testing purposes for now.
 def main():
+
+    flag = ""
 
     # Argument checking
     if len(sys.argv) == 2:
         print("Valid input parameters recieved.")
         filename = sys.argv[1]
+    elif len(sys.argv) == 3:
+        print("Potential operational flag detected.")
+        filename = sys.argv[1]
+
+        flag = sys.argv[2]
+        print(flag)
     else:
         print("Invalid input detected.")
         print("Please adhere to the following format: \"solver.py filename\"")
         sys.exit("Terminating process.")
 
     s = Solver(filename)
-    s. checkFile()
+    # s. checkFile()
+
+    s.solve(flag)
 
 if __name__ == "__main__":
     main()
