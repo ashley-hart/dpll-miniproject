@@ -45,3 +45,4 @@
    - Meeting with Mitch
    - Parser code, parser code, parser code
    - Experimenting with data structures in Python for clause operations
+   - Uploaded a parser prototype
