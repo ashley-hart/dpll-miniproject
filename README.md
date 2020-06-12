@@ -13,9 +13,9 @@ The following schedule is just a rough sketch.  Work will spill across the bound
  - ~~ssh keys~~   
    - ~~explore how this works on Windows 10~~
    - ~~getting comfortable with `portal.cs.virginia.edu` and CentOS modules~~
-     - `module avail` : to find out what modules are available
-     - `module show` : to find out what is in a module
-     - `module load` : to load a module so that you can use it
+     - ~~`module avail` : to find out what modules are available~~
+     - ~~`module show` : to find out what is in a module~~
+     - ~~`module load` : to load a module so that you can use it~~
      - modify your `.bashrc` to add `module load ...`' commands
 
 ### Propositional logic and satisfiability
@@ -53,17 +53,17 @@ The following schedule is just a rough sketch.  Work will spill across the bound
 
 ### Writing your own formulae 
 - ~~write some propositional formulae~~
-  - create formula that are satisfiable, unsatisfiable, valid, and invalid
-  - think about what you expect the answer to be --> truth tables & unit propagation
+  - ~~create formula that are satisfiable, unsatisfiable, valid, and invalid~~
+  - ~~think about what you expect the answer to be --> truth tables & unit propagation~~
 - ~~translate your formulae to [CNF](https://en.wikipedia.org/wiki/Conjunctive_normal_form)~~
-  - this will be easy for simple formula, but it can get tedious for large formula
+  - ~~this will be easy for simple formula, but it can get tedious for large formula~~
 - ~~translate your CNF formulae to [DIMACS-CNF](https://en.wikipedia.org/wiki/Boolean_satisfiability_problem#SAT_problem_format) format~~
-  - this will not be very readable
+  - ~~this will not be very readable~~
 - ~~install the [BC](http://users.ics.aalto.fi/tjunttil/bcsat/) translator~~
   - how do your translations compare to the one's produced by BC?
-- run the DIMAC-CNF formula through a SAT solver
-  - what's the result?
-  - does this match what you expected?
+- ~~run the DIMAC-CNF formula through a SAT solver~~
+  - ~~what's the result?~~
+  - ~~does this match what you expected?~~
 
 ### Some formulae are harder to check than others
 - ~~download [CNF benchmarks](http://sat-race-2019.ciirc.cvut.cz/index.php?cat=downloads)~~  
@@ -74,14 +74,14 @@ The following schedule is just a rough sketch.  Work will spill across the bound
 - use your program to select a benchmark of 100 "easy" problems
 
 ### SAT solving by hand
-- recursive definition --> with backtracking?
+- recursive definition
 - representing assignments
 - checking consistency of a set of literals
 - checking emptyness of a set of literals
 
 ### Parsing
-- what is parsing? -> reading and using data from files in code
-- parsing CNF files --> touched on this with Mitch
+- ~~what is parsing?~~
+- ~~parsing CNF files~~
 - ~~write a Python program named solver.py to accept or reject a CNF file~~
 
 ### Writing your first SAT solver
