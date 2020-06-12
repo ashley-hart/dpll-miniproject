@@ -46,3 +46,8 @@
    - Parser code, parser code, parser code
    - Experimenting with data structures in Python for clause operations
    - Uploaded a parser prototype
+   
+   #### June 12th, 2020
+   - Meeting with Soneya
+   - Connecting solver.py to parser.py
+   - Studied SAT solving techniques
