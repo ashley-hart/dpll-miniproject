@@ -51,3 +51,13 @@
    - Meeting with Soneya
    - Connecting solver.py to parser.py
    - Studied SAT solving techniques
+   
+   ### WEEK 3
+   #### June 14th, 2020
+   - Set up new PC to be main workstation
+   - [This](https://www.cs.ubc.ca/~hutter/EARG.shtml/earg/stack/WS06-11-005.pdf) caught my eye.
+   - Perhaps I can use the paper linked above in my final presentation when I cover the backtracking approach.
+   - TODO: Print this paper! Even if I can not use it, its still really interesting!
+   
+   #### June 15th, 2020
+   - Tentative goal for this week: A functional backtracking solution.
