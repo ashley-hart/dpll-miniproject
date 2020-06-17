@@ -61,3 +61,22 @@
    
    #### June 15th, 2020
    - Tentative goal for this week: A functional backtracking solution.
+   - Meeting w/ Dr. Dwyer
+   - Began planning backtracking solution
+   
+   #### June 16th, 2020
+   - Further planning for backtracking implementation
+   - Note: Having a working copy of your clauses will prevent data from being overwritten
+   - For debugging - write function that prints all working clauses as they are
+   - For debugging - add a function that takes a clause and quickly returns T/F if sat/unsat
+   - Keep in mind: What do you want every node to represenT? What differentiates one node from the other? --> literal assignments 
+   
+   #### June 17th, 2020
+   - Code day! Yay! Work on backtracking solution.
+   - Meeting with Mitch
+   
+   #### June 18th, 2020
+   - Meeting with Soneya
+   
+   #### June 20th, 2020 
+   - Second meeting with Dr. Dwyer
