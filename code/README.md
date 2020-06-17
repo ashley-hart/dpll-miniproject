@@ -30,3 +30,19 @@
     
    Feedback is greatly appreciated as I am looking to learn and improve as much as I can.
    As always, feel free to reach out with any questions as well.
+   
+---
+ 
+#### Adding type annotations
+ 
+Python does not enforce a strict type system like Java does. This allows you to do some tricky things
+at runtime, but it also allows you to shoot yourself in the foot and create a lot of confusion. It's
+possible to annotate your Python programs with types, and then check your program using a separate tool 
+called `mypy` before executing your code. This will tell you if the type checker spotted any errors,
+which you can choose to ignore if you want, because when you actually run, e.g., `python3 parser.py foo.cnf`, 
+the annotations are just thrown away. (But still, don't ignore the type errors :))
+
+To install `mypy`, from within an Ubuntu terminal run `sudo apt install python3-pip` and then
+`pip3 install mypy`. Now to type check my example (partially) annotated program in this directory,
+run `mypy annotated-parser.py`. You should see three errors, with messages about which line the
+error is on in the file and why this is considered a type error.
