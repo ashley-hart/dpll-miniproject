@@ -45,3 +45,38 @@
    - Meeting with Mitch
    - Parser code, parser code, parser code
    - Experimenting with data structures in Python for clause operations
+   - Uploaded a parser prototype
+   
+   #### June 12th, 2020
+   - Meeting with Soneya
+   - Connecting solver.py to parser.py
+   - Studied SAT solving techniques
+   
+   ### WEEK 3
+   #### June 14th, 2020
+   - Set up new PC to be main workstation
+   - [This](https://www.cs.ubc.ca/~hutter/EARG.shtml/earg/stack/WS06-11-005.pdf) caught my eye.
+   - Perhaps I can use the paper linked above in my final presentation when I cover the backtracking approach.
+   - TODO: Print this paper! Even if I can not use it, its still really interesting!
+   
+   #### June 15th, 2020
+   - Tentative goal for this week: A functional backtracking solution.
+   - Meeting w/ Dr. Dwyer
+   - Began planning backtracking solution
+   
+   #### June 16th, 2020
+   - Further planning for backtracking implementation
+   - Note: Having a working copy of your clauses will prevent data from being overwritten
+   - For debugging - write function that prints all working clauses as they are
+   - For debugging - add a function that takes a clause and quickly returns T/F if sat/unsat
+   - Keep in mind: What do you want every node to represenT? What differentiates one node from the other? --> literal assignments 
+   
+   #### June 17th, 2020
+   - Code day! Yay! Work on backtracking solution.
+   - Meeting with Mitch
+   
+   #### June 18th, 2020
+   - Meeting with Soneya
+   
+   #### June 20th, 2020 
+   - Second meeting with Dr. Dwyer
