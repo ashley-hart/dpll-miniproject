@@ -86,4 +86,5 @@
    - Meeting with Soneya
    
    #### June 19th, 2020 
+   - Consider a different approach for SAT checking.
 
