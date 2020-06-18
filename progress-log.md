@@ -72,11 +72,18 @@
    - Keep in mind: What do you want every node to represenT? What differentiates one node from the other? --> literal assignments 
    
    #### June 17th, 2020
-   - Code day! Yay! Work on backtracking solution.
    - Meeting with Mitch
-   
+   - ~~Code day! Yay! Work on backtracking solution.~~
+   - Worked on a few handwritten solutions. 
+   - I have a better idea of how my code needs to work. 
+   - Began a cleaner attempt at my prototype.
+
    #### June 18th, 2020
+   - Code? Code. 
+   - Note: the function that checks the clause set under a set of assignmens is critical. Take the time to figure it out.
+   - Note: Base case will check clause set under assignments, then add the assignment set to the "valid" set if the expression is SAT. 
+   - For debugging - What do you do if your problem line has the wrong amount of variables and/or clauses? Need to add my own   safeguards.
    - Meeting with Soneya
    
-   #### June 20th, 2020 
-   - Second meeting with Dr. Dwyer
+   #### June 19th, 2020 
+
