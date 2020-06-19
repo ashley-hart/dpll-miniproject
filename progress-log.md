@@ -91,4 +91,5 @@
    - Pushed up current code for anyone who wants to see if they can find the error.
    - Redesigning code to find one solution. --> reviewed Dr. Dwyer's suggestion 
    - Still trying to figure out how I can check that a set of clauses is satisfied with code.
+   - Looking through [this](https://sahandsaba.com/understanding-sat-by-implementing-a-simple-sat-solver-in-python.html) again  
  
