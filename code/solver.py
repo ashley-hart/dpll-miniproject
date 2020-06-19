@@ -3,45 +3,52 @@
 # DPLL-SAT Solver Miniproject
 
 import sys 
+import parse
+import backtrack
 
 # 6/4/2020 - CNF is currently the only supported input format.
 # NOTE: Get it working, then optimize it.  
 
 class Solver:
 
+    num_variables = -1
+    num_clauses = -1
+    clauses = []
+    flag = ""
+
     def __init__(self, filename):
         self.filename = filename
-
 
     def printFilename(self):
         print(self.filename)
 
     # My intention for this function is to have it be the "Sorting Hat" of this class.
-    # It will evaluate the file and see which method will be best. 
-    # NOTE: This funtion will need to support flags from the command line. These flags will 
-    # determine what the solver does. Default flag will be ""
-    #
-    # --recursive -> attempt with backtracking
-    # --unit-prop -> attempt with unit propogation
-    # --lit-elim -> attempt with literal elimination
-    # --dpll -> attempt with dpll
-    def solve(self, flag):
+    # Will return data for analysis.
+    def solve(self):
         print("Attempting to solve " + self.filename)
-        print(flag)
 
-        if flag == "--recursive":
+
+        if self.flag is "":
+            print("flag: NO FLAG GIVEN")
+        else:
+            print("flag: " + self.flag)
+
+        if self.flag is "":
+            print("Using all of the methods.")
+            backtrack.solve(self.num_variables, self.num_clauses, self.clauses)
+
+        # Disregard the following for now.
+        elif self.flag is "--recursive":
            print("--recursive flag recieved")
-
-        if flag == "--unit-prop":
+        elif self.flag is "--unit-prop":
             print("--unit-prop flag received")
-
-        if flag == "--lit-elim":
+        elif self.flag is "--lit-elim":
             print("--lit-elim flag receieved")
-
-        if flag == "--dpll":
+        elif self.flag is "--dpll":
             print("--dpll flag recieved")
+        else:
+            print("Flag not recognized. Please verify your input.")
 
-# (6/11) This main will be used for testing purposes for now.
 def main():
 
     flag = ""
@@ -53,18 +60,26 @@ def main():
     elif len(sys.argv) == 3:
         print("Potential operational flag detected.")
         filename = sys.argv[1]
-
         flag = sys.argv[2]
-        print(flag)
     else:
         print("Invalid input detected.")
         print("Please adhere to the following format: \"solver.py filename\"")
         sys.exit("Terminating process.")
 
-    s = Solver(filename)
-    # s. checkFile()
+    p = parse.Parse(filename, flag)
+    p.parse_file()
+    p.pretty_print()
 
-    s.solve(flag)
+    s = Solver(filename)
+
+    s.clauses = p.get_clauses()
+    s.num_clauses = p.get_num_clauses()
+    s.num_variables = p.get_num_variables()
+    s.flag = p.get_flag()
+
+    s.solve()
+
 
 if __name__ == "__main__":
     main()
+

@@ -2,14 +2,20 @@
 # Summer 2020
 
 import sys
-import collections
+import collections # remove 
 
-class Parser:
+# TODO: Add a methon that returns true or false for the Bash Script
 
+# Make a note of this on paper so you dont forget how objects work in Python
+# clauses = parse.for_the_memes()
+# def for_the_memes():
+#     print(":D")
+
+class Parse:
     format_type = ""
     num_variables = -1
     num_clauses = -1
-    clauses = {} 
+    clauses = []
     flag = ""
     
     def __init__(self, filename, flag):
@@ -19,16 +25,15 @@ class Parser:
         return self.clauses
     
     def get_num_variables(self):
-        return self.num_variables
+        return int(self.num_variables)
     
     def get_num_clauses(self):
-        return self.num_clauses
+        return int(self.num_clauses)
 
     def get_flag(self):
         return self.flag
 
     def parse_file(self):
-        
         p_flag = 0
         clause_number = 0
 
@@ -62,7 +67,10 @@ class Parser:
                         print("Invalid line: " + line, end="")
                         exit("Please ensure that all clauses are terminated with a 0.")
 
-                    self.clauses[clause_number] = tokens
+                    for i in range(0, len(tokens)):
+                        tokens[i] = int(tokens[i])
+
+                    self.clauses.append(tokens)
                     clause_number += 1
                 # TODO: Figure out how to trigger this code
                 else:
@@ -70,43 +78,41 @@ class Parser:
 
             if p_flag == 0:
                 print("ERROR: Problem line \"p\" missing or out of place. Check file formmatting.")
-
-            
+      
 
     def pretty_print(self):
         print("p " + self.format_type + " " + self.num_variables + " " + self.num_clauses)
-
-        for value in self.clauses.values():
+        for value in self.clauses:
             for num in value:
                 if int(num) != 0:
-                    print(num + " ", end="")
+                    print(num, " ", end="")
                 else:
                     print(num, end="")
             print()
 
 
-def main():
+# def main():
+# 
+# flag = ""
 
-    flag = ""
+# # Argument checking
+# if len(sys.argv) == 2:
+#     print("Valid input parameters recieved.")
+#     filename = sys.argv[1]
+# elif len(sys.argv) == 3:
+#     print("Potential operational flag detected.")
+#     filename = sys.argv[1]
+#     flag = sys.argv[2]
+# else:
+#     print("Invalid input detected.")
+#     print("Please adhere to the following format: \"solver.py filename --optional_flag\"")
+#     sys.exit("Terminating process.")
 
-    # Argument checking
-    if len(sys.argv) == 2:
-        print("Valid input parameters recieved.")
-        filename = sys.argv[1]
-    elif len(sys.argv) == 3:
-        print("Potential operational flag detected.")
-        filename = sys.argv[1]
-        flag = sys.argv[2]
-    else:
-        print("Invalid input detected.")
-        print("Please adhere to the following format: \"solver.py filename --optional_flag\"")
-        sys.exit("Terminating process.")
-
-    p = Parser(filename, flag)
-    p.parse_file()
-    p.pretty_print()
+# p = Parser(filename, flag)
+# p.parse_file()
+# p.pretty_print()
 
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
