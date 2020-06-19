@@ -45,3 +45,46 @@
    - Meeting with Mitch
    - Parser code, parser code, parser code
    - Experimenting with data structures in Python for clause operations
+   - Uploaded a parser prototype
+   
+   #### June 12th, 2020
+   - Meeting with Soneya
+   - Connecting solver.py to parser.py
+   - Studied SAT solving techniques
+   
+   ### WEEK 3
+   #### June 14th, 2020
+   - Set up new PC to be main workstation
+   - [This](https://www.cs.ubc.ca/~hutter/EARG.shtml/earg/stack/WS06-11-005.pdf) caught my eye.
+   - Perhaps I can use the paper linked above in my final presentation when I cover the backtracking approach.
+   - TODO: Print this paper! Even if I can not use it, its still really interesting!
+   
+   #### June 15th, 2020
+   - Tentative goal for this week: A functional backtracking solution.
+   - Meeting w/ Dr. Dwyer
+   - Began planning backtracking solution
+   
+   #### June 16th, 2020
+   - Further planning for backtracking implementation
+   - Note: Having a working copy of your clauses will prevent data from being overwritten
+   - For debugging - write function that prints all working clauses as they are
+   - For debugging - add a function that takes a clause and quickly returns T/F if sat/unsat
+   - Keep in mind: What do you want every node to represenT? What differentiates one node from the other? --> literal assignments 
+   
+   #### June 17th, 2020
+   - Meeting with Mitch
+   - ~~Code day! Yay! Work on backtracking solution.~~
+   - Worked on a few handwritten solutions. 
+   - I have a better idea of how my code needs to work. 
+   - Began a cleaner attempt at my prototype.
+
+   #### June 18th, 2020
+   - Code? Code. 
+   - Note: the function that checks the clause set under a set of assignmens is critical. Take the time to figure it out.
+   - Note: Base case will check clause set under assignments, then add the assignment set to the "valid" set if the expression is SAT. 
+   - For debugging - What do you do if your problem line has the wrong amount of variables and/or clauses? Need to add my own   safeguards.
+   - Meeting with Soneya
+   
+   #### June 19th, 2020 
+   - Consider a different approach for SAT checking.
+
