@@ -67,6 +67,8 @@ class Parse:
                         print("Invalid line: " + line, end="")
                         exit("Please ensure that all clauses are terminated with a 0.")
 
+                    # tokens.remove(int(0))
+
                     for i in range(0, len(tokens)):
                         tokens[i] = int(tokens[i])
 
@@ -89,30 +91,3 @@ class Parse:
                 else:
                     print(num, end="")
             print()
-
-
-# def main():
-# 
-# flag = ""
-
-# # Argument checking
-# if len(sys.argv) == 2:
-#     print("Valid input parameters recieved.")
-#     filename = sys.argv[1]
-# elif len(sys.argv) == 3:
-#     print("Potential operational flag detected.")
-#     filename = sys.argv[1]
-#     flag = sys.argv[2]
-# else:
-#     print("Invalid input detected.")
-#     print("Please adhere to the following format: \"solver.py filename --optional_flag\"")
-#     sys.exit("Terminating process.")
-
-# p = Parser(filename, flag)
-# p.parse_file()
-# p.pretty_print()
-
-
-
-# if __name__ == "__main__":
-#     main()

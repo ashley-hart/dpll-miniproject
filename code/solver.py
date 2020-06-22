@@ -4,7 +4,7 @@
 
 import sys 
 import parse
-import backtrack
+import recursive
 
 # 6/4/2020 - CNF is currently the only supported input format.
 # NOTE: Get it working, then optimize it.  
@@ -25,6 +25,8 @@ class Solver:
     # My intention for this function is to have it be the "Sorting Hat" of this class.
     # Will return data for analysis.
     def solve(self):
+
+        recur_SAT: bool = False
         print("Attempting to solve " + self.filename)
 
 
@@ -35,7 +37,12 @@ class Solver:
 
         if self.flag is "":
             print("Using all of the methods.")
-            backtrack.solve(self.num_variables, self.num_clauses, self.clauses)
+            recur_SAT = recursive.solve(self.num_variables, self.num_clauses, self.clauses)
+
+            if recur_SAT is False:
+                print("Recursive approach failed to find a solution.")
+            else:
+                print("Recursive approach found a solution.")
 
         # Disregard the following for now.
         elif self.flag is "--recursive":
