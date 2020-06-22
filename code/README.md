@@ -1,6 +1,6 @@
 ## Running The Code 
 
-### parser.py 
+### parse.py 
   At this time, this is the "start" of the overall program. It takes up to two command line arguments, a required filename and an
   optional method flag which will eventually restrict the solver to the corresponding SAT solving method.
   
@@ -20,11 +20,7 @@
     
     
   ### solver.py
-   *[Note] At this time solver.py is not intended to be called directly. I have included it in this directory so you can get an idea of 
-   where I am headed. This message will disappear when more progress is made.*
-   
-   When given a flag, solver.py will only pass the data recived from parser.py to the code that handles that specific solution. If a flag is not specifed, the solver will 
-   run the data against all four solution methods. The results will then be sent back to solver.py for analysis.
+   When given a flag, solver.py will only pass the data recived from parser.py to the code that handles that specific solution. If a flag is not specifed, the solver will run the data against all four solution methods. The results will then be sent back to solver.py for analysis.
     
   --------------------------------------------------------------------------------------------------------------------------
     
