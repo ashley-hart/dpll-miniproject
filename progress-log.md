@@ -97,5 +97,15 @@
    #### June 22nd, 2020
    - Got stuck, rewriting recursive solution...
    - Meeting with Matt
+   - Began working on a new stack implementation
    
+   #### June 23rd, 2020
+   - Meeting with Matt
+   
+   #### June 24th, 2020
+   - Meeting with Mitch
+   - Leadership Alliance Workshop today
+   
+   #### June 25th, 2020
+   - Meeting with Soneya
  
