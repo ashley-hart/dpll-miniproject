@@ -95,6 +95,7 @@
    
    ### WEEK 4
    #### June 22nd, 2020
+   - Got stuck, rewriting recursive solution...
    - Meeting with Matt
    
  
