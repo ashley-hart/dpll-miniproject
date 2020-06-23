@@ -97,13 +97,20 @@
    #### June 22nd, 2020
    - Got stuck, rewriting recursive solution...
    - Meeting with Matt
-   - Began working on a new stack implementation
+   - Worked things through with Matt and on paper
+   - Began working on a new recursive solution
    
    #### June 23rd, 2020
-   - Meeting with Matt
+   - Follow up meeting with Matt, very helpful
+   - Developed new solution
+   - Added verbose tag for debugging, still a WIP
+   - Updated documentation,
+   - Worked on recursive solution some more
    
    #### June 24th, 2020
    - Meeting with Mitch
+   - TODO: Clean up/debug recursive solution
+   - TODO: Implement Problem object idea
    - Leadership Alliance Workshop today
    
    #### June 25th, 2020
