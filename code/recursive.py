@@ -1,10 +1,8 @@
-# # Ashley Hart
-# # UVA Summer Research Project
-# # DPLL-SAT Solver Miniproject
+# Ashley Hart
+# UVA Summer Research Project
+# DPLL-SAT Solver Miniproject
 
-from collections import deque
 import copy
-import sys
 import solver 
 import parse
  
@@ -13,17 +11,17 @@ IMPORTANT: THIS IS AN UPDATED VERSION OF BACKTRACK.PY!
 '''
 
 # TODO: Implement debug flag
-# verbose: bool = False
+verbose: bool = False
+clauses = []
 
-# Check for false clauses under a truth assignment. 
+# If True is present in EVERY clause, return True.
+# If there is a single clause that is completely False, return False.
+# If there are no T's and but undefined vars exist return None to signify Unknown 
 def clause_check(t_vals):
     is_SAT: bool = True
 
-    # Look for a True in every clause. If T is present in EVERY clause, return True.
-    # If there is a single clause that is completely False, return False.
-    # If there are no T's and undefined vars (None) return None to signify Unknown
     for c in t_vals:
-        print("c: ", c)
+        # print("c: ", c)
         if True in c:
             continue
         elif None in c: 
@@ -35,6 +33,7 @@ def clause_check(t_vals):
 
     return is_SAT
 
+
 # Take a boolean statement and change all the literals according to their 
 # assignments
 def assign_vals(clauses, assignments):
@@ -43,11 +42,6 @@ def assign_vals(clauses, assignments):
 
     return new_clauses
 
-def convert_to_bool(clauses):
-    
-    bool_set = [[True if lit > 0 and lit != 0 else False for lit in c] for c in clauses]
-
-    return bool_set
 
 def get_truthtable(clauses):
 
@@ -55,15 +49,17 @@ def get_truthtable(clauses):
 
     return tt
 
-def update_truthtable(truth_values, partial, clauses):
+
+def update_truthtable(truth_values, partial, var, clauses):
 
     new_vals: list = []
     temp: list = []
 
-    for i in range(0, len(clauses)):
-
+    for i in range(len(clauses)):
         for j in range(len(clauses[i])):
-            if (abs(clauses[i][j]) - 1) < len(partial):
+
+            # print("i = ", i, "j = ", j)
+            if (abs(clauses[i][j]) - 1) == var:
 
                 if (clauses[i][j] < 0):
                     temp.append(not partial[j])
@@ -71,11 +67,15 @@ def update_truthtable(truth_values, partial, clauses):
                     temp.append(partial[j])
 
             else:
-                temp.append(None)
+                temp.append(truth_values[i][j])
+            
+            j += 1
+        i += 1
 
         new_vals.append(temp)
         temp = []
     
+    # print(new_vals)
     return new_vals
             
 
@@ -90,32 +90,77 @@ def check_SAT(truth_values):
                 is_SAT = False
 
 
+# TODO: Record partial solution into solution feild of Problem object.
+def solve(num_vars, num_clauses, clauses, verbose):
 
-# NOTE: Stack can't be bigger than num_vars at any time.
-def solve(num_vars, num_clauses, clauses):
+    if verbose:
+        print("\nRECURSIVE SOLVE(): Attempting to satisfy the problem...")
+        print("=======================================================================")
 
+    # print("verbose = ", verbose)
     partial: list = []
-    current_var = 0
     truth_values = get_truthtable(clauses)
-    bool_set = convert_to_bool(clauses)
+    clauses = clauses
+    current_var = 0
+    verbose = verbose
 
-    # Make room to try every possible comnination
-    for i in range(0, (2**(num_vars + 1)) - 1):
-        # We will try to push true and false onto this for every variable
-        for a in [True, False]:
+    is_sat = r_solve(truth_values, partial, num_vars, current_var, clauses, verbose)
 
-            partial.append(a)
+    if verbose:
+        print("RECURSIVE SOLVE(): Returning", is_sat)
+        print("=======================================================================")
+    return is_sat
 
-            # Operate and check
-            truth_values = update_truthtable(truth_values, partial, clauses)
 
-            # If we still have hope, keep going.
-            if clause_check(truth_values) == None:
-                print("Need to descend...")
-                
+def r_solve(initial_t_vals, initial_partial, num_vars, current_var, clauses, verbose):
+        
+    t_vals = copy.deepcopy(initial_t_vals)
+    partial = copy.deepcopy(initial_partial)
 
-            # If we need to backtrack, pop off the last value and backtrack.
-            partial.pop()
+    if current_var == num_vars:
+        return clause_check(clauses)
+
+    # We will try to push true and false onto this for every variable
+    for a in [True, False]:
+
+        partial.append(a)
+
+        # Define new truth values under partial assignment.
+        t_vals = update_truthtable(t_vals, partial, current_var, clauses)
+
+        if clause_check(t_vals) == True:
+
+            if verbose: 
+                print("a = ", a)
+                print("partial assignment: ", partial)
+                print("t_vals: ", t_vals)
+                print()
+            
+            if verbose:
+                print("RECURSIVE_SOLVE(): Solution:", partial)
+    
+            return True
+
+        elif clause_check(t_vals) == False:
+            return False
+        else: 
+            # DELETE LATER:  In unit prop the magic happens here, simplify clause set based on choice of a. --> unit_prop.py
+            if r_solve(t_vals, partial, num_vars, current_var + 1, clauses, verbose) is True:
+                return True
+            # Don't waste time updating values if we've already tried both options. 
+            elif a != False:
+                partial.pop()
+                t_vals = copy.deepcopy(initial_t_vals)
+
+    
+    return False
+                 
+
+
+
+
+        
+
 
 
 

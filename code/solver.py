@@ -5,6 +5,7 @@
 import sys 
 import parse
 import recursive
+import unit_prop
 
 # 6/4/2020 - CNF is currently the only supported input format.
 # NOTE: Get it working, then optimize it.  
@@ -15,6 +16,8 @@ class Solver:
     num_clauses = -1
     clauses = []
     flag = ""
+
+    verbose = None
 
     def __init__(self, filename):
         self.filename = filename
@@ -27,17 +30,27 @@ class Solver:
     def solve(self):
 
         recur_SAT: bool = False
-        print("Attempting to solve " + self.filename)
+        up_SAT: bool = False
+        le_SAT: bool = False
+        dpll_SAT: bool = False
 
+        if(self.verbose):
+            print("\nSOLVER: Attempting to solve " + self.filename)
+            print("=======================================================================")
+
+        if self.verbose: 
+            if self.flag is "":
+                print("flag: NO FLAG GIVEN")
+            else:
+                print("flag: " + self.flag)
 
         if self.flag is "":
-            print("flag: NO FLAG GIVEN")
-        else:
-            print("flag: " + self.flag)
 
-        if self.flag is "":
-            print("Using all of the methods.")
-            recur_SAT = recursive.solve(self.num_variables, self.num_clauses, self.clauses)
+            if self.verbose:
+                print("Using all of the methods.")
+
+            recur_SAT = recursive.solve(self.num_variables, self.num_clauses, self.clauses, self.verbose)
+            up_SAT = unit_prop.solve(self.num_variables, self.num_clauses, self.clauses, self.verbose)
 
             if recur_SAT is False:
                 print("Recursive approach failed to find a solution.")
@@ -46,36 +59,67 @@ class Solver:
 
         # Disregard the following for now.
         elif self.flag is "--recursive":
-           print("--recursive flag recieved")
+
+            if self.verbose:
+                print("--recursive flag recieved")
+
+            recur_SAT = recursive.solve(self.num_variables, self.num_clauses, self.clauses, self.verbose)
+            
         elif self.flag is "--unit-prop":
-            print("--unit-prop flag received")
+            if self.verbose:
+                print("--unit-prop flag received")
+
+            up_SAT = unit_prop.solve(self.num_variables, self.num_clauses, self.clauses, self.verbose)
+
+        # Disregard for now...
         elif self.flag is "--lit-elim":
-            print("--lit-elim flag receieved")
+            if self.verbose:
+                print("--lit-elim flag receieved")
         elif self.flag is "--dpll":
-            print("--dpll flag recieved")
+            if self.verbose:
+                print("--dpll flag recieved")
         else:
             print("Flag not recognized. Please verify your input.")
+
 
 def main():
 
     flag = ""
+    verbose = False
 
     # Argument checking
     if len(sys.argv) == 2:
         print("Valid input parameters recieved.")
         filename = sys.argv[1]
+
     elif len(sys.argv) == 3:
-        print("Potential operational flag detected.")
+        print("Potential operational/debug flag detected.")
+        filename = sys.argv[1]
+
+        if sys.argv[2] == "verbose":
+            verbose = True
+            flag = ""
+        else:
+            flag = sys.argv[2]
+
+    elif len(sys.argv) == 4:
+        print("Potential debug flag detected.")
         filename = sys.argv[1]
         flag = sys.argv[2]
+        
+        if sys.argv[3] is "verbose":
+            verbose = True
+
     else:
         print("Invalid input detected.")
-        print("Please adhere to the following format: \"solver.py filename\"")
+        print("Please adhere to the following format: \"solver.py filename opt:verbose\" ")
         sys.exit("Terminating process.")
 
-    p = parse.Parse(filename, flag)
+    p = parse.Parse(filename, flag, verbose)
     p.parse_file()
-    p.pretty_print()
+
+    if verbose:
+        p.pretty_print()
 
     s = Solver(filename)
 
@@ -83,8 +127,13 @@ def main():
     s.num_clauses = p.get_num_clauses()
     s.num_variables = p.get_num_variables()
     s.flag = p.get_flag()
+    s.verbose = p.get_verbose()
 
+    print("verbose = ", verbose)
     s.solve()
+
+    if verbose:
+        print("SOLVER(): Terminating process.")
 
 
 if __name__ == "__main__":

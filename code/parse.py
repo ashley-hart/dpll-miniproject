@@ -2,7 +2,7 @@
 # Summer 2020
 
 import sys
-import collections # remove 
+import os 
 
 # TODO: Add a methon that returns true or false for the Bash Script
 
@@ -17,9 +17,12 @@ class Parse:
     num_clauses = -1
     clauses = []
     flag = ""
+
+    verbose = None
     
-    def __init__(self, filename, flag):
+    def __init__(self, filename, flag, verbose):
         self.filename = filename
+        self.verbose = verbose
 
     def get_clauses(self):
         return self.clauses
@@ -33,7 +36,19 @@ class Parse:
     def get_flag(self):
         return self.flag
 
+    def get_verbose(self):
+        return self.verbose
+
     def parse_file(self):
+
+        if self.verbose:
+            print("\nPARSE_FILE(): Attempting to parse: ", self.filename)
+            print("=======================================================================")
+            print("cat " + self.filename +"\n")
+            os.system("cat " + self.filename)
+            print()
+
+
         p_flag = 0
         clause_number = 0
 
@@ -67,7 +82,8 @@ class Parse:
                         print("Invalid line: " + line, end="")
                         exit("Please ensure that all clauses are terminated with a 0.")
 
-                    # tokens.remove(int(0))
+                    # After we know the 0 is there, take it off
+                    tokens.pop()
 
                     for i in range(0, len(tokens)):
                         tokens[i] = int(tokens[i])
@@ -79,7 +95,13 @@ class Parse:
                     print("ERROR: Formatting error!")
 
             if p_flag == 0:
-                print("ERROR: Problem line \"p\" missing or out of place. Check file formmatting.")
+                print("ERROR: Problem line \"p\" missing or out of place. Check file formatting.")
+
+            if self.verbose:
+                print("PARSE_FILE(): Finished parsing: ", self.filename)
+                print("=======================================================================")
+
+            
       
 
     def pretty_print(self):
