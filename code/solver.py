@@ -5,7 +5,7 @@
 import sys 
 import parse
 import recursive
-import unit_prop
+# import unit_prop
 
 # 6/4/2020 - CNF is currently the only supported input format.
 # NOTE: Get it working, then optimize it.  
