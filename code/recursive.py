@@ -108,9 +108,9 @@ def r_solve(initial_t_vals, initial_partial, num_vars, current_var, clauses, ver
     result = None
 
     # Base Case
-    if current_var == num_vars:
+    if current_var >= num_vars:
         print("\nBase Case")
-        print
+        print()
         return clause_check(clauses, verbose)
 
     # We will try to push true and false onto this for every variable
@@ -139,7 +139,9 @@ def r_solve(initial_t_vals, initial_partial, num_vars, current_var, clauses, ver
         # If False, dont waste anymore time on this branch
         elif result == False:
             print("Backing up...")
-            return False
+            partial.pop()
+            continue
+            # return False
         # If None, descend into another call
         else: 
             print("Going down...")
@@ -147,7 +149,7 @@ def r_solve(initial_t_vals, initial_partial, num_vars, current_var, clauses, ver
                 return True
             # Don't waste time updating values if we've already tried both options.
             # Try another option. 
-            else: # a != False:
+            elif a != False:
                 partial.pop()
                 t_vals = copy.deepcopy(initial_t_vals)
 
