@@ -17,7 +17,7 @@ clauses = []
 # If True is present in EVERY clause, return True.
 # If there is a single clause that is completely False, return False.
 # If there are no T's and but undefined vars exist return None to signify Unknown 
-def clause_check(t_vals):
+def clause_check(t_vals, verbose):
     is_SAT: bool = True
 
     for c in t_vals:
@@ -31,16 +31,12 @@ def clause_check(t_vals):
             is_SAT = False
             break
 
+    if verbose: 
+        print("CLAUSE_CHECK(): Given", t_vals)
+        print("CLAUSE_CHECK(): Returning", is_SAT)
+
     return is_SAT
 
-
-# Take a boolean statement and change all the literals according to their 
-# assignments
-def assign_vals(clauses, assignments):
-
-    new_clauses = [[assignments[abs(lit)-1]*lit for lit in c if assignments[abs(lit)-1] is not 0] for c in clauses]
-
-    return new_clauses
 
 
 def get_truthtable(clauses):
@@ -54,40 +50,33 @@ def update_truthtable(truth_values, partial, var, clauses):
 
     new_vals: list = []
     temp: list = []
+    # print("var = ",var)
 
     for i in range(len(clauses)):
         for j in range(len(clauses[i])):
 
             # print("i = ", i, "j = ", j)
             if (abs(clauses[i][j]) - 1) == var:
-
+                # print("curr literal: ", clauses[i][j])
                 if (clauses[i][j] < 0):
-                    temp.append(not partial[j])
+                    temp.append(not partial[var])
+                    # print("hi")
                 else: 
-                    temp.append(partial[j])
+                    temp.append(partial[var])
+                    # print("hi 2")
 
             else:
                 temp.append(truth_values[i][j])
-            
-            j += 1
-        i += 1
 
         new_vals.append(temp)
         temp = []
     
-    # print(new_vals)
+    
+    # print("OG T_vals:", truth_values)
+    # print("partial: ",partial)
+    print(new_vals)
     return new_vals
             
-
-def check_SAT(truth_values):
-    is_SAT: bool = False
-
-    for clause in truth_values:
-        for c in clause:
-            if any(c == True) or any(c == None):
-                continue
-            else:
-                is_SAT = False
 
 
 # TODO: Record partial solution into solution feild of Problem object.
@@ -116,39 +105,49 @@ def r_solve(initial_t_vals, initial_partial, num_vars, current_var, clauses, ver
         
     t_vals = copy.deepcopy(initial_t_vals)
     partial = copy.deepcopy(initial_partial)
+    result = None
 
+    # Base Case
     if current_var == num_vars:
-        return clause_check(clauses)
+        print("\nBase Case")
+        print
+        return clause_check(clauses, verbose)
 
     # We will try to push true and false onto this for every variable
     for a in [True, False]:
 
         partial.append(a)
+        print("\na =", a)
+        print("partial assignment: ", partial)
 
         # Define new truth values under partial assignment.
-        t_vals = update_truthtable(t_vals, partial, current_var, clauses)
+        t_vals = update_truthtable(initial_t_vals, partial, current_var, clauses)
+        result = clause_check(t_vals, verbose)
 
-        if clause_check(t_vals) == True:
+        # If True, send this result right back up
+        if result == True:
 
             if verbose: 
-                print("a = ", a)
+                print("\na =", a)
+                print("clauses =", clauses)
                 print("partial assignment: ", partial)
                 print("t_vals: ", t_vals)
                 print()
-            
-            if verbose:
                 print("RECURSIVE_SOLVE(): Solution:", partial)
     
             return True
-
-        elif clause_check(t_vals) == False:
+        # If False, dont waste anymore time on this branch
+        elif result == False:
+            print("Backing up...")
             return False
+        # If None, descend into another call
         else: 
-            # DELETE LATER:  In unit prop the magic happens here, simplify clause set based on choice of a. --> unit_prop.py
+            print("Going down...")
             if r_solve(t_vals, partial, num_vars, current_var + 1, clauses, verbose) is True:
                 return True
-            # Don't waste time updating values if we've already tried both options. 
-            elif a != False:
+            # Don't waste time updating values if we've already tried both options.
+            # Try another option. 
+            else: # a != False:
                 partial.pop()
                 t_vals = copy.deepcopy(initial_t_vals)
 
