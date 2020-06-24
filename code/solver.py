@@ -69,7 +69,7 @@ class Solver:
             if self.verbose:
                 print("--unit-prop flag received")
 
-            up_SAT = unit_prop.solve(self.num_variables, self.num_clauses, self.clauses, self.verbose)
+          #  up_SAT = unit_prop.solve(self.num_variables, self.num_clauses, self.clauses, self.verbose)
 
         # Disregard for now...
         elif self.flag is "--lit-elim":
