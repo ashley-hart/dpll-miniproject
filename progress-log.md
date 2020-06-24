@@ -109,10 +109,12 @@
    
    #### June 24th, 2020
    - Meeting with Mitch
-   - TODO: Clean up/debug recursive solution
-   - TODO: Implement Problem object idea
+   - Cleaning and debugginf recursive solution.
+   - Started implementing problem object
+   - Compiled more test cases
    - Leadership Alliance Workshop today
    
    #### June 25th, 2020
+   - TODO: Begin unit propogation
    - Meeting with Soneya
  
