@@ -107,7 +107,7 @@ def main():
         filename = sys.argv[1]
         flag = sys.argv[2]
         
-        if sys.argv[3] is "verbose":
+        if sys.argv[3] == "verbose":
             verbose = True
 
     else:
@@ -115,11 +115,12 @@ def main():
         print("Please adhere to the following format: \"solver.py filename opt:verbose\" ")
         sys.exit("Terminating process.")
 
+
+    # TODO: Clean up this main function with the Problem object
+
     p = parse.Parse(filename, flag, verbose)
     p.parse_file()
 
-    if verbose:
-        p.pretty_print()
 
     s = Solver(filename)
 
@@ -130,6 +131,12 @@ def main():
     s.verbose = p.get_verbose()
 
     print("verbose = ", verbose)
+    if verbose:
+        p.pretty_print()
+        print("flag = ", s.flag)
+
+
+
     s.solve()
 
     if verbose:

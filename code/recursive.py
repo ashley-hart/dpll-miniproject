@@ -2,9 +2,6 @@
 # UVA Summer Research Project
 # DPLL-SAT Solver Miniproject
 
-import solver 
-import parse
-
 verbose: bool = False
 clauses = []
 
@@ -113,11 +110,11 @@ def r_solve(initial_t_vals, initial_partial, num_vars, current_var, clauses, ver
         if result == True:
 
             if verbose: 
-                print("\na =", a)
-                print("clauses =", clauses)
-                print("partial assignment: ", partial)
-                print("t_vals: ", t_vals)
-                print()
+                # print("\na =", a)
+                # print("clauses =", clauses)
+                # print("partial assignment: ", partial)
+                # print("t_vals: ", t_vals)
+                # print()
                 print("RECURSIVE_SOLVE(): Solution:", partial)
     
             return True
