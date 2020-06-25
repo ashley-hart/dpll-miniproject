@@ -33,7 +33,7 @@
    Implementation of a simple recursive SAT solver.
    
 ### unit_prop.py
-    Implementation of a SAT solver that uses unit propagation.
+   Implementation of a SAT solver that uses unit propagation.
     
 ---
     
