@@ -5,7 +5,7 @@
 import sys 
 import parse
 import recursive
-import unit_prop
+# import unit_prop
 
 # 6/4/2020 - CNF is currently the only supported input format.
 # NOTE: Get it working, then optimize it.  
@@ -69,7 +69,7 @@ class Solver:
             if self.verbose:
                 print("--unit-prop flag received")
 
-            up_SAT = unit_prop.solve(self.num_variables, self.num_clauses, self.clauses, self.verbose)
+          #  up_SAT = unit_prop.solve(self.num_variables, self.num_clauses, self.clauses, self.verbose)
 
         # Disregard for now...
         elif self.flag is "--lit-elim":

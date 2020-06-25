@@ -109,12 +109,16 @@
    
    #### June 24th, 2020
    - Meeting with Mitch
-   - Cleaning and debugginf recursive solution.
+   - Cleaning and debugging recursive solution.
    - Started implementing problem object
    - Compiled more test cases
    - Leadership Alliance Workshop today
    
    #### June 25th, 2020
-   - TODO: Begin unit propogation
+   - Begin unit propagation with reading and paper work
    - Meeting with Soneya
+   
+   #### June 26th, 2020
+   - Unit propagation code planning
+   - TODO: Begin implementation framework --> base on recursive.py
  

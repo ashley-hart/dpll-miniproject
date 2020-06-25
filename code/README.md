@@ -29,9 +29,12 @@
 ### parse.py
    Handles the file parsing. Called by the main method in solver.py.
    
-### recursion.py 
+### recursive.py 
    Implementation of a simple recursive SAT solver.
    
+### unit_prop.py
+   Implementation of a SAT solver that uses unit propagation.
+    
 ---
     
    Feedback is greatly appreciated as I am looking to learn and improve as much as I can.
