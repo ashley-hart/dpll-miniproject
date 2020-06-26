@@ -115,10 +115,11 @@
    - Leadership Alliance Workshop today
    
    #### June 25th, 2020
-   - Begin unit propagation with reading and paper work
+   - Began unit propagation with reading and paper work
    - Meeting with Soneya
    
    #### June 26th, 2020
    - Unit propagation code planning
-   - TODO: Begin implementation framework --> base on recursive.py
+   - Trying to figure out how I need to change my recursive function to support modified clauses...
+   - Began implementation framework --> base on recursive.py
  
