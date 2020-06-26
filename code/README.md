@@ -24,16 +24,23 @@
    
    `user@System python3 parser.py dimacs_file.cnf verbose`
     
-   Updates to make this more user friendly will come soon. 
+   IMPORTANT: As of June 26th, additional flags were added to improvw user-friendliness:
    
-### parse.py
-   Handles the file parsing. Called by the main method in solver.py.
+      * -r --> shorthand for --recursive
+      * -u --> shorthand for --unit-prop 
+      * -l --> shorthand for --lit_elim
+      * -d --> shorthand for --dpll
+      * -v --> shorthand for verbose
+   
+### Problem.py
+   Contains all data pertaining to the problem and handles file parsing upon initialization. More information to come.
+   This class replaces parser.py.
    
 ### recursive.py 
    Implementation of a simple recursive SAT solver.
    
 ### unit_prop.py
-   Implementation of a SAT solver that uses unit propagation.
+   Implementation of a recursive SAT solver optimized with unit propagation.
     
 ---
     
