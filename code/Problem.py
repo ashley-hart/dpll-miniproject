@@ -1,44 +1,67 @@
 # Ashley Hart
-# Summer 2020
+# UVA Summer Research Project
+# DPLL-SAT Solver Miniproject
 
 import sys
-import os 
+import os
 
-# TODO: Add a methon that returns true or false for the Bash Script
+class Problem:
 
-# Make a note of this on paper so you dont forget how objects work in Python
-# clauses = parse.for_the_memes()
-# def for_the_memes():
-#     print(":D")
-
-class Parse:
-    format_type = ""
-    num_variables = -1
+    num_vars = -1
     num_clauses = -1
-    clauses = []
+
+    format = ""
+    filename = ""
     flag = ""
 
+    clauses = []
+    solutions = []
+
     verbose = None
-    
-    def __init__(self, filename, flag, verbose):
+
+    # def __init__(self, num_v, num_c, format, filename, clauses):
+        # self.num_vars = num_v
+        # self.num_clauses = num_c
+        # self.format = format
+        # self.filename = filename
+        # self.clauses = clauses
+
+    def __init__(self, filename, verbose):
         self.filename = filename
         self.verbose = verbose
+        self.parse_file()
 
-    def get_clauses(self):
-        return self.clauses
+
+    def print_data(self):
+        print("Printing problem data for: ", self.filename)
+        print("Still under construction.")
+
     
     def get_num_variables(self):
-        return int(self.num_variables)
+        return int(self.num_vars)
     
     def get_num_clauses(self):
         return int(self.num_clauses)
 
+    def get_format(self):
+        return self.format
+    
+    def get_filename(self):
+        return self.filename
+
     def get_flag(self):
         return self.flag
 
+    def get_clauses(self):
+        return self.clauses
+    
+    def get_solutions(self):
+        return self.solutions
+    
     def get_verbose(self):
         return self.verbose
 
+    
     def parse_file(self):
 
         if self.verbose:
@@ -47,6 +70,7 @@ class Parse:
             print("cat " + self.filename +"\n")
             os.system("cat " + self.filename)
             print()
+
 
         p_flag = 0
 
@@ -69,8 +93,8 @@ class Parse:
                 if first_token == 'p':
                     p_flag = 1
                     self.format_type = tokens[1]
-                    self.num_clauses = tokens[2]
-                    self.num_variables = tokens[3]
+                    self.num_clauses = int(tokens[2])
+                    self.num_vars = int(tokens[3])
                 # Parse clauses iff problem line has been found
                 elif int(first_token) and p_flag == 1:
                     
@@ -83,12 +107,13 @@ class Parse:
                     # After we know the 0 is there, take it off
                     tokens.pop()
 
+                    # Convert tokens to integers and add to clause list
                     for i in range(0, len(tokens)):
                         tokens[i] = int(tokens[i])
 
                     self.clauses.append(tokens)
 
-                # Activates if any unrecognized chars are found
+                # TODO: Figure out how to trigger this code
                 else:
                     print("ERROR: Formatting error!")
 
@@ -99,11 +124,9 @@ class Parse:
                 print("PARSE_FILE(): Finished parsing: ", self.filename)
                 print("=======================================================================")
 
-            
-      
 
     def pretty_print(self):
-        print("p ", self.format_type, " ", self.num_variables, " ", self.num_clauses)
+        print("p ", self.format_type, " ", self.num_vars, " ", self.num_clauses)
         for value in self.clauses:
             for num in value:
                 if int(num) != 0:
@@ -111,3 +134,6 @@ class Parse:
                 else:
                     print(num, end="")
             print()
+
+
+

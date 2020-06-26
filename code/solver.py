@@ -3,12 +3,9 @@
 # DPLL-SAT Solver Miniproject
 
 import sys 
-import parse
 import recursive
-# import unit_prop
-
-# 6/4/2020 - CNF is currently the only supported input format.
-# NOTE: Get it working, then optimize it.  
+import unit_prop
+from Problem import Problem
 
 class Solver:
 
@@ -16,14 +13,16 @@ class Solver:
     num_clauses = -1
     clauses = []
     flag = ""
+    problem = None
 
     verbose = None
 
-    def __init__(self, filename):
+    def __init__(self, filename, flag, problem):
         self.filename = filename
+        self.flag = flag
+        self.problem = problem
+        self.verbose = problem.verbose
 
-    def printFilename(self):
-        print(self.filename)
 
     # My intention for this function is to have it be the "Sorting Hat" of this class.
     # Will return data for analysis.
@@ -34,52 +33,85 @@ class Solver:
         le_SAT: bool = False
         dpll_SAT: bool = False
 
-        if(self.verbose):
+        if (self.verbose):
             print("\nSOLVER: Attempting to solve " + self.filename)
             print("=======================================================================")
 
         if self.verbose: 
-            if self.flag is "":
+            if self.flag == "":
                 print("flag: NO FLAG GIVEN")
             else:
-                print("flag: " + self.flag)
+                print("flag: *" + self.flag + "*")
 
-        if self.flag is "":
+        # Attempt all four methods
+        if self.flag == "":
 
             if self.verbose:
                 print("Using all of the methods.")
 
-            recur_SAT = recursive.solve(self.num_variables, self.num_clauses, self.clauses, self.verbose)
-            up_SAT = unit_prop.solve(self.num_variables, self.num_clauses, self.clauses, self.verbose)
+            recur_SAT = recursive.solve(self.problem)
+            up_SAT = unit_prop.solve(self.problem)
 
-            if recur_SAT is False:
+            if recur_SAT == False: 
+                print("Recursive approach failed to find a solution.")
+            else: 
+                print("Recursive approach found a solution.")
+
+            if up_SAT == False: 
+                print("Unit propagation approach failed to find a solution.")
+            else: 
+                print("Unit propagation approach found a solution.")
+
+        # Use recursive approach
+        elif self.flag == "--recursive" or self.flag == "-r":
+            if self.verbose: 
+                print("--recursive flag recieved")
+
+            recur_SAT = recursive.solve(self.problem)
+
+            if recur_SAT == False: 
                 print("Recursive approach failed to find a solution.")
             else:
                 print("Recursive approach found a solution.")
 
-        # Disregard the following for now.
-        elif self.flag is "--recursive":
-
-            if self.verbose:
-                print("--recursive flag recieved")
-
-            recur_SAT = recursive.solve(self.num_variables, self.num_clauses, self.clauses, self.verbose)
-            
-        elif self.flag is "--unit-prop":
+        # Use unit propagation approach
+        elif self.flag == "--unit-prop" or self.flag == "-u":
             if self.verbose:
                 print("--unit-prop flag received")
 
-          #  up_SAT = unit_prop.solve(self.num_variables, self.num_clauses, self.clauses, self.verbose)
+            up_SAT = unit_prop.solve(self.problem)
 
-        # Disregard for now...
-        elif self.flag is "--lit-elim":
+            if up_SAT == False: 
+                print("Unit propagation approach failed to find a solution.")
+            else: 
+                print("Unit propagation approach found a solution.")
+
+        # Use pure literal elimination approach        
+        elif self.flag == "--lit-elim" or self.flag == "-l":
             if self.verbose:
                 print("--lit-elim flag receieved")
-        elif self.flag is "--dpll":
+
+            # le.solve(self.problem)
+
+            if le_SAT == False: 
+                print("Pure literal elimination approach failed to find a solution.")
+            else: 
+                print("Pure literal elimination approach found a solution.")
+
+        # Use DPLL algorithm approach
+        elif self.flag == "--dpll" or self.flag == "-d":
             if self.verbose:
                 print("--dpll flag recieved")
+
+            # dpll.solve(self.problem)
+
+            if dpll_SAT == False: 
+                print("DPLL approach failed to find a solution.")
+            else: 
+                print("DPLL approach found a solution.")
         else:
-            print("Flag not recognized. Please verify your input.")
+            print("*", self.flag, "*")
+            print("Flag not recognized. Please verify your input.")     
 
 
 def main():
@@ -87,7 +119,7 @@ def main():
     flag = ""
     verbose = False
 
-    # Argument checking
+    # Process command line arguments
     if len(sys.argv) == 2:
         print("Valid input parameters recieved.")
         filename = sys.argv[1]
@@ -107,36 +139,23 @@ def main():
         filename = sys.argv[1]
         flag = sys.argv[2]
         
-        if sys.argv[3] == "verbose":
+        if sys.argv[3] == "verbose" or sys.argv[3] == "-v":
             verbose = True
-
     else:
         print("Invalid input detected.")
         print("Please adhere to the following format: \"solver.py filename opt:verbose\" ")
         sys.exit("Terminating process.")
 
+    problem = Problem(filename, verbose)
+    s = Solver(filename, flag, problem)
 
-    # TODO: Clean up this main function with the Problem object
-
-    p = parse.Parse(filename, flag, verbose)
-    p.parse_file()
-
-
-    s = Solver(filename)
-
-    s.clauses = p.get_clauses()
-    s.num_clauses = p.get_num_clauses()
-    s.num_variables = p.get_num_variables()
-    s.flag = p.get_flag()
-    s.verbose = p.get_verbose()
-
-    print("verbose = ", verbose)
+    # print("verbose = ", verbose)
+    
     if verbose:
-        p.pretty_print()
-        print("flag = ", s.flag)
+        problem.pretty_print()
+        # print("flag = *", s.flag, "*")
 
-
-
+    # Attempt to solve the problem
     s.solve()
 
     if verbose:

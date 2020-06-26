@@ -2,9 +2,6 @@
 # UVA Summer Research Project
 # DPLL-SAT Solver Miniproject
 
-verbose: bool = False
-clauses = []
-
 # If True is present in EVERY clause, return True.
 # If there is a single clause that is completely False, return False.
 # If there are no T's and but undefined vars exist return None to signify Unknown 
@@ -28,7 +25,7 @@ def clause_check(t_vals, verbose):
     return is_SAT
 
 
-def update_truthtable(truth_values, partial, var, clauses):
+def update_truthtable(truth_values, partial, var, clauses, verbose):
 
     new_vals: list = []
     temp: list = []
@@ -58,20 +55,18 @@ def update_truthtable(truth_values, partial, var, clauses):
             
 
 # TODO: Record partial solution into solution feild of Problem object.
-def solve(num_vars, num_clauses, clauses, verbose):
+def solve(problem):
 
     partial: list = []
-    truth_values = [[None for lit in c if lit != 0] for c in clauses]
-    clauses = clauses
+    truth_values = [[None for lit in c if lit != 0] for c in problem.clauses]
     current_var = 0
-    verbose = verbose
-
+    verbose = problem.verbose
     
     if verbose:
-        print("\nRECURSIVE SOLVE(): Attempting to satisfy the problem...")
+        print("\n\nRECURSIVE SOLVE(): Attempting to satisfy the problem...")
         print("=======================================================================")
 
-    is_sat = r_solve(truth_values, partial, num_vars, current_var, clauses, verbose)
+    is_sat = r_solve(truth_values, partial, problem.num_vars, current_var, problem.clauses, problem.verbose)
 
     if verbose:
         print("RECURSIVE SOLVE(): Returning", is_sat)
@@ -88,6 +83,8 @@ def r_solve(initial_t_vals, initial_partial, num_vars, current_var, clauses, ver
     # Base Case
     if current_var >= num_vars:
 
+        print("current_var:", current_var, " num_vars:", num_vars )
+
         if verbose:
             print("\nBase Case")
 
@@ -103,18 +100,18 @@ def r_solve(initial_t_vals, initial_partial, num_vars, current_var, clauses, ver
             print("partial assignment: ", partial)
 
         # Define new truth values under partial assignment.
-        t_vals = update_truthtable(initial_t_vals, partial, current_var, clauses)
+        t_vals = update_truthtable(initial_t_vals, partial, current_var, clauses, verbose)
         result = clause_check(t_vals, verbose)
 
         # If True, send this result right back up
         if result == True:
 
             if verbose: 
-                # print("\na =", a)
-                # print("clauses =", clauses)
-                # print("partial assignment: ", partial)
-                # print("t_vals: ", t_vals)
-                # print()
+                print("\na =", a)
+                print("clauses =", clauses)
+                print("partial assignment: ", partial)
+                print("t_vals: ", t_vals)
+                print()
                 print("RECURSIVE_SOLVE(): Solution:", partial)
     
             return True
