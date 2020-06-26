@@ -91,7 +91,7 @@ The following schedule is just a rough sketch.  Work will spill across the bound
 
 ### Unit propogation
 - ~~a motivating example of unit propogation~~
-- ~~extend solver.py to include unit propogation with the command line option "--unit-prop"
+- ~~extend solver.py to include unit propogation with the command line option "--unit-prop"~~   
 - compare stats against previous implementation
 
 ### Pure literal elimination
