@@ -85,18 +85,17 @@ The following schedule is just a rough sketch.  Work will spill across the bound
 - ~~write a Python program named solver.py to accept or reject a CNF file~~
 
 ### Writing your first SAT solver
-- extend the above program to implement a recursive SAT solver with a command line option "--recursive"
+- ~~extend the above program to implement a recursive SAT solver with a command line option "--recursive"~~ 
 - record and print statistics, e.g., # of two-way branches
 - compare the time performance of "solver.py --recursive" to other solvers on your "easy" benchmark
 
 ### Unit propogation
-- a motivating example of unit propogation
-- extend solver.py to include unit propogation with the command line option "--unit-prop"
+- ~~a motivating example of unit propogation~~
+- ~~extend solver.py to include unit propogation with the command line option "--unit-prop"
 - compare stats against previous implementation
 
 ### Pure literal elimination
-- Note to self: READ UP ON THIS!
-- a motivating example of pure literal elimination
+- ~~a motivating example of pure literal elimination~~   
 - extend solver.py to include pure literal elimination with the command line option "--lit-elim"
 - compare stats against previous implementation
 
