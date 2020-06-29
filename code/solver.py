@@ -5,7 +5,8 @@
 import sys 
 import recursive
 import unit_prop
-from Problem import Problem
+import lit_elim
+from problem import Problem
 
 class Solver:
 
@@ -51,6 +52,7 @@ class Solver:
 
             recur_SAT = recursive.solve(self.problem)
             up_SAT = unit_prop.solve(self.problem)
+            le_SAT = lit_elim.solve(self.problem)
 
             if recur_SAT == False: 
                 print("Recursive approach failed to find a solution.")
@@ -61,6 +63,11 @@ class Solver:
                 print("Unit propagation approach failed to find a solution.")
             else: 
                 print("Unit propagation approach found a solution.")
+            
+            if le_SAT == False:
+                print("Pure literal elimination approach failed to find a solution.")
+            else:
+                print("Pure literal elimination approach found a solution.")
 
         # Use recursive approach
         elif self.flag == "--recursive" or self.flag == "-r":
@@ -91,7 +98,7 @@ class Solver:
             if self.verbose:
                 print("--lit-elim flag receieved")
 
-            # le.solve(self.problem)
+            le_SAT = lit_elim.solve(self.problem)
 
             if le_SAT == False: 
                 print("Pure literal elimination approach failed to find a solution.")
