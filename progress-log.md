@@ -122,4 +122,24 @@
    - Unit propagation code planning
    - Trying to figure out how I need to change my recursive function to support modified clauses...
    - Began implementation framework --> base on recursive.py
+   
+   ### WEEK 5
+   #### June 29th, 2020
+   - Pure literal elmination, paperwork and reading
+   - Meeting with Matt
+   - Outline code and figure out where new logic needs to go -> base on recursive.py
+   
+   #### June 30th, 2020
+   - TODO: Code up pure literal elimination
+
+   
+   #### July 1st, 2020
+   - Meeting with Mitch
+   - Leadership Alliance Workshop today
+   
+   #### July 2nd, 2020
+   - Meeting with Soneya
+   
+   #### July 3rd, 2020
+   - GOAL: Made significant progress on/completed DPLL prototype 
  
