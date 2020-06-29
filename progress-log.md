@@ -134,7 +134,7 @@
 
    
    #### July 1st, 2020
-   - Meeting with Mitch
+   - Meeting with Mitch - ask about visuals
    - Leadership Alliance Workshop today
    
    #### July 2nd, 2020
