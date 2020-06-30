@@ -130,12 +130,15 @@
    - Outline code and figure out where new logic needs to go -> base on recursive.py
    
    #### June 30th, 2020
-   - TODO: Code up pure literal elimination
-
+   - Coding up pure literal elimination
+   - Updated verbose flag: verbose --> --verbose
+   - Midpoint check in with Dr. Crenshaw
+   - Working to integrate pure literal elimination logic with recursive SAT solver.
+   - Leadership Alliance Workshop today
    
    #### July 1st, 2020
-   - Meeting with Mitch - ask about visuals
-   - Leadership Alliance Workshop today
+   - Meeting with Mitch - ask about Python visuals for SAT solver
+ 
    
    #### July 2nd, 2020
    - Meeting with Soneya
