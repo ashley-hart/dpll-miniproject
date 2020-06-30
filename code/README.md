@@ -7,7 +7,7 @@
   
   Here is a sample of how this code should be executed:
   
-  `user@System python3 parser.py dimacs_file.cnf --flag_name verbose`
+  `user@System python3 parser.py dimacs_file.cnf --flag_name --verbose`
   
   The flags that will eventually be supported are as follows:
   
@@ -30,7 +30,7 @@
       * -u --> shorthand for --unit-prop 
       * -l --> shorthand for --lit_elim
       * -d --> shorthand for --dpll
-      * -v --> shorthand for verbose
+      * -v --> shorthand for --verbose
    
 ### Problem.py
    Contains all data pertaining to the problem and handles file parsing upon initialization. More information to come.
