@@ -32,7 +32,7 @@
       * -d --> shorthand for --dpll
       * -v --> shorthand for --verbose
    
-### Problem.py
+### problem.py
    Contains all data pertaining to the problem and handles file parsing upon initialization. More information to come.
    This class replaces parser.py.
    
@@ -41,6 +41,9 @@
    
 ### unit_prop.py
    Implementation of a recursive SAT solver optimized with unit propagation.
+   
+### lit_elim.py 
+   Implementation of a recursive SAT solver optimized with pure literal elimination.
     
 ---
     
