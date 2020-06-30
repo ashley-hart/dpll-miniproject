@@ -55,6 +55,7 @@ def update_truthtable(truth_values, partial, var, clauses, verbose):
             
 
 # TODO: Record partial solution into solution feild of Problem object.
+# Silve use a basic recursive approach
 def solve(problem):
 
     partial: list = []

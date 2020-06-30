@@ -4,7 +4,7 @@
 import sys
 import os 
 
-# TODO: Add a methon that returns true or false for the Bash Script
+# TODO: Add a method that returns true or false for the Bash Script
 
 # Make a note of this on paper so you dont forget how objects work in Python
 # clauses = parse.for_the_memes()
@@ -98,8 +98,6 @@ class Parse:
             if self.verbose:
                 print("PARSE_FILE(): Finished parsing: ", self.filename)
                 print("=======================================================================")
-
-            
       
 
     def pretty_print(self):

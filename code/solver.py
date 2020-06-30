@@ -135,7 +135,7 @@ def main():
         print("Potential operational/debug flag detected.")
         filename = sys.argv[1]
 
-        if sys.argv[2] == "verbose":
+        if sys.argv[2] == "--verbose" or sys.argv[2] == "-v":
             verbose = True
             flag = ""
         else:
@@ -146,7 +146,7 @@ def main():
         filename = sys.argv[1]
         flag = sys.argv[2]
         
-        if sys.argv[3] == "verbose" or sys.argv[3] == "-v":
+        if sys.argv[3] == "--verbose" or sys.argv[3] == "-v":
             verbose = True
     else:
         print("Invalid input detected.")

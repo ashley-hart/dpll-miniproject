@@ -2,9 +2,8 @@
 # UVA Summer Research Project
 # DPLL-SAT Solver Miniproject
 
-# If True is present in EVERY clause, return True.
-# If there is a single clause that is completely False, return False.
-# If there are no T's and but undefined vars exist return None to signify Unknown 
+# Checks a set of truth values derived from a partial assignment and a clause set.
+# Determines if the assignment satisfies the problem.
 def clause_check(t_vals, verbose):
     is_SAT: bool = True
 
@@ -24,15 +23,16 @@ def clause_check(t_vals, verbose):
 
     return is_SAT
 
-
+# Updates truth value set under a given assignment.
 def update_truthtable(truth_values, partial, var, clauses, verbose):
 
     new_vals: list = []
     temp: list = []
 
     for i in range(len(clauses)):
+        # print("i =",i)
         for j in range(len(clauses[i])):
-
+            # print("j =", j)
             if (abs(clauses[i][j]) - 1) == var:
                 if (clauses[i][j] < 0):
                     temp.append(not partial[var])
@@ -53,49 +53,55 @@ def update_truthtable(truth_values, partial, var, clauses, verbose):
 
     return new_vals
             
-def get_pure_literals(clauses, num_vars, verbose):
-
-    lits = []
-
-    # Add all possible literals to a list for elimination.
-    for i in range(1, num_vars + 1):
-        lits.append(i)
-        lits.append(i * -1)
     
+# Scan the clauses and return a list of pure literals.
+def get_pure_literals(clauses, verbose):
+    lits = []
+    pure = []
 
-    for i in range(0, len(clauses)):
-        j = 0
-        while j < len(lits):
-            if lits[j] not in clauses[i]:
-                lits.remove(lits[j])
+    # Scan clauses and toss in every literal.
+    for c in clauses:
+        for lit in c:
+            if lit not in lits:
+                lits.append(lit)
 
-            j += 1
+    # Check for purity and add to pure list
+    for l in lits:
+        if (l * -1) not in lits:
+            pure.append(l)
 
     if verbose:
-        print("GET_PURE_LITS(): Returning:", lits)
+        
+        print("GET_PURE_LITS(): given literals: ", lits)
+        print("GET_PURE_LITS(): pure literals: ", pure)
 
-    return lits
+    return pure
 
-def strip_clauses(clauses, lits, verbose):
+# Reduce clauses based on presence of pure literals. 
+# Returns a reduced clause set. If no reductions are possible, 
+# the original data will be returned.
+def strip_clauses(clauses, pure, partial, verbose):
 
     new_clauses = [[lit for lit in c] for c in clauses]
 
-    j = 0
-
-    for i in range(len(new_clauses)):
-        while j < len(new_clauses[i]):
-            if new_clauses[i][j] in lits:
-                new_clauses[i].remove(new_clauses[i][j])
-
-            j += 1
-
+    # Strip clauses
+    for lit in pure:
+        for c in clauses:
+            if lit in c:
+                if len(clauses) == 1:
+                    new_clauses = []
+                else:
+                    new_clauses.remove(c)
+   
     if verbose:
-        print("STRIP_CLAUSES(): lits:",  lits)
+        print("STRIP_CLAUSES(): pure literals:",  pure)
         print("STRIP_CLAUSES(): new_clauses:", new_clauses)
+        print("STRIP_CLAUSES(): new partial:",  partial)
 
     return new_clauses
 
-# TODO: Record partial solution into solution field of Problem object.
+
+# Attempt to solve with a pure literal elimination optimization.
 def solve(problem):
 
     partial: list = []
@@ -107,78 +113,129 @@ def solve(problem):
         print("\n\nLIT_ELIM SOLVE(): Attempting to satisfy the problem...")
         print("=======================================================================")
 
-    pure_lits = get_pure_literals(problem.clauses, problem.num_vars, problem.verbose)
-    new_clauses = strip_clauses(problem.clauses, pure_lits, problem.verbose)
-
-    is_sat = r_solve(truth_values, partial, problem.num_vars, current_var, new_clauses, problem.verbose)
+    # Set up partial assignment.
+    for i in range(0, problem.num_vars - 1):
+        partial.append(None)
+    
+    is_sat = r_solve(truth_values, partial, problem.num_vars, current_var, problem.clauses, problem.verbose)
 
     if verbose:
         print("LIT_ELIM SOLVE(): Returning", is_sat)
         print("=======================================================================")
+
     return is_sat
 
-
+# Handles pure literal elimination and moves on to recursive selection where the process will repeat.
+# Returns True if SAT or False if all options are exhausted.
 def r_solve(initial_t_vals, initial_partial, num_vars, current_var, clauses, verbose):
         
-    t_vals = [[t_val for t_val in c] for c in initial_t_vals]
     partial = [partial for partial in initial_partial]
     result = None
+    new_clauses = clauses
+    t_vals = [[t_val for t_val in c] for c in initial_t_vals]
 
-    # Base Case
-    if current_var >= num_vars:
+    if verbose: 
+        print()
+        print("PURE LITERAL ELIMINATION!")
+        print("============================")
 
-        print("current_var:", current_var, " num_vars:", num_vars)
-
-        if verbose:
-            print("\nBase Case")
-
-        return clause_check(clauses, verbose)
-
-    # We will try to push true and false onto this for every variable
-    for a in [True, False]:
-
-        partial.append(a)
-
-        if verbose:
-            print("\na =", a)
-            print("partial assignment: ", partial)
-
-        # Define new truth values under partial assignment.
-        t_vals = update_truthtable(initial_t_vals, partial, current_var, clauses, verbose)
-        result = clause_check(t_vals, verbose)
-
-        # If True, send this result right back up
-        if result == True:
-
-            if verbose: 
-                print("\na =", a)
-                print("clauses =", clauses)
-                print("partial assignment: ", partial)
-                print("t_vals: ", t_vals)
-                print()
-                print("LIT_ELIM SOLVE(): Solution:", partial)
     
+    # Attempt to reduce before we try to choose assignments.
+    pure_lits = get_pure_literals(clauses, verbose)
+
+    # If a pure literal is found, do the following:
+    if pure_lits != []:
+
+        # Update partial based on pure literals.
+        for p in pure_lits:
+            if p > 0:
+                partial[abs(p) - 1] = True
+            else: 
+                partial[abs(p) - 1] = False
+
+        # Reduce clause set
+        new_clauses = strip_clauses(clauses, pure_lits, partial, verbose)
+
+        # Reduce clause set and update partial for every pure lit we have. 
+        # If we get an empty list back, return True.
+        if new_clauses == []:
+            if verbose:
+                print("EMPTY SET PRODUCED - TERMINATING EARLY!")
+        
             return True
-        # If False, dont waste anymore time on this branch
-        elif result == False:
 
-            if verbose:
-                print("Backing up...") 
+        # Edit size of truth values
+        t_vals = [[None for t_val in c] for c in new_clauses]
 
-            partial.pop()
-            continue
+    if verbose: 
+        print("pure literals: ", pure_lits)
+        print("new_clauses", new_clauses)
+        print("partial assignment: ", partial)
 
-        # If None, descend into another call
-        else: 
-            if verbose:
-                print("Going down...")
 
-            if r_solve(t_vals, partial, num_vars, current_var + 1, clauses, verbose) is True:
-                return True
-            # Try other option.Don't waste time updating values if we've already tried both options.
-            elif a != False:
-                partial.pop()
-                t_vals = [[t_val for t_val in c] for c in initial_t_vals]
+    # Base Case - activated if we have a complete assignment.
+    if None not in partial:
+
+        if verbose:
+            print("\nBase Case - complete assignment recieved.")
+
+        return clause_check(new_clauses, verbose)
+
+
+    # Scan the partial assignment left to right and try to
+    # assign values to any remaining unassigned variables.
+    for i in range(0, len(partial)):
+        if partial[i] == None:
+
+            # We will try to push true and false onto this for every variable.     
+            for a in [True, False]:
+
+                partial[i] = a
+
+                if verbose:
+                    print("CHOOSING RECURSIVELY!")
+                    print("============================")
+                    print("a =", a)
+                    print("partial assignment: ", partial)
+                    print("t_vals before modification: ", t_vals)
+
+                # Define new truth values under partial assignment w/ potentially reduced clauses.
+                t_vals = update_truthtable(t_vals, partial, current_var, new_clauses, verbose)
+                result = clause_check(t_vals, verbose)
+
+                # If True, send this result right back up.
+                if result == True:
+
+                    if verbose: 
+                        print("\na =", a)
+                        print("new_clauses =", new_clauses)
+                        print("partial assignment: ", partial)
+                        print("t_vals: ", t_vals)
+                        print()
+                        print("LIT_ELIM SOLVE(): Solution:", partial)
+            
+                    return True
+                # If False, dont waste anymore time on this branch.
+                elif result == False:
+
+                    if verbose:
+                        print("Backing up...") 
+
+                    partial[i] = None
+                    continue
+
+                # If None, descend into another call.
+                else: 
+                    if verbose:
+                        print("Going down...")
+
+                    if r_solve(t_vals, partial, num_vars, current_var + 1, new_clauses, verbose) is True:
+                        return True
+
+                    # Try other option. Don't waste time updating values if we've 
+                    elif a != False:
+                        partial[i] = None
+                        t_vals = [[t_val for t_val in c] for c in initial_t_vals]
 
     
     return False

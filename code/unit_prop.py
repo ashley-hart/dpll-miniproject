@@ -78,14 +78,14 @@ def reduce_clauses(clauses, literal, verbose):
         temp = []
             
     if verbose:
-        print("clauses:", clauses)
-        print("literal:",literal)
-        print("new clauses:", new_clauses)
+        print("REDUCE_CLAUSES(): clauses:", clauses)
+        print("REDUCE_CLAUSES(): literal:",literal)
+        print("REDUCE_CLAUSES(): new clauses:", new_clauses)
 
     return new_clauses
 
 
- # Attempt to solve with a propagation optimization.
+ # Attempt to solve with a unit propagation optimization.
 def solve(problem):
 
     current_var = 0
