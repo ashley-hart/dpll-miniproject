@@ -96,7 +96,7 @@ The following schedule is just a rough sketch.  Work will spill across the bound
 
 ### Pure literal elimination
 - ~~a motivating example of pure literal elimination~~   
-- extend solver.py to include pure literal elimination with the command line option "--lit-elim"
+- ~~extend solver.py to include pure literal elimination with the command line option "--lit-elim"~~  
 - compare stats against previous implementation
 
 ### DPLL
@@ -104,7 +104,7 @@ The following schedule is just a rough sketch.  Work will spill across the bound
 - the two above observations allow the recursive implementation to be *much* faster
 - extend solver.py to enable *both* unit propogation and pure literal elimination with the command line option "--dpll"
 - make the "--dpll" option the default if no other options are given
-- compare stats against last week's recursive implementation
+- compare stats against recursive implementation
 - compare the time performance of "solver.py --dpll" against other solvers on your "easy" benchmark
 
 ### Literal selection heuristics
