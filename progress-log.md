@@ -140,12 +140,15 @@
    - Meeting with Matt and PhD students
    - Meeting with Mitch - ask about Python visuals for SAT solver & data collection
    - Review deadlines for conference materials
-   - TODO: Integrate recursive, unit-propagation and lit-elim logic for DPLL  
+   - Integrated recursive, unit-propagation and lit-elim logic for DPLL  
  
    #### July 2nd, 2020
-   - Meeting with Soneya - data collection, dpll
+   - (TODO) Futher code testing
+   - (TODO) Write script for benchmarking
+   - (TODO) Read into data collection with Python
+   - Meeting with Soneya - data collection, conference presentation
    
    #### July 3rd, 2020
-   - GOAL: Made significant progress on/completed DPLL prototype 
+   - GOAL: Made significant progress on/completed DPLL prototype -- Done!
    - Start drafting titles and abstracts for conference 
  
