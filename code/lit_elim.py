@@ -179,7 +179,7 @@ def r_solve(initial_t_vals, initial_partial, num_vars, current_var, clauses, ver
         if verbose:
             print("\nBase Case - complete assignment recieved.")
 
-        return clause_check(new_clauses, verbose)
+        return clause_check(t_vals, verbose)
 
 
     # Scan the partial assignment left to right and try to

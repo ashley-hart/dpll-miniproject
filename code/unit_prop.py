@@ -133,16 +133,16 @@ def r_solve(initial_t_vals, initial_partial, num_vars, current_var, clauses, var
 
         partial.append(a)
 
+        if verbose:
+            print("\na =", a)
+            print("partial assignment: ", partial)
+            print("current_var:", current_var)
+
         # Reduce clause set based on the current variable's assignment 
         if a == True:
             new_clauses = reduce_clauses(clauses, vars[current_var],  verbose)
         else:
             new_clauses = reduce_clauses(clauses, (vars[current_var] * -1), verbose)
-
-        if verbose:
-            print("\na =", a)
-            print("partial assignment: ", partial)
-            print("current_var:", current_var)
 
         # Define new truth values under partial assignment. Check if SAT.
         t_vals = update_truthtable(initial_t_vals, partial, current_var, new_clauses, verbose)

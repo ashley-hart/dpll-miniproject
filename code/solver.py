@@ -6,6 +6,7 @@ import sys
 import recursive
 import unit_prop
 import lit_elim
+import dpll
 from problem import Problem
 
 class Solver:
@@ -53,6 +54,7 @@ class Solver:
             recur_SAT = recursive.solve(self.problem)
             up_SAT = unit_prop.solve(self.problem)
             le_SAT = lit_elim.solve(self.problem)
+            dpll_SAt = dpll.solve(self.problem)
 
             if recur_SAT == False: 
                 print("Recursive approach failed to find a solution.")
@@ -110,7 +112,7 @@ class Solver:
             if self.verbose:
                 print("--dpll flag recieved")
 
-            # dpll.solve(self.problem)
+            dpll_SAT = dpll.solve(self.problem)
 
             if dpll_SAT == False: 
                 print("DPLL approach failed to find a solution.")
