@@ -147,4 +147,5 @@
    
    #### July 3rd, 2020
    - GOAL: Made significant progress on/completed DPLL prototype 
+   - Start drafting titles and abstracts for conference 
  
