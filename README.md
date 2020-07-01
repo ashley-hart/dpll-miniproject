@@ -103,7 +103,7 @@ The following schedule is just a rough sketch.  Work will spill across the bound
 - why this name? --> named after four contributors
 - the two above observations allow the recursive implementation to be *much* faster
 - ~~extend solver.py to enable *both* unit propogation and pure literal elimination with the command line option "--dpll"~~   
-- make the "--dpll" option the default if no other options are given
+- ~~make the "--dpll" option the default if no other options are given~~
 - compare stats against recursive implementation
 - compare the time performance of "solver.py --dpll" against other solvers on your "easy" benchmark
 
