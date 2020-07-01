@@ -44,6 +44,9 @@
    
 ### lit_elim.py 
    Implementation of a recursive SAT solver optimized with pure literal elimination.
+
+### dpll.py
+   Implementation of a recursive SAT solver optimized with unit propagation and pure literal elimination
     
 ---
     
