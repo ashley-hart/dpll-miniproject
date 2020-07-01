@@ -49,39 +49,12 @@ class Solver:
             else:
                 print("flag: *" + self.flag + "*")
 
-        # Attempt all four methods
+        # Defaults to DPLL solver
         if self.flag == "":
-
-            if self.verbose:
-                print("Using all of the methods.")
-
-            recur_SAT = recursive.solve(self.problem)
-            up_SAT = unit_prop.solve(self.problem)
-            le_SAT = lit_elim.solve(self.problem)
-            dpll_SAT = dpll.solve(self.problem)
-
-            if recur_SAT == False: 
-                print("Recursive approach failed to find a solution.")
-            else: 
-                print("Recursive approach found a solution.")
-
-            if up_SAT == False: 
-                print("Unit propagation approach failed to find a solution.")
-            else: 
-                print("Unit propagation approach found a solution.")
-            
-            if le_SAT == False:
-                print("Pure literal elimination approach failed to find a solution.")
-            else:
-                print("Pure literal elimination approach found a solution.")
-
-            if dpll_SAT == False: 
-                print("DPLL approach failed to find a solution.")
-            else: 
-                print("DPLL approach found a solution.")
+            self.flag = "--dpll"
 
         # Use recursive approach
-        elif self.flag == "--recursive" or self.flag == "-r":
+        if self.flag == "--recursive" or self.flag == "-r":
             if self.verbose: 
                 print("--recursive flag recieved")
 
@@ -115,13 +88,41 @@ class Solver:
                 print("Pure literal elimination approach failed to find a solution.")
             else: 
                 print("Pure literal elimination approach found a solution.")
-
         # Use DPLL algorithm approach
         elif self.flag == "--dpll" or self.flag == "-d":
             if self.verbose:
                 print("--dpll flag recieved")
 
             dpll_SAT = dpll.solve(self.problem)
+
+            if dpll_SAT == False: 
+                print("DPLL approach failed to find a solution.")
+            else: 
+                print("DPLL approach found a solution.")
+        elif self.flag == "--all" or self.flag == "-a":
+            if self.verbose:
+                print("--all flag recieved")
+                print("Using all of the methods.")
+
+            recur_SAT = recursive.solve(self.problem)
+            up_SAT = unit_prop.solve(self.problem)
+            le_SAT = lit_elim.solve(self.problem)
+            dpll_SAT = dpll.solve(self.problem)
+
+            if recur_SAT == False: 
+                print("Recursive approach failed to find a solution.")
+            else: 
+                print("Recursive approach found a solution.")
+
+            if up_SAT == False: 
+                print("Unit propagation approach failed to find a solution.")
+            else: 
+                print("Unit propagation approach found a solution.")
+            
+            if le_SAT == False:
+                print("Pure literal elimination approach failed to find a solution.")
+            else:
+                print("Pure literal elimination approach found a solution.")
 
             if dpll_SAT == False: 
                 print("DPLL approach failed to find a solution.")

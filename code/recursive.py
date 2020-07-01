@@ -2,9 +2,8 @@
 # UVA Summer Research Project
 # DPLL-SAT Solver Miniproject
 
-# If True is present in EVERY clause, return True.
-# If there is a single clause that is completely False, return False.
-# If there are no T's and but undefined vars exist return None to signify Unknown 
+# Checks a set of truth values derived from a partial assignment and a clause set.
+# Determines if the assignment satisfies the problem.
 def clause_check(t_vals, verbose):
     is_SAT: bool = True
 

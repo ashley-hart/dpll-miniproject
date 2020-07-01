@@ -30,15 +30,12 @@ def update_truthtable(truth_values, partial, var, clauses, verbose):
     temp: list = []
 
     for i in range(len(clauses)):
-        # print("i =",i)
         for j in range(len(clauses[i])):
-            # print("j =", j)
             if (abs(clauses[i][j]) - 1) == var:
                 if (clauses[i][j] < 0):
                     temp.append(not partial[var])
                 else: 
                     temp.append(partial[var])
-
             else:
                 temp.append(truth_values[i][j])
 
@@ -60,8 +57,6 @@ def reduce_t_vals(clauses, partial, t_vals, verbose):
 
     for i in range(0, len(clauses)):
             for j in range(0, len(clauses[i])):
-                    index = abs(clauses[i][j])
-
                     if clauses[i][j] > 0:
                             temp.append(partial[abs(clauses[i][j]) - 1])
                     elif clauses[i][j]:
@@ -107,18 +102,13 @@ def strip_clauses(clauses, pure, partial, verbose):
 
     new_clauses = [[lit for lit in c] for c in clauses]
 
-    # print("clauses: ", clauses)
-
     # Strip clauses
     for lit in pure:
-        # print("lit =", lit)
         for c in clauses:
-            # print(c)
             if lit in c:
                 if len(clauses) == 1:
                     new_clauses = []
                 else:
-                    # print("Removing: ", c)
                     new_clauses.remove(c)
         clauses = new_clauses
    

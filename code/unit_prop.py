@@ -4,7 +4,8 @@
 
 import copy
 
-# Check if the truth values satisfiy the problem
+# Checks a set of truth values derived from a partial assignment and a clause set.
+# Determines if the assignment satisfies the problem.
 def clause_check(t_vals, verbose):
     is_SAT: bool = True
 
@@ -33,13 +34,11 @@ def update_truthtable(truth_values, partial, var, clauses, verbose):
 
     for i in range(len(clauses)):
         for j in range(len(clauses[i])):
-
             if (abs(clauses[i][j]) - 1) == var:
                 if (clauses[i][j] < 0):
                     temp.append(not partial[var])
                 else: 
                     temp.append(partial[var])
-
             else:
                 temp.append(truth_values[i][j])
 
@@ -50,14 +49,38 @@ def update_truthtable(truth_values, partial, var, clauses, verbose):
         print("OG T_vals:", truth_values)
         print("partial: ",partial)
         print("var = ",var)
-        print(new_vals)
+        print("new_vals: ",new_vals)
 
     return new_vals
+
+def reduce_t_vals(clauses, partial, t_vals, verbose):
+
+        new_vals = []
+        temp = []
+
+        for i in range(0, len(clauses)):
+                for j in range(0, len(clauses[i])):
+                        index = abs(clauses[i][j])
+
+                        if clauses[i][j] > 0:
+                                temp.append(partial[abs(clauses[i][j]) - 1])
+                        elif clauses[i][j]:
+                                temp.append(not partial[abs(clauses[i][j]) - 1])
+
+                new_vals.append(temp)
+                temp = []
+
+        if verbose:
+                print("TRIM T_VALS(): Given clauses:", clauses)
+                print("new_vals: ", new_vals)
+                print()
+
+        return new_vals
 
 
 # Reduces clauses based on a literal if possible.
 # Returns reduced clauses.
-def reduce_clauses(clauses, literal, verbose):
+def unit_propagation(clauses, literal, verbose):
 
     new_clauses = []
     temp = []
@@ -67,7 +90,6 @@ def reduce_clauses(clauses, literal, verbose):
         if literal in c and len(c) > 1:     
             continue
         elif (literal * -1) in c and len(c) > 1:
-
             for lit in c:
                 if lit != (literal * -1):
                     temp.append(lit)
@@ -128,12 +150,11 @@ def r_solve(initial_t_vals, initial_partial, num_vars, current_var, clauses, var
                 print("============================")
 
         if partial[current_var - 1] == True:
-                new_clauses = reduce_clauses(clauses, (vars[current_var - 1]), verbose)
-                t_vals = [[None for t_val in c] for c in new_clauses]
-                
+                new_clauses = unit_propagation(clauses, (vars[current_var - 1]), verbose)
+                # t_vals = [[None for t_val in c] for c in new_clauses]      
         elif partial[current_var - 1] == False:
-                new_clauses = reduce_clauses(clauses, (vars[current_var - 1] * -1), verbose)
-                t_vals = [[None for t_val in c] for c in new_clauses]
+                new_clauses = unit_propagation(clauses, (vars[current_var - 1] * -1), verbose)
+                # t_vals = [[None for t_val in c] for c in new_clauses]
 
                 
     if [] in new_clauses:
@@ -159,16 +180,6 @@ def r_solve(initial_t_vals, initial_partial, num_vars, current_var, clauses, var
             print("\na =", a)
             print("partial assignment: ", partial)
             print("current_var:", current_var)
-
-        # Reduce clause set based on the current variable's assignment 
-        # if a == True:
-        #     new_clauses = reduce_clauses(clauses, vars[current_var],  verbose)
-        #     t_vals = [[None for t_val in c] for c in new_clauses]
-        
-        # else:
-        #     new_clauses = reduce_clauses(clauses, (vars[current_var] * -1), verbose)
-        #     t_vals = [[None for t_val in c] for c in new_clauses]
-        
 
         # Define new truth values under partial assignment. Check if SAT.
         t_vals = update_truthtable(initial_t_vals, partial, current_var, new_clauses, verbose)
