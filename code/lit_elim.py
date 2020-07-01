@@ -53,7 +53,30 @@ def update_truthtable(truth_values, partial, var, clauses, verbose):
 
     return new_vals
             
-    
+def reduce_t_vals(clauses, partial, t_vals, verbose):
+
+    new_vals = []
+    temp = []
+
+    for i in range(0, len(clauses)):
+            for j in range(0, len(clauses[i])):
+                    index = abs(clauses[i][j])
+
+                    if clauses[i][j] > 0:
+                            temp.append(partial[abs(clauses[i][j]) - 1])
+                    elif clauses[i][j]:
+                            temp.append(not partial[abs(clauses[i][j]) - 1])
+
+            new_vals.append(temp)
+            temp = []
+
+    if verbose:
+            print("TRIM T_VALS(): Given clauses:", clauses)
+            print("new_vals: ", new_vals)
+            print()
+
+    return new_vals    
+
 # Scan the clauses and return a list of pure literals.
 def get_pure_literals(clauses, verbose):
     lits = []
@@ -84,14 +107,20 @@ def strip_clauses(clauses, pure, partial, verbose):
 
     new_clauses = [[lit for lit in c] for c in clauses]
 
+    # print("clauses: ", clauses)
+
     # Strip clauses
     for lit in pure:
+        # print("lit =", lit)
         for c in clauses:
+            # print(c)
             if lit in c:
                 if len(clauses) == 1:
                     new_clauses = []
                 else:
+                    # print("Removing: ", c)
                     new_clauses.remove(c)
+        clauses = new_clauses
    
     if verbose:
         print("STRIP_CLAUSES(): pure literals:",  pure)
@@ -165,7 +194,7 @@ def r_solve(initial_t_vals, initial_partial, num_vars, current_var, clauses, ver
             return True
 
         # Edit size of truth values
-        t_vals = [[None for t_val in c] for c in new_clauses]
+        t_vals = reduce_t_vals(new_clauses, partial, t_vals, verbose)
 
     if verbose: 
         print("pure literals: ", pure_lits)
@@ -235,7 +264,7 @@ def r_solve(initial_t_vals, initial_partial, num_vars, current_var, clauses, ver
                     # Try other option. Don't waste time updating values if we've 
                     elif a != False:
                         partial[i] = None
-                        t_vals = [[t_val for t_val in c] for c in initial_t_vals]
+                        # t_vals = [[t_val for t_val in c] for c in initial_t_vals]
 
     
     return False

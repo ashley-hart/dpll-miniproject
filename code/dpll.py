@@ -32,10 +32,8 @@ def update_truthtable(truth_values, partial, var, clauses, verbose):
     new_vals: list = []
     temp: list = []
 
-    for i in range(len(clauses)):
-        # print("i =",i)
-        for j in range(len(clauses[i])):
-            # print("j =", j)
+    for i in range(0, len(clauses)):
+        for j in range(0, len(clauses[i])):
             if (abs(clauses[i][j]) - 1) == var:
                 if (clauses[i][j] < 0):
                     temp.append(not partial[var])
@@ -52,9 +50,34 @@ def update_truthtable(truth_values, partial, var, clauses, verbose):
         print("OG T_vals:", truth_values)
         print("partial: ",partial)
         print("var = ",var)
-        print(new_vals)
+        print("new t-vals", new_vals)
 
     return new_vals
+
+def reduce_t_vals(clauses, partial, t_vals, verbose):
+
+        new_vals = []
+        temp = []
+
+        for i in range(0, len(clauses)):
+                for j in range(0, len(clauses[i])):
+                        index = abs(clauses[i][j])
+
+                        if clauses[i][j] > 0:
+                                temp.append(partial[abs(clauses[i][j]) - 1])
+                        elif clauses[i][j]:
+                                temp.append(not partial[abs(clauses[i][j]) - 1])
+
+                new_vals.append(temp)
+                temp = []
+
+        if verbose:
+                print("TRIM T_VALS(): Given clauses:", clauses)
+                print("new_vals: ", new_vals)
+                print()
+
+        return new_vals
+
 
 
 # Reduces clauses based on a literal if possible.
@@ -118,14 +141,20 @@ def strip_clauses(clauses, pure, partial, verbose):
 
     new_clauses = [[lit for lit in c] for c in clauses]
 
+    # print("clauses: ", clauses)
+
     # Strip clauses
     for lit in pure:
+        # print("lit =", lit)
         for c in clauses:
+            # print(c)
             if lit in c:
                 if len(clauses) == 1:
                     new_clauses = []
                 else:
+                    # print("Removing: ", c)
                     new_clauses.remove(c)
+        clauses = new_clauses
    
     if verbose:
         print("STRIP_CLAUSES(): pure literals:",  pure)
@@ -154,7 +183,7 @@ def solve(problem):
     # Set up partial assignment.
     for i in range(0, problem.num_vars - 1):
         partial.append(None)
-    
+
     is_sat = r_solve(truth_values, partial, current_var, problem.clauses, vars, problem.verbose)
 
     if verbose:
@@ -177,6 +206,56 @@ def r_solve(initial_t_vals, initial_partial, current_var, clauses, vars, verbose
         print("initial_partial: ", initial_partial)
         print("curr var: ", current_var)
 
+   # Shrink clauses based on a previous assignment with unit propagation
+    if current_var != 0:
+        if verbose:    
+                print("UNIT PROPOGATION!")
+                print("============================")
+
+        if partial[current_var - 1] == True:
+                new_clauses = unit_propagation(clauses, (vars[current_var - 1]), verbose)
+        elif partial[current_var - 1] == False:
+                new_clauses = unit_propagation(clauses, (vars[current_var - 1] * -1), verbose)
+        
+    if [] in new_clauses:
+        #     if verbose:
+                print("EMPTY SET PRODUCED BY UNIT PROPAGATION! RETURNING FALSE!")
+
+                return False 
+
+
+    if verbose:
+        print("new_clauses", new_clauses)
+        print()    
+        print("PURE LITERAL ELIMINATION!")
+        print("============================")
+
+    # Attempt to reduce before we try to choose assignments.
+    pure_lits = get_pure_literals(clauses, verbose)
+
+    # If a pure literal is found, do the following:
+    if pure_lits != []:
+
+        # Update partial based on pure literals.
+        for p in pure_lits:
+            if p > 0:
+                partial[abs(p) - 1] = True
+            else: 
+                partial[abs(p) - 1] = False
+
+        # Reduce clause set
+        new_clauses = strip_clauses(clauses, pure_lits, partial, verbose)
+
+        # Reduce clause set and update partial for every pure lit we have. 
+        # If we get an empty list back, return True.
+        if new_clauses == []:
+            if verbose:
+                print("EMPTY SET PRODUCED BY LITERAL ELIMINATION! RETURNING TRUE!")
+        
+            return True
+
+    # Edit size of truth values
+    t_vals = reduce_t_vals(new_clauses, partial, t_vals, verbose)
 
     # Base Case - activated if we have a complete assignment.
     if None not in partial:
@@ -203,6 +282,7 @@ def r_solve(initial_t_vals, initial_partial, current_var, clauses, vars, verbose
                     print("a =", a)
                     print("partial assignment: ", partial)
                     print("t_vals before modification: ", t_vals)
+                    print("new_clauses: ", new_clauses)
 
                 # Define new truth values under partial assignment w/ potentially reduced clauses.
                 t_vals = update_truthtable(t_vals, partial, current_var, new_clauses, verbose)
@@ -240,8 +320,6 @@ def r_solve(initial_t_vals, initial_partial, current_var, clauses, vars, verbose
                     # Try other option. Don't waste time updating values if we've 
                     elif a != False:
                         partial[i] = None
-                        t_vals = [[t_val for t_val in c] for c in initial_t_vals]
-
     
     return False
                  

@@ -2,11 +2,11 @@
 # UVA Summer Research Project
 # DPLL-SAT Solver Miniproject
 
-import sys 
-import recursive
-import unit_prop
-import lit_elim
 import dpll
+import lit_elim
+import recursive
+import sys 
+import unit_prop
 from problem import Problem
 
 class Solver:
@@ -18,6 +18,10 @@ class Solver:
     problem = None
 
     verbose = None
+
+    # Data collection variables. 
+    branch_count = 0
+    time = 0
 
     def __init__(self, filename, flag, problem):
         self.filename = filename
@@ -54,7 +58,7 @@ class Solver:
             recur_SAT = recursive.solve(self.problem)
             up_SAT = unit_prop.solve(self.problem)
             le_SAT = lit_elim.solve(self.problem)
-            dpll_SAt = dpll.solve(self.problem)
+            dpll_SAT = dpll.solve(self.problem)
 
             if recur_SAT == False: 
                 print("Recursive approach failed to find a solution.")
@@ -70,6 +74,11 @@ class Solver:
                 print("Pure literal elimination approach failed to find a solution.")
             else:
                 print("Pure literal elimination approach found a solution.")
+
+            if dpll_SAT == False: 
+                print("DPLL approach failed to find a solution.")
+            else: 
+                print("DPLL approach found a solution.")
 
         # Use recursive approach
         elif self.flag == "--recursive" or self.flag == "-r":
@@ -132,7 +141,6 @@ def main():
     if len(sys.argv) == 2:
         print("Valid input parameters recieved.")
         filename = sys.argv[1]
-
     elif len(sys.argv) == 3:
         print("Potential operational/debug flag detected.")
         filename = sys.argv[1]
@@ -142,7 +150,6 @@ def main():
             flag = ""
         else:
             flag = sys.argv[2]
-
     elif len(sys.argv) == 4:
         print("Potential debug flag detected.")
         filename = sys.argv[1]
@@ -157,12 +164,9 @@ def main():
 
     problem = Problem(filename, verbose)
     s = Solver(filename, flag, problem)
-
-    # print("verbose = ", verbose)
     
     if verbose:
         problem.pretty_print()
-        # print("flag = *", s.flag, "*")
 
     # Attempt to solve the problem
     s.solve()

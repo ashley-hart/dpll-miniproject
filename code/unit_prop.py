@@ -118,7 +118,29 @@ def r_solve(initial_t_vals, initial_partial, num_vars, current_var, clauses, var
         
     t_vals = [[t_val for t_val in c] for c in initial_t_vals]
     partial = [partial for partial in initial_partial]
+    new_clauses = clauses
     result = None
+
+    # Shrink clauses based on a previous assignment with unit propagation
+    if current_var != 0:
+        if verbose:    
+                print("UNIT PROPOGATION!")
+                print("============================")
+
+        if partial[current_var - 1] == True:
+                new_clauses = reduce_clauses(clauses, (vars[current_var - 1]), verbose)
+                t_vals = [[None for t_val in c] for c in new_clauses]
+                
+        elif partial[current_var - 1] == False:
+                new_clauses = reduce_clauses(clauses, (vars[current_var - 1] * -1), verbose)
+                t_vals = [[None for t_val in c] for c in new_clauses]
+
+                
+    if [] in new_clauses:
+            if verbose:
+                    print("EMPTY SET PRODUCED BY UNIT PROPAGATION! RETURNING FALSE!")
+
+            return False 
 
     # Base Case
     if current_var >= num_vars:
@@ -139,14 +161,19 @@ def r_solve(initial_t_vals, initial_partial, num_vars, current_var, clauses, var
             print("current_var:", current_var)
 
         # Reduce clause set based on the current variable's assignment 
-        if a == True:
-            new_clauses = reduce_clauses(clauses, vars[current_var],  verbose)
-        else:
-            new_clauses = reduce_clauses(clauses, (vars[current_var] * -1), verbose)
+        # if a == True:
+        #     new_clauses = reduce_clauses(clauses, vars[current_var],  verbose)
+        #     t_vals = [[None for t_val in c] for c in new_clauses]
+        
+        # else:
+        #     new_clauses = reduce_clauses(clauses, (vars[current_var] * -1), verbose)
+        #     t_vals = [[None for t_val in c] for c in new_clauses]
+        
 
         # Define new truth values under partial assignment. Check if SAT.
         t_vals = update_truthtable(initial_t_vals, partial, current_var, new_clauses, verbose)
         result = clause_check(t_vals, verbose)
+
 
         # If True, send this result right back up
         if result == True:
