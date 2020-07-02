@@ -143,12 +143,13 @@
    - Integrated recursive, unit-propagation and lit-elim logic for DPLL  
  
    #### July 2nd, 2020
-   - (TODO) Futher code testing
-   - (TODO) Write script for benchmarking
-   - (TODO) Read into data collection with Python
+   - Futher code testing
+   - Reviewed script Mitch sent over
+   - Read into data collection with Python
    - Meeting with Soneya - data collection, conference presentation
    
    #### July 3rd, 2020
    - GOAL: Made significant progress on/completed DPLL prototype -- Done!
    - Start drafting titles and abstracts for conference 
+   - What kind of impression do you want to leave.
  
