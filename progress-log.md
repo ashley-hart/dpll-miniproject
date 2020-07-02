@@ -145,12 +145,12 @@
    #### July 2nd, 2020
    - Futher code testing
    - Reviewed script Mitch sent over
-   - Read into data collection with Python
-   - Meeting with Soneya - data collection, conference presentation
+   - Meeting with Soneya - watchlist tutorial
    
    #### July 3rd, 2020
    - GOAL: Made significant progress on/completed DPLL prototype -- Done!
+   - (TODO) Develop dpll_watchlist.py
+   - (TODO) Read into data collection with Python and Bash scripting
    - (TODO) Set up UVA portal for heavier code testing
-   - Start drafting titles and abstracts for conference 
-   - What kind of impression do you want to leave.
+   - Start drafting titles and abstracts for conference.
  
