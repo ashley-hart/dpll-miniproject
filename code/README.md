@@ -9,20 +9,21 @@
   
   `user@System python3 parser.py dimacs_file.cnf --flag_name --verbose`
   
-  The flags that will eventually be supported are as follows:
+  The supported flags are as follows:
   
       * --recursive
       * --unit_prop 
       * --lit_elim  
       * --dpll  
+      * --all
     
    Please use these flags in place of `--flag_name` in the sample above.
-   Also, bear in mind that `dimacs_file.cnf` can be any file. However, it will be rejected if it does not adhere to the DIMACS-CNF format.
+   Also, bear in mind that `dimacs_file.cnf` can be any cnf or txt file. However, it will be rejected if it does not adhere to the DIMACS-CNF format.
    
-   The debug flag is `verbose`. It must be typed in its entirety for to code to recognize it.
+   The debug flag are `--verbose` or `-v`. 
    Please note that the following form of input is also valid.
    
-   `user@System python3 parser.py dimacs_file.cnf verbose`
+   `user@System python3 parser.py dimacs_file.cnf --verbose`
     
    IMPORTANT: As of June 26th, additional flags were added to improvw user-friendliness:
    
@@ -30,6 +31,7 @@
       * -u --> shorthand for --unit-prop 
       * -l --> shorthand for --lit_elim
       * -d --> shorthand for --dpll
+      * -a --> shorthand for --all
       * -v --> shorthand for --verbose
    
 ### problem.py
@@ -37,13 +39,16 @@
    This class replaces parser.py.
    
 ### recursive.py 
-   Implementation of a simple recursive SAT solver.
+   Implementation of a simple recursive SAT solver. Accessed with `--recursive` or its shorthand flag
    
 ### unit_prop.py
-   Implementation of a recursive SAT solver optimized with unit propagation.
+   Implementation of a recursive SAT solver optimized with unit propagation. Accessed with `--unit-prop` or its shorthand flag.
    
 ### lit_elim.py 
-   Implementation of a recursive SAT solver optimized with pure literal elimination.
+   Implementation of a recursive SAT solver optimized with pure literal elimination. Accessed with `--lit-elim` or its shorthand flag.
+
+### dpll.py
+   Implementation of a recursive SAT solver optimized with unit propagation and pure literal elimination. The solver will default to this method if no flag is given.
     
 ---
     

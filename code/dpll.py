@@ -80,8 +80,7 @@ def reduce_t_vals(clauses, partial, t_vals, verbose):
 
 
 
-# Reduces clauses based on a literal if possible.
-# Returns reduced clauses.
+# Reduces clauses based on unit propogation.
 def unit_propagation(clauses, literal, verbose):
 
     new_clauses = []
@@ -97,7 +96,8 @@ def unit_propagation(clauses, literal, verbose):
                 if lit != (literal * -1):
                     temp.append(lit)
         else:
-            temp = copy.deepcopy(c)
+        #     temp = copy.deepcopy(c)
+                temp = [lit for lit in c]
 
         new_clauses.append(temp)
         temp = []
@@ -134,10 +134,10 @@ def get_pure_literals(clauses, verbose):
     return pure
 
 
-# Reduce clauses based on presence of pure literals. 
+# Reduce clauses based on pure literal elimination.
 # Returns a reduced clause set. If no reductions are possible, 
 # the original data will be returned.
-def strip_clauses(clauses, pure, partial, verbose):
+def literal_elimination(clauses, pure, partial, verbose):
 
     new_clauses = [[lit for lit in c] for c in clauses]
 
@@ -196,9 +196,9 @@ def solve(problem):
 # Returns True if SAT or False if all options are exhausted.
 def r_solve(initial_t_vals, initial_partial, current_var, clauses, vars, verbose):
         
-    partial = [partial for partial in initial_partial]
     result = None
     new_clauses = clauses
+    partial = [partial for partial in initial_partial]
     t_vals = [[t_val for t_val in c] for c in initial_t_vals]
 
     if verbose: 
@@ -223,14 +223,13 @@ def r_solve(initial_t_vals, initial_partial, current_var, clauses, vars, verbose
 
                 return False 
 
-
     if verbose:
         print("new_clauses", new_clauses)
         print()    
         print("PURE LITERAL ELIMINATION!")
         print("============================")
 
-    # Attempt to reduce before we try to choose assignments.
+    # Attempt to reduce clause set before we try to choose assignments.
     pure_lits = get_pure_literals(clauses, verbose)
 
     # If a pure literal is found, do the following:
@@ -244,7 +243,7 @@ def r_solve(initial_t_vals, initial_partial, current_var, clauses, vars, verbose
                 partial[abs(p) - 1] = False
 
         # Reduce clause set
-        new_clauses = strip_clauses(clauses, pure_lits, partial, verbose)
+        new_clauses = literal_elimination(clauses, pure_lits, partial, verbose)
 
         # Reduce clause set and update partial for every pure lit we have. 
         # If we get an empty list back, return True.
@@ -254,8 +253,9 @@ def r_solve(initial_t_vals, initial_partial, current_var, clauses, vars, verbose
         
             return True
 
-    # Edit size of truth values
+    # Match size of t-vals to new clauses
     t_vals = reduce_t_vals(new_clauses, partial, t_vals, verbose)
+
 
     # Base Case - activated if we have a complete assignment.
     if None not in partial:
@@ -266,7 +266,7 @@ def r_solve(initial_t_vals, initial_partial, current_var, clauses, vars, verbose
         return clause_check(t_vals, verbose)
 
 
-    # Scan the partial assignment left to right and try to
+    # Scan the partial assignment left to right and recursively try to
     # assign values to any remaining unassigned variables.
     for i in range(0, len(partial)):
         if partial[i] == None:
