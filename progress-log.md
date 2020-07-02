@@ -150,6 +150,7 @@
    
    #### July 3rd, 2020
    - GOAL: Made significant progress on/completed DPLL prototype -- Done!
+   - (TODO) Set up UVA portal for heavier code testing
    - Start drafting titles and abstracts for conference 
    - What kind of impression do you want to leave.
  
