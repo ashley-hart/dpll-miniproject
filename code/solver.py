@@ -134,7 +134,6 @@ class Solver:
 
     print()
 
-
 def main():
 
     flag = ""
