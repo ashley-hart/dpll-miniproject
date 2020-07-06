@@ -160,14 +160,21 @@
    - Meeting with Matt
    
    #### July 7th, 2020
+   - Send Matt a list of titles.
    
    #### July 8th, 2020
    - DEADLINE FOR TITLE SUBMISSION.
+   - Ph.D. Student Meeting @ 9AM
    - (TODO) Set up UVA portal for heavier code testing
    
    #### July 9th, 2020
+   - Squash bugs.
    
    #### July 10th, 2020
+   - Meeting with Matt @ 11AM
+   - Demonstrate each verison of the tool with a set of benchmarks
+   - Submit a draft of the abstract to Dr. Dwyer
+   
    
    
  
