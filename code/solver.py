@@ -130,8 +130,9 @@ class Solver:
                 print("DPLL approach found a solution.")
         else:
             print("*", self.flag, "*")
-            print("Flag not recognized. Please verify your input.")     
+            print("Flag not recognized. Please verify your input.")    
 
+    print()
 
 def main():
 
