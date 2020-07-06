@@ -149,8 +149,25 @@
    
    #### July 3rd, 2020
    - GOAL: Made significant progress on/completed DPLL prototype -- Done!
-   - (TODO) Develop dpll_watchlist.py
+   - Holiday
+   
+   ### Week 6
+   
+   #### July 6th, 2020
+   - Developing dpll_watchlist.py --> ran into a bug with quinn.cnf (infinite loop in update_watchlist)
    - (TODO) Read into data collection with Python and Bash scripting
-   - (TODO) Set up UVA portal for heavier code testing
    - Start drafting titles and abstracts for conference.
+   - Meeting with Matt
+   
+   #### July 7th, 2020
+   
+   #### July 8th, 2020
+   - DEADLINE FOR TITLE SUBMISSION.
+   - (TODO) Set up UVA portal for heavier code testing
+   
+   #### July 9th, 2020
+   
+   #### July 10th, 2020
+   
+   
  
