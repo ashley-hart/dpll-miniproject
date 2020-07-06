@@ -2,7 +2,7 @@
 # UVA Summer Research Project
 # DPLL-SAT Solver Miniproject
 
-import dpll
+import dpll_watchlist as dpll
 import lit_elim
 import recursive
 import sys 
@@ -95,7 +95,7 @@ class Solver:
 
             dpll_SAT = dpll.solve(self.problem)
 
-            if dpll_SAT == False: 
+            if dpll_SAT[1] == False: 
                 print("DPLL approach failed to find a solution.")
             else: 
                 print("DPLL approach found a solution.")
