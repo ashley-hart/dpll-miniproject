@@ -160,6 +160,7 @@
    - Meeting with Matt
    
    #### July 7th, 2020
+   - Rework the watchlist logic... rewrite carefully
    - Send Matt a list of titles.
    
    #### July 8th, 2020
