@@ -14,7 +14,8 @@
       * --recursive
       * --unit_prop 
       * --lit_elim  
-      * --dpll  
+      * --dpll 
+      * --dpll-w
       * --all
     
    Please use these flags in place of `--flag_name` in the sample above.
@@ -31,6 +32,7 @@
       * -u --> shorthand for --unit-prop 
       * -l --> shorthand for --lit_elim
       * -d --> shorthand for --dpll
+      * -dw --> shorthand for --dpll-w
       * -a --> shorthand for --all
       * -v --> shorthand for --verbose
    
@@ -49,6 +51,9 @@
 
 ### dpll.py
    Implementation of a recursive SAT solver optimized with unit propagation and pure literal elimination. The solver will default to this method if no flag is given.
+
+### dpll_watchlist.py
+   This is the dpll algorithim optimized with a watchlist implementation.
     
 ---
     
