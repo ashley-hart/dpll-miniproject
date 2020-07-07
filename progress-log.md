@@ -151,17 +151,19 @@
    - GOAL: Made significant progress on/completed DPLL prototype -- Done!
    - Holiday
    
-   ### Week 6
-   
+   ### WEEK 6
    #### July 6th, 2020
    - Developing dpll_watchlist.py --> ran into a bug with quinn.cnf (infinite loop in update_watchlist)
-   - (TODO) Read into data collection with Python and Bash scripting
+   - Read into data collection with Python and Bash scripting
    - Start drafting titles and abstracts for conference.
    - Meeting with Matt
    
    #### July 7th, 2020
-   - Rework the watchlist logic... rewrite carefully
-   - Send Matt a list of titles.
+   - Reworked the watchlist logic, added unit prop. and lit elim.
+   - Sent Matt a list of titles.
+   - Followed up with Dr. Crenshaw.
+   - Code & verbose output clean up
+   - Set up benchmarks
    
    #### July 8th, 2020
    - DEADLINE FOR TITLE SUBMISSION.
