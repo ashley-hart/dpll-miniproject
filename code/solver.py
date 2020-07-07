@@ -2,7 +2,8 @@
 # UVA Summer Research Project
 # DPLL-SAT Solver Miniproject
 
-import dpll_watchlist as dpll
+import dpll
+import dpll_watchlist
 import lit_elim
 import recursive
 import sys 
@@ -16,7 +17,6 @@ class Solver:
     clauses = []
     flag = ""
     problem = None
-
     verbose = None
 
     # Data collection variables. 
@@ -29,15 +29,15 @@ class Solver:
         self.problem = problem
         self.verbose = problem.verbose
 
-
-    # My intention for this function is to have it be the "Sorting Hat" of this class.
-    # Will return data for analysis.
+ 
+    # Controls which solving approches will be used.
     def solve(self):
 
         recur_SAT: bool = False
         up_SAT: bool = False
         le_SAT: bool = False
         dpll_SAT: bool = False
+        dpll_w_SAT: bool = False
 
         if (self.verbose):
             print("\nSOLVER: Attempting to solve " + self.filename)
@@ -49,11 +49,11 @@ class Solver:
             else:
                 print("flag: *" + self.flag + "*")
 
-        # Defaults to DPLL solver
+        # If no flag is given solver defaults to DPLL.
         if self.flag == "":
             self.flag = "--dpll"
 
-        # Use recursive approach
+        # Use recursive approach.
         if self.flag == "--recursive" or self.flag == "-r":
             if self.verbose: 
                 print("--recursive flag recieved")
@@ -65,7 +65,7 @@ class Solver:
             else:
                 print("Recursive approach found a solution.")
 
-        # Use unit propagation approach
+        # Use unit propagation approach.
         elif self.flag == "--unit-prop" or self.flag == "-u":
             if self.verbose:
                 print("--unit-prop flag received")
@@ -77,7 +77,7 @@ class Solver:
             else: 
                 print("Unit propagation approach found a solution.")
 
-        # Use pure literal elimination approach        
+        # Use pure literal elimination approach. 
         elif self.flag == "--lit-elim" or self.flag == "-l":
             if self.verbose:
                 print("--lit-elim flag receieved")
@@ -88,17 +88,32 @@ class Solver:
                 print("Pure literal elimination approach failed to find a solution.")
             else: 
                 print("Pure literal elimination approach found a solution.")
-        # Use DPLL algorithm approach
+
+        # Use DPLL algorithm approach.
         elif self.flag == "--dpll" or self.flag == "-d":
             if self.verbose:
                 print("--dpll flag recieved")
 
             dpll_SAT = dpll.solve(self.problem)
 
-            if dpll_SAT[1] == False: 
+            if dpll_SAT == False: 
                 print("DPLL approach failed to find a solution.")
             else: 
                 print("DPLL approach found a solution.")
+
+        # Use DPLL with watchlist approach.
+        elif self.flag == "--dpll-w" or self.flag == "-dw":
+            if self.verbose:
+                print("--dpll-w flag recieved")
+
+            dpll_w_SAT = dpll_watchlist.solve(self.problem)
+
+            if dpll_w_SAT == False: 
+                print("DPLL w/ watchlist approach failed to find a solution.")
+            else: 
+                print("DPLL w/ watchlist approach found a solution.")
+
+        # Use everything.        
         elif self.flag == "--all" or self.flag == "-a":
             if self.verbose:
                 print("--all flag recieved")
@@ -108,6 +123,7 @@ class Solver:
             up_SAT = unit_prop.solve(self.problem)
             le_SAT = lit_elim.solve(self.problem)
             dpll_SAT = dpll.solve(self.problem)
+            dpll_w_SAT = dpll_watchlist.solve(self.problem)
 
             if recur_SAT == False: 
                 print("Recursive approach failed to find a solution.")
@@ -128,11 +144,15 @@ class Solver:
                 print("DPLL approach failed to find a solution.")
             else: 
                 print("DPLL approach found a solution.")
+
+            if dpll_w_SAT == False: 
+                print("DPLL w/ watchlist approach failed to find a solution.")
+            else: 
+                print("DPLL w/ watchlist approach found a solution.")
         else:
             print("*", self.flag, "*")
             print("Flag not recognized. Please verify your input.")    
 
-    print()
 
 def main():
 
@@ -141,10 +161,8 @@ def main():
 
     # Process command line arguments
     if len(sys.argv) == 2:
-        print("Valid input parameters recieved.")
         filename = sys.argv[1]
     elif len(sys.argv) == 3:
-        print("Potential operational/debug flag detected.")
         filename = sys.argv[1]
 
         if sys.argv[2] == "--verbose" or sys.argv[2] == "-v":
@@ -153,7 +171,6 @@ def main():
         else:
             flag = sys.argv[2]
     elif len(sys.argv) == 4:
-        print("Potential debug flag detected.")
         filename = sys.argv[1]
         flag = sys.argv[2]
         
@@ -175,7 +192,6 @@ def main():
 
     if verbose:
         print("SOLVER(): Terminating process.")
-
 
 if __name__ == "__main__":
     main()

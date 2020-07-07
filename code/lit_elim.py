@@ -254,7 +254,7 @@ def r_solve(initial_t_vals, initial_partial, num_vars, current_var, clauses, ver
                     # Try other option. Don't waste time updating values if we've 
                     elif a != False:
                         partial[i] = None
-                        # t_vals = [[t_val for t_val in c] for c in initial_t_vals]
+
 
     
     return False

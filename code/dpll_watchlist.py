@@ -120,6 +120,72 @@ def SAT_check(clauses, assignment, verbose):
     return clause_check(t_vals, verbose)
 
 
+# Reduces clauses based on unit propogation.
+def unit_propagation(clauses, literal, verbose):
+
+    new_clauses = []
+    temp = []
+
+    for c in clauses: 
+
+        if literal in c and len(c) > 1:     
+            continue
+        elif (literal * -1) in c and len(c) > 1:
+
+            for lit in c:
+                if lit != (literal * -1):
+                    temp.append(lit)
+        else:
+        #     temp = copy.deepcopy(c)
+                temp = [lit for lit in c]
+
+        new_clauses.append(temp)
+        temp = []
+
+    return new_clauses
+
+
+# Scan the clauses and return a list of pure literals.
+def get_pure_literals(clauses, verbose):
+    lits = []
+    pure = []
+
+    # Scan clauses and toss in every literal.
+    for c in clauses:
+        for lit in c:
+            if lit not in lits:
+                lits.append(lit)
+
+    # Check for purity and add to pure list
+    for l in lits:
+        if (l * -1) not in lits:
+            pure.append(l)
+
+    return pure
+
+# Reduce clauses based on pure literal elimination.
+# Returns a reduced clause set. If no reductions are possible, 
+# the original data will be returned.
+def literal_elimination(clauses, pure, assignment, verbose):
+
+    new_clauses = [[lit for lit in c] for c in clauses]
+
+    # Strip clauses
+    for lit in pure:
+        # print("lit =", lit)
+        for c in clauses:
+            # print(c)
+            if lit in c:
+                if len(clauses) == 1:
+                    new_clauses = []
+                else:
+                    # print("Removing: ", c)
+                    new_clauses.remove(c)
+        clauses = new_clauses
+
+    return new_clauses
+
+
 def solve(problem):
 
     literals = []
@@ -162,10 +228,40 @@ def solve(problem):
 def dpll(watchlist, clauses, assignment, literals, variables, curr_var,  verbose):
 
     false_literal = 0
+    new_clauses = clauses
+
+    if curr_var != 0:
+
+        if assignment[curr_var - 1] == True:
+                new_clauses = unit_propagation(clauses, (variables[curr_var - 1]), verbose)
+        elif assignment[curr_var - 1] == False:
+                new_clauses = unit_propagation(clauses, (variables[curr_var - 1] * -1), verbose)
+            
+    if [] in new_clauses:
+        return False 
+
+    
+    # Attempt to reduce before we try to choose assignments.
+    pure_lits = get_pure_literals(clauses, verbose)
+
+    # If a pure literal is found, do the following:
+    if pure_lits != []:
+
+        # Reduce clause set.
+        new_clauses = literal_elimination(clauses, pure_lits, assignment, verbose)
+
+        # Reduce clause set and update assignment for every pure lit we have. 
+        # If we get an empty list back, return True.
+        if new_clauses == []:
+            return True
 
     # NOTE: Might be uneccessary.
-    if curr_var == (len(variables)):
+    # if curr_var == (len(variables)):
+    #     return SAT_check(clauses,assignment, verbose)
+
+    if None not in assignment:
         return SAT_check(clauses,assignment, verbose)
+
 
     for a in [True, False]:
         assignment[curr_var] = a
@@ -176,7 +272,8 @@ def dpll(watchlist, clauses, assignment, literals, variables, curr_var,  verbose
             false_literal = abs(variables[curr_var])
 
 
-        result = SAT_check(clauses, assignment, verbose)
+        # result = SAT_check(clauses, assignment, verbose)
+        result = SAT_check(new_clauses, assignment, verbose)
 
         if verbose:
             print("false_literal:", false_literal)
@@ -190,7 +287,7 @@ def dpll(watchlist, clauses, assignment, literals, variables, curr_var,  verbose
         # update our watchlist and try to make another call.
         elif result == None:
             # If we can update our watchlist then we still have a working assignment
-            if update_watchlist(watchlist, literals, variables, assignment, false_literal, curr_var, clauses, verbose):
+            if update_watchlist(watchlist, literals, variables, assignment, false_literal, curr_var, clauses, False):
                 if dpll(watchlist, clauses, assignment, literals, variables, curr_var + 1, verbose) is True:
                     return True
                 else: 
