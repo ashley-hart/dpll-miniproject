@@ -2,6 +2,7 @@
 # UVA Summer Research Project
 # DPLL-SAT Solver Miniproject
 
+import time
 import dpll
 import dpll_watchlist
 import lit_elim
@@ -188,7 +189,11 @@ def main():
         problem.pretty_print()
 
     # Attempt to solve the problem
+    start = time.time()
     s.solve()
+    end = time.time()
+    solve_time = str(round((end-start),2))
+    print("solving took: "+solve_time+" seconds")
 
     if verbose:
         print("SOLVER(): Terminating process.")
