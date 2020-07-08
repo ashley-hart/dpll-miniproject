@@ -93,8 +93,8 @@ class Problem:
                 if first_token == 'p':
                     p_flag = 1
                     self.format_type = tokens[1]
-                    self.num_clauses = int(tokens[2])
-                    self.num_vars = int(tokens[3])
+                    self.num_vars = int(tokens[2])
+                    self.num_clauses = int(tokens[3])
                 # Parse clauses iff problem line has been found
                 elif int(first_token) and p_flag == 1:
                     
