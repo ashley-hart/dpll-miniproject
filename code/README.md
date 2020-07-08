@@ -14,7 +14,8 @@
       * --recursive
       * --unit_prop 
       * --lit_elim  
-      * --dpll  
+      * --dpll 
+      * --dpll-w
       * --all
     
    Please use these flags in place of `--flag_name` in the sample above.
@@ -31,6 +32,7 @@
       * -u --> shorthand for --unit-prop 
       * -l --> shorthand for --lit_elim
       * -d --> shorthand for --dpll
+      * -dw --> shorthand for --dpll-w
       * -a --> shorthand for --all
       * -v --> shorthand for --verbose
    
@@ -49,6 +51,9 @@
 
 ### dpll.py
    Implementation of a recursive SAT solver optimized with unit propagation and pure literal elimination. The solver will default to this method if no flag is given.
+
+### dpll_watchlist.py
+   This is the dpll algorithim optimized with a watchlist implementation.
     
 ---
     
@@ -70,3 +75,27 @@ To install `mypy`, from within an Ubuntu terminal run `sudo apt install python3-
 `pip3 install mypy`. Now to type check my example (partially) annotated program in this directory,
 run `mypy annotated-parser.py`. You should see three errors, with messages about which line the
 error is on in the file and why this is considered a type error.
+
+---
+
+#### Visualizing graphs via DOT files
+
+[DOT](https://en.wikipedia.org/wiki/DOT_(graph_description_language)) is a graph description language.
+We will try to visualize the progress of the SAT solver by emitting a succession of different DOT files;
+these will describe different trees. To be able to visualize a DOT file, you will need to download 
+the `graphviz` library in an Ubuntu terminal by running the command `sudo apt install graphviz`.
+
+A simple, undirected graph can written in the DOT language like this:
+
+```
+graph {
+    a -- b -- c;
+    b -- d;
+}
+```
+
+You can save this text in a file named `test.dot`.
+To make a PNG so you can visualize this graph, within an Ubuntu terminal run: `dot -Tpng test.dot -o test.png`.
+Now you can open the PNG file either on your Windows desktop, or via the command `eog test.png` in Ubunutu
+(I'm not sure if Linux-in-Windows will correctly visualize this if you run it straight from the terminal).
+

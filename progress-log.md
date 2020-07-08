@@ -165,13 +165,18 @@
    - Code & verbose output clean up
    - Set up benchmarks
    
+   
    #### July 8th, 2020
    - DEADLINE FOR TITLE SUBMISSION.
    - Ph.D. Student Meeting @ 9AM
-   - (TODO) Set up UVA portal for heavier code testing
+   - Meeting with Mitch @ 12PM
+   - (TODO) Set up UVA portal for heavier code testing.
+   - (TODO) TEST! TEST! TEST!
    
    #### July 9th, 2020
+   - Meeting with Soneya @ 4PM
    - Squash bugs.
+   - Work on abstract
    
    #### July 10th, 2020
    - Meeting with Matt @ 11AM
