@@ -1,0 +1,9 @@
+c
+c NOTE: Not Satisfiable
+c
+p cnf 6 8
+1 -2 0
+2 3 0
+-1 -3 0
+-1 -2 3 0
+1 2 -3 0

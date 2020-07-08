@@ -19,23 +19,10 @@ class Problem:
 
     verbose = None
 
-    # def __init__(self, num_v, num_c, format, filename, clauses):
-        # self.num_vars = num_v
-        # self.num_clauses = num_c
-        # self.format = format
-        # self.filename = filename
-        # self.clauses = clauses
-
     def __init__(self, filename, verbose):
         self.filename = filename
         self.verbose = verbose
         self.parse_file()
-
-
-    def print_data(self):
-        print("Printing problem data for: ", self.filename)
-        print("Still under construction.")
-
     
     def get_num_variables(self):
         return int(self.num_vars)
@@ -61,7 +48,6 @@ class Problem:
     def get_verbose(self):
         return self.verbose
 
-    
     def parse_file(self):
 
         if self.verbose:
@@ -70,7 +56,6 @@ class Problem:
             print("cat " + self.filename +"\n")
             os.system("cat " + self.filename)
             print()
-
 
         p_flag = 0
 

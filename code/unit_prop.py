@@ -2,8 +2,6 @@
 # UVA Summer Research Project
 # DPLL-SAT Solver Miniproject
 
-import copy
-
 # Checks a set of truth values derived from a partial assignment and a clause set.
 # Determines if the assignment satisfies the problem.
 def clause_check(t_vals, verbose):
@@ -45,11 +43,11 @@ def update_truthtable(truth_values, partial, var, clauses, verbose):
         new_vals.append(temp)
         temp = []
     
-    if verbose:
-        print("OG T_vals:", truth_values)
-        print("partial: ",partial)
-        print("var = ",var)
-        print("new_vals: ",new_vals)
+    # if verbose:
+    #     print("OG T_vals:", truth_values)
+    #     print("partial: ",partial)
+    #     print("var = ",var)
+    #     print("new_vals: ",new_vals)
 
     return new_vals
 
@@ -94,7 +92,7 @@ def unit_propagation(clauses, literal, verbose):
                 if lit != (literal * -1):
                     temp.append(lit)
         else:
-            temp = copy.deepcopy(c)
+            temp = [lit for lit in c]
 
         new_clauses.append(temp)
         temp = []
@@ -107,120 +105,97 @@ def unit_propagation(clauses, literal, verbose):
     return new_clauses
 
 
- # Attempt to solve with a unit propagation optimization.
+# Attempt to solve with a pure literal elimination optimization.
 def solve(problem):
 
-    current_var = 0
-
-    verbose = problem.verbose
-
-    truth_values = [[None for lit in c if lit != 0] for c in problem.clauses]
     partial: list = []
+    truth_values = [[None for lit in c if lit != 0] for c in problem.clauses]
+    current_var = 0
+    verbose = problem.verbose
     vars: list = []
+    
+    if verbose:
+        print("\n\nDPLL SOLVE(): Attempting to satisfy the problem...")
+        print("=======================================================================")
 
     for i in range(0, problem.num_vars):
         vars.append(i + 1)
 
-    if verbose:
-        print("\n\nUNIT_PROP SOLVE(): Attempting to satisfy the problem...")
-        print("=======================================================================")
-        print("variables: ", vars)
-        print("clauses:", problem.clauses)
+    # Set up partial assignment.
+    for i in range(0, problem.num_vars):
+        partial.append(None)
 
-    is_sat = r_solve(truth_values, partial, problem.num_vars, current_var, problem.clauses, vars, verbose)
+    is_sat = r_solve(truth_values, partial, current_var, problem.clauses, vars, problem.verbose)
 
     if verbose:
-        print("UNIT_PROP SOLVE(): Returning", is_sat)
+        print("DPLL SOLVE(): Returning", is_sat)
         print("=======================================================================")
 
     return is_sat
 
 
-def r_solve(initial_t_vals, initial_partial, num_vars, current_var, clauses, vars, verbose):
+# Returns True if SAT or False if all options are exhausted.
+def r_solve(initial_t_vals, initial_partial, current_var, clauses, vars, verbose):
         
     t_vals = [[t_val for t_val in c] for c in initial_t_vals]
     partial = [partial for partial in initial_partial]
     new_clauses = clauses
     result = None
 
-    # Shrink clauses based on a previous assignment with unit propagation
+   # Shrink clauses based on a previous assignment with unit propagation
     if current_var != 0:
-        if verbose:    
-                print("UNIT PROPOGATION!")
-                print("============================")
-
         if partial[current_var - 1] == True:
-                new_clauses = unit_propagation(clauses, (vars[current_var - 1]), verbose)
-                # t_vals = [[None for t_val in c] for c in new_clauses]      
+            new_clauses = unit_propagation(clauses, (vars[current_var - 1]), verbose)
         elif partial[current_var - 1] == False:
-                new_clauses = unit_propagation(clauses, (vars[current_var - 1] * -1), verbose)
-                # t_vals = [[None for t_val in c] for c in new_clauses]
-
-                
+            new_clauses = unit_propagation(clauses, (vars[current_var - 1] * -1), verbose)
+        
     if [] in new_clauses:
-            if verbose:
-                    print("EMPTY SET PRODUCED BY UNIT PROPAGATION! RETURNING FALSE!")
+        return False 
 
-            return False 
+    # Match size of t-vals to new clauses
+    t_vals = reduce_t_vals(new_clauses, partial, t_vals, verbose)
 
-    # Base Case
-    if current_var >= num_vars:
+    # Base Case - activated if we have a complete assignment.
+    if None not in partial:
+        return clause_check(t_vals, verbose)
 
-        if verbose:
-            print("\nBase Case")
+    # Scan the partial assignment left to right and recursively try to
+    # assign values to any remaining unassigned variables.
+    for i in range(0, len(partial)):
+        if partial[i] == None:
 
-        return clause_check(clauses, verbose)
+            # We will try to push true and false onto this for every variable.     
+            for a in [True, False]:
 
-    # Attempt to assign True and False to every variable
-    for a in [True, False]:
+                partial[i] = a
 
-        partial.append(a)
+                # Define new truth values under partial assignment w/ potentially reduced clauses.
+                t_vals = update_truthtable(t_vals, partial, current_var, new_clauses, verbose)
+                result = clause_check(t_vals, verbose)
 
-        if verbose:
-            print("\na =", a)
-            print("partial assignment: ", partial)
-            print("current_var:", current_var)
+                # If True, send this result right back up.
+                if result == True:
+                    return True
+                # If False, dont waste anymore time on this branch.
+                elif result == False:
 
-        # Define new truth values under partial assignment. Check if SAT.
-        t_vals = update_truthtable(initial_t_vals, partial, current_var, new_clauses, verbose)
-        result = clause_check(t_vals, verbose)
+                    if verbose:
+                        print("Backing up...") 
 
+                    partial[i] = None
+                    continue
 
-        # If True, send this result right back up
-        if result == True:
+                # If None, descend into another call.
+                else: 
+                    if verbose:
+                        print("Going down...")
 
-            if verbose: 
-                print("\na =", a)
-                print("clauses =", clauses)
-                print("partial assignment: ", partial)
-                print("t_vals: ", t_vals)
-                print()
-                print("UNIT_PROP SOLVE(): Solution:", partial)
-    
-            return True
+                    if r_solve(t_vals, partial, current_var + 1, new_clauses, vars, verbose) is True:
+                        return True
 
-        # If False remove assignment and try something else.
-        elif result == False:
-
-            if verbose:
-                print("Backing up...") 
-
-            partial.pop()
-            continue
-
-        # If None, descend into another call, if that call fails, unwind and try another assignment.
-        else: 
-            if verbose:
-                print("Going down...")
-
-            if r_solve(t_vals, partial, num_vars, current_var + 1, new_clauses, vars, verbose) is True:
-                return True
-            # Try other option. Don't waste time updating values if we've already tried both options.
-            elif a != False:
-                partial.pop()
-                t_vals = [[t_val for t_val in c] for c in initial_t_vals]
-                new_clauses = clauses
-
+                    # Try other option. Don't waste time updating values if we've 
+                    elif a != False:
+                        partial[i] = None
     
     return False
                  

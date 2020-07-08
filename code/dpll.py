@@ -2,8 +2,6 @@
 # UVA Summer Research Project
 # DPLL-SAT Solver Miniproject
 
-import copy
-
 # Checks a set of truth values derived from a partial assignment and a clause set.
 # Determines if the assignment satisfies the problem.
 def clause_check(t_vals, verbose):
@@ -60,25 +58,16 @@ def reduce_t_vals(clauses, partial, t_vals, verbose):
         temp = []
 
         for i in range(0, len(clauses)):
-                for j in range(0, len(clauses[i])):
-                        index = abs(clauses[i][j])
+            for j in range(0, len(clauses[i])):
+                if clauses[i][j] > 0:
+                        temp.append(partial[abs(clauses[i][j]) - 1])
+                elif clauses[i][j]:
+                        temp.append(not partial[abs(clauses[i][j]) - 1])
 
-                        if clauses[i][j] > 0:
-                                temp.append(partial[abs(clauses[i][j]) - 1])
-                        elif clauses[i][j]:
-                                temp.append(not partial[abs(clauses[i][j]) - 1])
-
-                new_vals.append(temp)
-                temp = []
-
-        if verbose:
-                print("TRIM T_VALS(): Given clauses:", clauses)
-                print("new_vals: ", new_vals)
-                print()
+            new_vals.append(temp)
+            temp = []
 
         return new_vals
-
-
 
 # Reduces clauses based on unit propogation.
 def unit_propagation(clauses, literal, verbose):
@@ -96,7 +85,7 @@ def unit_propagation(clauses, literal, verbose):
                 if lit != (literal * -1):
                     temp.append(lit)
         else:
-                temp = [lit for lit in c]
+            temp = [lit for lit in c]
 
         new_clauses.append(temp)
         temp = []
@@ -107,7 +96,6 @@ def unit_propagation(clauses, literal, verbose):
         print("REDUCE_CLAUSES(): new clauses:", new_clauses)
 
     return new_clauses
-
 
 # Scan the clauses and return a list of pure literals.
 def get_pure_literals(clauses, verbose):
@@ -180,7 +168,7 @@ def solve(problem):
         vars.append(i + 1)
 
     # Set up partial assignment.
-    for i in range(0, problem.num_vars - 1):
+    for i in range(0, problem.num_vars):
         partial.append(None)
 
     is_sat = r_solve(truth_values, partial, current_var, problem.clauses, vars, problem.verbose)
@@ -195,10 +183,10 @@ def solve(problem):
 # Returns True if SAT or False if all options are exhausted.
 def r_solve(initial_t_vals, initial_partial, current_var, clauses, vars, verbose):
         
-    result = None
-    new_clauses = clauses
-    partial = [partial for partial in initial_partial]
     t_vals = [[t_val for t_val in c] for c in initial_t_vals]
+    partial = [partial for partial in initial_partial]
+    new_clauses = clauses
+    result = None
 
     if verbose: 
         print()
@@ -212,15 +200,15 @@ def r_solve(initial_t_vals, initial_partial, current_var, clauses, vars, verbose
                 print("============================")
 
         if partial[current_var - 1] == True:
-                new_clauses = unit_propagation(clauses, (vars[current_var - 1]), verbose)
+            new_clauses = unit_propagation(clauses, (vars[current_var - 1]), verbose)
         elif partial[current_var - 1] == False:
-                new_clauses = unit_propagation(clauses, (vars[current_var - 1] * -1), verbose)
+            new_clauses = unit_propagation(clauses, (vars[current_var - 1] * -1), verbose)
         
     if [] in new_clauses:
-            if verbose:
-                print("EMPTY SET PRODUCED BY UNIT PROPAGATION! RETURNING FALSE!")
+        if verbose:
+            print("EMPTY SET PRODUCED BY UNIT PROPAGATION! RETURNING FALSE!")
 
-                return False 
+        return False 
 
     if verbose:
         print("new_clauses", new_clauses)
@@ -255,7 +243,6 @@ def r_solve(initial_t_vals, initial_partial, current_var, clauses, vars, verbose
     # Match size of t-vals to new clauses
     t_vals = reduce_t_vals(new_clauses, partial, t_vals, verbose)
 
-
     # Base Case - activated if we have a complete assignment.
     if None not in partial:
 
@@ -263,7 +250,6 @@ def r_solve(initial_t_vals, initial_partial, current_var, clauses, vars, verbose
             print("\nBase Case - complete assignment recieved.")
 
         return clause_check(t_vals, verbose)
-
 
     # Scan the partial assignment left to right and recursively try to
     # assign values to any remaining unassigned variables.

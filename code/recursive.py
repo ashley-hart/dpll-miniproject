@@ -53,89 +53,109 @@ def update_truthtable(truth_values, partial, var, clauses, verbose):
     return new_vals
             
 
-# TODO: Record partial solution into solution feild of Problem object.
-# Silve use a basic recursive approach
+# Attempt to solve with a pure literal elimination optimization.
 def solve(problem):
 
     partial: list = []
     truth_values = [[None for lit in c if lit != 0] for c in problem.clauses]
     current_var = 0
     verbose = problem.verbose
+    vars: list = []
     
     if verbose:
-        print("\n\nRECURSIVE SOLVE(): Attempting to satisfy the problem...")
+        print("\n\RECURSIVE SOLVE(): Attempting to satisfy the problem...")
         print("=======================================================================")
 
-    is_sat = r_solve(truth_values, partial, problem.num_vars, current_var, problem.clauses, problem.verbose)
+    for i in range(0, problem.num_vars):
+        vars.append(i + 1)
+
+    # Set up partial assignment.
+    for i in range(0, problem.num_vars):
+        partial.append(None)
+
+    is_sat = r_solve(truth_values, partial, current_var, problem.clauses, vars, problem.verbose)
 
     if verbose:
         print("RECURSIVE SOLVE(): Returning", is_sat)
         print("=======================================================================")
+
     return is_sat
 
 
-def r_solve(initial_t_vals, initial_partial, num_vars, current_var, clauses, verbose):
+# Returns True if SAT or False if all options are exhausted.
+def r_solve(initial_t_vals, initial_partial, current_var, clauses, vars, verbose):
         
     t_vals = [[t_val for t_val in c] for c in initial_t_vals]
     partial = [partial for partial in initial_partial]
+    new_clauses = clauses
     result = None
 
-    # Base Case
-    if current_var >= num_vars:
+    if verbose: 
+        print("\ninitial_partial: ", initial_partial)
+        print("curr var: ", current_var)
 
-        print("current_var:", current_var, " num_vars:", num_vars )
-
-        if verbose:
-            print("\nBase Case")
-
-        return clause_check(clauses, verbose)
-
-    # We will try to push true and false onto this for every variable
-    for a in [True, False]:
-
-        partial.append(a)
+    # Base Case - activated if we have a complete assignment.
+    if None not in partial:
 
         if verbose:
-            print("\na =", a)
-            print("partial assignment: ", partial)
+            print("\nBase Case - complete assignment recieved.")
 
-        # Define new truth values under partial assignment.
-        t_vals = update_truthtable(initial_t_vals, partial, current_var, clauses, verbose)
-        result = clause_check(t_vals, verbose)
+        return clause_check(t_vals, verbose)
 
-        # If True, send this result right back up
-        if result == True:
+    # Scan the partial assignment left to right and recursively try to
+    # assign values to any remaining unassigned variables.
+    for i in range(0, len(partial)):
+        if partial[i] == None:
 
-            if verbose: 
-                print("\na =", a)
-                print("clauses =", clauses)
-                print("partial assignment: ", partial)
-                print("t_vals: ", t_vals)
-                print()
-                print("RECURSIVE_SOLVE(): Solution:", partial)
-    
-            return True
-        # If False, dont waste anymore time on this branch
-        elif result == False:
+            # We will try to push true and false onto this for every variable.     
+            for a in [True, False]:
 
-            if verbose:
-                print("Backing up...") 
+                partial[i] = a
 
-            partial.pop()
-            continue
+                if verbose:
+                    print("CHOOSING RECURSIVELY!")
+                    print("============================")
+                    print("a =", a)
+                    print("partial assignment: ", partial)
+                    print("t_vals before modification: ", t_vals)
+                    print("new_clauses: ", new_clauses)
 
-        # If None, descend into another call
-        else: 
-            if verbose:
-                print("Going down...")
+                # Define new truth values under partial assignment w/ potentially reduced clauses.
+                t_vals = update_truthtable(t_vals, partial, current_var, new_clauses, verbose)
+                result = clause_check(t_vals, verbose)
 
-            if r_solve(t_vals, partial, num_vars, current_var + 1, clauses, verbose) is True:
-                return True
-            # Try other option.Don't waste time updating values if we've already tried both options.
-            elif a != False:
-                partial.pop()
-                t_vals = [[t_val for t_val in c] for c in initial_t_vals]
+                # If True, send this result right back up.
+                if result == True:
 
+                    if verbose: 
+                        print("\na =", a)
+                        print("new_clauses =", new_clauses)
+                        print("partial assignment: ", partial)
+                        print("t_vals: ", t_vals)
+                        print()
+                        print("DPLL SOLVE(): Solution:", partial)
+            
+                    return True
+                # If False, dont waste anymore time on this branch.
+                elif result == False:
+
+                    if verbose:
+                        print("Backing up...") 
+
+                    partial[i] = None
+                    continue
+
+                # If None, descend into another call.
+                else: 
+                    if verbose:
+                        print("Going down...")
+
+                    if r_solve(t_vals, partial, current_var + 1, new_clauses, vars, verbose) is True:
+                        return True
+
+                    # Try other option. Don't waste time updating values if we've 
+                    elif a != False:
+                        partial[i] = None
     
     return False
                  

@@ -133,7 +133,7 @@ def solve(problem):
         print("=======================================================================")
 
     # Set up partial assignment.
-    for i in range(0, problem.num_vars - 1):
+    for i in range(0, problem.num_vars):
         partial.append(None)
     
     is_sat = r_solve(truth_values, partial, problem.num_vars, current_var, problem.clauses, problem.verbose)
@@ -165,13 +165,6 @@ def r_solve(initial_t_vals, initial_partial, num_vars, current_var, clauses, ver
     # If a pure literal is found, do the following:
     if pure_lits != []:
 
-        # Update partial based on pure literals.
-        for p in pure_lits:
-            if p > 0:
-                partial[abs(p) - 1] = True
-            else: 
-                partial[abs(p) - 1] = False
-
         # Reduce clause set
         new_clauses = strip_clauses(clauses, pure_lits, partial, verbose)
 
@@ -183,8 +176,15 @@ def r_solve(initial_t_vals, initial_partial, num_vars, current_var, clauses, ver
         
             return True
 
-        # Edit size of truth values
-        t_vals = reduce_t_vals(new_clauses, partial, t_vals, verbose)
+        # Update partial based on pure literals.
+        for p in pure_lits:
+            if p > 0:
+                partial[abs(p) - 1] = True
+            else: 
+                partial[abs(p) - 1] = False
+
+    # Edit size of truth values
+    t_vals = reduce_t_vals(new_clauses, partial, t_vals, verbose)
 
     if verbose: 
         print("pure literals: ", pure_lits)
@@ -255,7 +255,5 @@ def r_solve(initial_t_vals, initial_partial, num_vars, current_var, clauses, ver
                     elif a != False:
                         partial[i] = None
 
-
-    
     return False
                  
