@@ -96,7 +96,6 @@ def unit_propagation(clauses, literal, verbose):
                 if lit != (literal * -1):
                     temp.append(lit)
         else:
-        #     temp = copy.deepcopy(c)
                 temp = [lit for lit in c]
 
         new_clauses.append(temp)
@@ -157,9 +156,9 @@ def literal_elimination(clauses, pure, partial, verbose):
         clauses = new_clauses
    
     if verbose:
-        print("STRIP_CLAUSES(): pure literals:",  pure)
-        print("STRIP_CLAUSES(): new_clauses:", new_clauses)
-        print("STRIP_CLAUSES(): new partial:",  partial)
+        print("LIT_ELIM(): pure literals:",  pure)
+        print("LIT_ELIM(): new_clauses:", new_clauses)
+        print("LIT_ELIM(): new partial:",  partial)
 
     return new_clauses
 
@@ -218,7 +217,7 @@ def r_solve(initial_t_vals, initial_partial, current_var, clauses, vars, verbose
                 new_clauses = unit_propagation(clauses, (vars[current_var - 1] * -1), verbose)
         
     if [] in new_clauses:
-        #     if verbose:
+            if verbose:
                 print("EMPTY SET PRODUCED BY UNIT PROPAGATION! RETURNING FALSE!")
 
                 return False 
@@ -235,13 +234,6 @@ def r_solve(initial_t_vals, initial_partial, current_var, clauses, vars, verbose
     # If a pure literal is found, do the following:
     if pure_lits != []:
 
-        # Update partial based on pure literals.
-        for p in pure_lits:
-            if p > 0:
-                partial[abs(p) - 1] = True
-            else: 
-                partial[abs(p) - 1] = False
-
         # Reduce clause set
         new_clauses = literal_elimination(clauses, pure_lits, partial, verbose)
 
@@ -252,6 +244,13 @@ def r_solve(initial_t_vals, initial_partial, current_var, clauses, vars, verbose
                 print("EMPTY SET PRODUCED BY LITERAL ELIMINATION! RETURNING TRUE!")
         
             return True
+
+        # Update partial based on pure literals.
+        for p in pure_lits:
+            if p > 0:
+                partial[abs(p) - 1] = True
+            else: 
+                partial[abs(p) - 1] = False
 
     # Match size of t-vals to new clauses
     t_vals = reduce_t_vals(new_clauses, partial, t_vals, verbose)
