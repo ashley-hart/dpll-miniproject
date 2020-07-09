@@ -204,12 +204,11 @@ def main():
     if verbose:
         problem.pretty_print()
 
-    # Attempt to solve the problem
+    # Attempt to solve the problem and track how long it takes
     start = time.time()
     s.solve()
     end = time.time()
-    solve_time = str(round((end-start),5))
-    # solve_time = str(end-start)
+    solve_time = str(round((end-start), 5))
     print("solving took: "+solve_time+" seconds")
 
     if verbose:

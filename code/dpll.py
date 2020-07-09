@@ -52,6 +52,8 @@ def update_truthtable(truth_values, partial, var, clauses, verbose):
 
     return new_vals
 
+
+# Adjust size of truth value list to match the size of the clause list.
 def reduce_t_vals(clauses, partial, t_vals, verbose):
 
         new_vals = []
@@ -68,6 +70,7 @@ def reduce_t_vals(clauses, partial, t_vals, verbose):
             temp = []
 
         return new_vals
+
 
 # Reduces clauses based on unit propogation.
 def unit_propagation(clauses, literal, verbose):
@@ -96,6 +99,7 @@ def unit_propagation(clauses, literal, verbose):
         print("REDUCE_CLAUSES(): new clauses:", new_clauses)
 
     return new_clauses
+
 
 # Scan the clauses and return a list of pure literals.
 def get_pure_literals(clauses, verbose):
@@ -281,13 +285,11 @@ def r_solve(initial_t_vals, initial_partial, current_var, clauses, vars, verbose
                         print("new_clauses =", new_clauses)
                         print("partial assignment: ", partial)
                         print("t_vals: ", t_vals)
-                        print()
-                        print("DPLL SOLVE(): Solution:", partial)
+                        print("\nDPLL SOLVE(): Solution:", partial)
             
                     return True
                 # If False, dont waste anymore time on this branch.
                 elif result == False:
-
                     if verbose:
                         print("Backing up...") 
 

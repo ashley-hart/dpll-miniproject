@@ -43,10 +43,10 @@ def update_truthtable(truth_values, partial, var, clauses, verbose):
         temp = []
     
     if verbose:
-        print("OG T_vals:", truth_values)
-        print("partial: ",partial)
-        print("var = ",var)
-        print(new_vals)
+        print("UPDATE_TRUTHTABLE: Original t_vals:", truth_values)
+        print("UPDATE_TRUTHTABLE: partial:",partial)
+        print("UPDATE_TRUTHTABLE: var = ",var)
+        print("UPDATE_TRUTHTABLE: New t_vals:", truth_values)
 
     return new_vals
             
@@ -66,9 +66,8 @@ def reduce_t_vals(clauses, partial, t_vals, verbose):
             temp = []
 
     if verbose:
-            print("TRIM T_VALS(): Given clauses:", clauses)
-            print("new_vals: ", new_vals)
-            print()
+        print("REDUCE_T_VALS(): Given clauses:", clauses)
+        print("REDUCE_T_VALS(): new_vals: ", new_vals)
 
     return new_vals    
 
@@ -89,7 +88,6 @@ def get_pure_literals(clauses, verbose):
             pure.append(l)
 
     if verbose:
-        
         print("GET_PURE_LITS(): given literals: ", lits)
         print("GET_PURE_LITS(): pure literals: ", pure)
 
@@ -148,10 +146,10 @@ def solve(problem):
 # Returns True if SAT or False if all options are exhausted.
 def r_solve(initial_t_vals, initial_partial, num_vars, current_var, clauses, verbose):
         
-    partial = [partial for partial in initial_partial]
-    result = None
-    new_clauses = clauses
     t_vals = [[t_val for t_val in c] for c in initial_t_vals]
+    partial = [partial for partial in initial_partial]
+    new_clauses = clauses
+    result = None
 
     if verbose: 
         print()
@@ -230,8 +228,7 @@ def r_solve(initial_t_vals, initial_partial, num_vars, current_var, clauses, ver
                         print("new_clauses =", new_clauses)
                         print("partial assignment: ", partial)
                         print("t_vals: ", t_vals)
-                        print()
-                        print("LIT_ELIM SOLVE(): Solution:", partial)
+                        print("\nLIT_ELIM SOLVE(): Solution:", partial)
             
                     return True
                 # If False, dont waste anymore time on this branch.

@@ -53,27 +53,24 @@ def update_truthtable(truth_values, partial, var, clauses, verbose):
 
 def reduce_t_vals(clauses, partial, t_vals, verbose):
 
-        new_vals = []
-        temp = []
+    new_vals = []
+    temp = []
 
-        for i in range(0, len(clauses)):
-                for j in range(0, len(clauses[i])):
-                        index = abs(clauses[i][j])
+    for i in range(0, len(clauses)):
+            for j in range(0, len(clauses[i])):
+                    if clauses[i][j] > 0:
+                            temp.append(partial[abs(clauses[i][j]) - 1])
+                    elif clauses[i][j]:
+                            temp.append(not partial[abs(clauses[i][j]) - 1])
 
-                        if clauses[i][j] > 0:
-                                temp.append(partial[abs(clauses[i][j]) - 1])
-                        elif clauses[i][j]:
-                                temp.append(not partial[abs(clauses[i][j]) - 1])
+            new_vals.append(temp)
+            temp = []
 
-                new_vals.append(temp)
-                temp = []
+    if verbose:
+        print("REDUCE_T_VALS(): Given clauses:", clauses)
+        print("REDUCE_T_VALS(): new_vals: ", new_vals)
 
-        if verbose:
-                print("TRIM T_VALS(): Given clauses:", clauses)
-                print("new_vals: ", new_vals)
-                print()
-
-        return new_vals
+    return new_vals
 
 
 # Reduces clauses based on a literal if possible.
@@ -136,7 +133,6 @@ def solve(problem):
 
 # Returns True if SAT or False if all options are exhausted.
 def r_solve(initial_t_vals, initial_partial, current_var, clauses, vars, verbose):
-        
     t_vals = [[t_val for t_val in c] for c in initial_t_vals]
     partial = [partial for partial in initial_partial]
     new_clauses = clauses

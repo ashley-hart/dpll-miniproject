@@ -109,7 +109,7 @@ class Problem:
                 print("PARSE_FILE(): Finished parsing: ", self.filename)
                 print("=======================================================================")
 
-
+    # Print acquired data for debugging purposes.
     def pretty_print(self):
         print("p ", self.format_type, " ", self.num_vars, " ", self.num_clauses)
         for value in self.clauses:

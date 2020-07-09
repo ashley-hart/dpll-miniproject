@@ -145,7 +145,7 @@ def unit_propagation(clauses, literal, verbose):
     return new_clauses
 
 
-# Scan the clauses and return a list of pure literals.
+# Scans the clauses and returns a list of pure literals.
 def get_pure_literals(clauses, verbose):
     lits = []
     pure = []
@@ -163,11 +163,11 @@ def get_pure_literals(clauses, verbose):
 
     return pure
 
+
 # Reduce clauses based on pure literal elimination.
 # Returns a reduced clause set. If no reductions are possible, 
 # the original data will be returned.
 def literal_elimination(clauses, pure, assignment, verbose):
-
     new_clauses = [[lit for lit in c] for c in clauses]
 
     # Strip clauses
@@ -185,7 +185,7 @@ def literal_elimination(clauses, pure, assignment, verbose):
 
     return new_clauses
 
-
+# Solve the problem with DPLL implemented with a watchlist.
 def solve(problem):
 
     literals = []
@@ -262,7 +262,6 @@ def dpll(watchlist, clauses, assignment, literals, variables, curr_var,  verbose
     if None not in assignment:
         return SAT_check(clauses,assignment, verbose)
 
-
     for a in [True, False]:
         assignment[curr_var] = a
 
@@ -271,8 +270,6 @@ def dpll(watchlist, clauses, assignment, literals, variables, curr_var,  verbose
         else:
             false_literal = abs(variables[curr_var])
 
-
-        # result = SAT_check(clauses, assignment, verbose)
         result = SAT_check(new_clauses, assignment, verbose)
 
         if verbose:

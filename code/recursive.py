@@ -24,6 +24,7 @@ def clause_check(t_vals, verbose):
     return is_SAT
 
 
+# Updates truth value set under a given assignment.
 def update_truthtable(truth_values, partial, var, clauses, verbose):
 
     new_vals: list = []
@@ -37,7 +38,6 @@ def update_truthtable(truth_values, partial, var, clauses, verbose):
                     temp.append(not partial[var])
                 else: 
                     temp.append(partial[var])
-
             else:
                 temp.append(truth_values[i][j])
 
@@ -132,8 +132,7 @@ def r_solve(initial_t_vals, initial_partial, current_var, clauses, vars, verbose
                         print("new_clauses =", new_clauses)
                         print("partial assignment: ", partial)
                         print("t_vals: ", t_vals)
-                        print()
-                        print("DPLL SOLVE(): Solution:", partial)
+                        print("\nRECURSIVE SOLVE(): Solution:", partial)
             
                     return True
                 # If False, dont waste anymore time on this branch.
