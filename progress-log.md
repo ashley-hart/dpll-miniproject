@@ -170,19 +170,19 @@
    - DEADLINE FOR TITLE SUBMISSION.
    - Ph.D. Student Meeting @ 9AM
    - Meeting with Mitch @ 12PM
-   - (TODO) Set up UVA portal for heavier code testing.
-   - (TODO) TEST! TEST! TEST!
+   - Set up UVA portal for heavier code testing.
+   - TEST! TEST! TEST!
    
    #### July 9th, 2020
    - Meeting with Soneya @ 4PM
-   - Squash bugs.
-   - Work on abstract
+   - Squashed bugs & code cleanup.
+   - Worked on abstract.
+   - Found more CNF files.
+   - Sent abstracts out for feedback.
+   - Registered for virtual LANS
    
    #### July 10th, 2020
    - Meeting with Matt @ 11AM
+   - (TODO) Set up a sheet to log times for each implemntation. Take the average after several runs for spreadsheet.
    - Demonstrate each verison of the tool with a set of benchmarks
-   - Submit a draft of the abstract to Dr. Dwyer
    
-   
-   
- 
