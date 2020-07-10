@@ -182,7 +182,31 @@
    - Registered for virtual LANS
    
    #### July 10th, 2020
-   - Meeting with Matt @ 11AM
-   - (TODO) Set up a sheet to log times for each implemntation. Take the average after several runs for spreadsheet.
-   - Demonstrate each verison of the tool with a set of benchmarks
+   - Meeting with Matt @ 11AM --> demonstrated code
+   - Set up a sheet to log times for each implemntation.
+   - Runtime enchancements made to dpll_watchlist.py
+   - Revised abstract
    
+  ### WEEK 7
+  #### July 13th, 2020
+  - ABSTRACT DUE TODAY 
+  - Final abstract revisions
+  - Meeting with Matt @ 3PM
+  - (TODO) Make unit propagation and lit. elim. exhaustive
+  - (TODO) Refactor code --> consolidate and begin fixing argument processing w/ Python's argsparse library
+  
+  #### July 14th, 2020
+  - Finish refactoring, do more data collection.
+  
+  #### July 15th, 2020
+  - Meeting with Mitch @ 12PM
+  - Start thinking about your slide deck.
+  - Leadership Alliance workshop
+  
+  #### July 16th, 2020
+  - Meeting with Soneya 
+  - UVA Virtual Recruitment Fair @ 3P
+  
+  #### July 17th, 2020
+  - Meeting with Matt?
+  - 
