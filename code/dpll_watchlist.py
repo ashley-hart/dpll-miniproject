@@ -74,28 +74,6 @@ def update_watchlist(watchlist, literals, variables, assignment, false_literal, 
 
     return True
 
-
-# Reduce clauses based on pure literal elimination.
-# Returns a reduced clause set. If no reductions are possible, 
-# the original data will be returned.
-def literal_elimination(clauses, pure, assignment, verbose):
-    new_clauses = [[lit for lit in c] for c in clauses]
-
-    # Strip clauses
-    for lit in pure:
-        # print("lit =", lit)
-        for c in clauses:
-            # print(c)
-            if lit in c:
-                if len(clauses) == 1:
-                    new_clauses = []
-                else:
-                    # print("Removing: ", c)
-                    new_clauses.remove(c)
-        clauses = new_clauses
-
-    return new_clauses
-
 # Solve the problem with DPLL implemented with a watchlist.
 def solve(problem):
 
@@ -173,4 +151,3 @@ def dpll(watchlist, clauses, assignment, literals, variables, curr_var,  verbose
 
     return False
                 
-
