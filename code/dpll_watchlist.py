@@ -74,95 +74,6 @@ def update_watchlist(watchlist, literals, variables, assignment, false_literal, 
 
     return True
 
-# Checks if truth values are SAT or UNSAT.
-def clause_check(t_vals, verbose):
-    is_SAT: bool = True
-
-    for c in t_vals:
-        if True in c:
-            continue
-        elif None in c: 
-            is_SAT = None
-            continue    
-        else:   
-            is_SAT = False
-            break
-
-    if verbose: 
-        print("CLAUSE_CHECK(): Given", t_vals)
-        print("CLAUSE_CHECK(): Returning", is_SAT)
-
-    return is_SAT
-
-# Sets up the truth values and passes them to clause check.
-def SAT_check(clauses, assignment, verbose):
-    t_vals = []
-    temp = []
-
-    for c in clauses:
-        for lit in c:
-            if assignment[abs(lit) - 1] == True:
-                if lit > 0:
-                    temp.append(True)
-                if lit < 0:
-                    temp.append(False)
-            elif assignment[abs(lit) - 1] == False: 
-                if lit > 0:
-                    temp.append(False)
-                if lit < 0:
-                    temp.append(True)
-            else:
-                temp.append(None)
-
-        t_vals.append(temp)
-        temp = []
-    
-    return clause_check(t_vals, verbose)
-
-
-# Reduces clauses based on unit propogation.
-def unit_propagation(clauses, literal, verbose):
-
-    new_clauses = []
-    temp = []
-
-    for c in clauses: 
-
-        if literal in c and len(c) > 1:     
-            continue
-        elif (literal * -1) in c and len(c) > 1:
-
-            for lit in c:
-                if lit != (literal * -1):
-                    temp.append(lit)
-        else:
-        #     temp = copy.deepcopy(c)
-                temp = [lit for lit in c]
-
-        new_clauses.append(temp)
-        temp = []
-
-    return new_clauses
-
-
-# Scans the clauses and returns a list of pure literals.
-def get_pure_literals(clauses, verbose):
-    lits = []
-    pure = []
-
-    # Scan clauses and toss in every literal.
-    for c in clauses:
-        for lit in c:
-            if lit not in lits:
-                lits.append(lit)
-
-    # Check for purity and add to pure list
-    for l in lits:
-        if (l * -1) not in lits:
-            pure.append(l)
-
-    return pure
-
 
 # Reduce clauses based on pure literal elimination.
 # Returns a reduced clause set. If no reductions are possible, 
@@ -227,40 +138,10 @@ def solve(problem):
 
 def dpll(watchlist, clauses, assignment, literals, variables, curr_var,  verbose):
 
-    false_literal = 0
-    new_clauses = clauses
+    new_wl = [[lit for lit in c] for c in watchlist]
 
-    if curr_var != 0:
-
-        if assignment[curr_var - 1] == True:
-                new_clauses = unit_propagation(clauses, (variables[curr_var - 1]), verbose)
-        elif assignment[curr_var - 1] == False:
-                new_clauses = unit_propagation(clauses, (variables[curr_var - 1] * -1), verbose)
-            
-    if [] in new_clauses:
-        return False 
-
-    
-    # Attempt to reduce before we try to choose assignments.
-    pure_lits = get_pure_literals(clauses, verbose)
-
-    # If a pure literal is found, do the following:
-    if pure_lits != []:
-
-        # Reduce clause set.
-        new_clauses = literal_elimination(clauses, pure_lits, assignment, verbose)
-
-        # Reduce clause set and update assignment for every pure lit we have. 
-        # If we get an empty list back, return True.
-        if new_clauses == []:
-            return True
-
-    # NOTE: Might be uneccessary.
-    # if curr_var == (len(variables)):
+    # if None not in assignment:
     #     return SAT_check(clauses,assignment, verbose)
-
-    if None not in assignment:
-        return SAT_check(clauses,assignment, verbose)
 
     for a in [True, False]:
         assignment[curr_var] = a
@@ -270,28 +151,25 @@ def dpll(watchlist, clauses, assignment, literals, variables, curr_var,  verbose
         else:
             false_literal = abs(variables[curr_var])
 
-        result = SAT_check(new_clauses, assignment, verbose)
-
         if verbose:
             print("false_literal:", false_literal)
             print("assignment:", assignment)
             print("curr_var:", curr_var)
 
-        # If we find a satisfiyng argument then we don't need to go any further
-        if result == True:
-            return True
-        # If it is unknown if our assignment is SAT or UNSAT then we check if we can 
-        # update our watchlist and try to make another call.
-        elif result == None:
-            # If we can update our watchlist then we still have a working assignment
-            if update_watchlist(watchlist, literals, variables, assignment, false_literal, curr_var, clauses, False):
-                if dpll(watchlist, clauses, assignment, literals, variables, curr_var + 1, verbose) is True:
-                    return True
-                else: 
-                    assignment[curr_var] = None
-        # If we know our assignment is UNSAT, try the other option before failing out.
-        else:
+        update_watchlist(new_wl, literals, variables, assignment, false_literal, curr_var, clauses, verbose)
+
+        if new_wl[literals.index(false_literal)] != []:
             assignment[curr_var] = None
+            continue
+
+        if None not in assignment:
+            return True
+
+        if dpll(new_wl, clauses, assignment, literals, variables, curr_var + 1,  verbose):
+            return True
+
+        assignment[curr_var] = None
+        new_wl = [[lit for lit in c] for c in watchlist]
 
     return False
                 
