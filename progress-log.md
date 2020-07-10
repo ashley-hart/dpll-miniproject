@@ -209,4 +209,3 @@
   
   #### July 17th, 2020
   - Meeting with Matt?
-  - 
