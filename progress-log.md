@@ -191,12 +191,15 @@
   #### July 13th, 2020
   - ABSTRACT DUE TODAY 
   - Final abstract revisions
-  - Meeting with Matt @ 3PM
-  - (TODO) Make unit propagation and lit. elim. exhaustive
-  - (TODO) Refactor code --> consolidate and begin fixing argument processing w/ Python's argsparse library
+  - Meeting with Matt @ 3PM --> got ideas for slides 
+  - Made unit propagation and literal elimination exhaustive
+  - Refactored code --> created master solver with control system.
   
   #### July 14th, 2020
-  - Finish refactoring, do more data collection.
+  - (TODO) Finish refactoring, do more data collection.
+  - (TODO) Look into what's slowing down the literal elimination implementation
+  - (TODO) Improve argument processing w/ Python's argsparse library
+  - (TODO) Collect data --> fill a spreadsheet.
   
   #### July 15th, 2020
   - Meeting with Mitch @ 12PM
@@ -208,4 +211,4 @@
   - UVA Virtual Recruitment Fair @ 3P
   
   #### July 17th, 2020
-  - Meeting with Matt?
+  - Meeting with Matt @ 11AM
