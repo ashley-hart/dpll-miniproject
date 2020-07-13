@@ -2,14 +2,10 @@
 # UVA Summer Research Project
 # DPLL-SAT Solver Miniproject
 
-import time
-import dpll
 import dpll_watchlist
-import lit_elim
-import recursive
 import sys 
-import unit_prop
 import sat_solver
+import time
 from problem import Problem
 
 class Solver:
@@ -34,7 +30,6 @@ class Solver:
         self.verbose = problem.verbose
 
     def solve(self):
-        dpll_w_SAT: bool = False
 
         # Determines if we do a clause reduction per call.
         do_CR = None 
@@ -49,6 +44,7 @@ class Solver:
         if self.flag == "--recursive" or self.flag == "-r":
             if self.verbose: 
                 print("--recursive flag recieved")
+
             do_CR = True
             do_UP = False
             do_PLE = False
@@ -60,7 +56,6 @@ class Solver:
             do_CR = True
             do_UP = True
             do_PLE = False
-
         # Use pure literal elimination approach. 
         elif self.flag == "--lit-elim" or self.flag == "-l":
             if self.verbose:
@@ -69,7 +64,6 @@ class Solver:
             do_CR = True
             do_UP = False
             do_PLE = True
-
         # Use DPLL algorithm approach.
         elif self.flag == "--dpll" or self.flag == "-d":
             if self.verbose:
@@ -78,19 +72,12 @@ class Solver:
             do_CR = True
             do_UP = True
             do_PLE = True
-
         # Use DPLL with watchlist approach.
         elif self.flag == "--dpll-w" or self.flag == "-dw":
             if self.verbose:
                 print("--dpll-w flag recieved")
 
             return dpll_watchlist.solve(self.problem)
-
-            # if self.silent:
-            #     if dpll_w_SAT == False: 
-            #         print("DPLL w/ watchlist approach failed to find a solution.")
-            #     else: 
-            #         print("DPLL w/ watchlist approach found a solution.")
         else:
             flag_input = str(self.flag)
             print("Given flag: *" + flag_input + "*")
@@ -99,14 +86,15 @@ class Solver:
         return sat_solver.solve(self.problem, do_CR, do_UP, do_PLE)
 
 
+# TODO: Simplify with Python's argparse library
 def main():
-
     flag = ""
+
+    # Output contollers - Silence enabled by default
     verbose = False
     silent = True
 
     # Process command line arguments
-    # Silence enabled by default
     if len(sys.argv) == 2:
         filename = sys.argv[1]
     elif len(sys.argv) == 3:
@@ -153,6 +141,7 @@ def main():
         result = "SAT"
     else:
         result = "UNSAT"
+        
     print("[SAT_SOLVER]: " + result)
     print("[SAT_SOLVER]: Solving took " + solve_time + " seconds")
 
