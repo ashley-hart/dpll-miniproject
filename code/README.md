@@ -39,18 +39,6 @@
 ### problem.py
    Contains all data pertaining to the problem and handles file parsing upon initialization. More information to come.
    This class replaces parser.py.
-   
-### recursive.py 
-   Implementation of a simple recursive SAT solver. Accessed with `--recursive` or its shorthand flag
-   
-### unit_prop.py
-   Implementation of a recursive SAT solver optimized with unit propagation. Accessed with `--unit-prop` or its shorthand flag.
-   
-### lit_elim.py 
-   Implementation of a recursive SAT solver optimized with pure literal elimination. Accessed with `--lit-elim` or its shorthand flag.
-
-### dpll.py
-   Implementation of a recursive SAT solver optimized with unit propagation and pure literal elimination. The solver will default to this method if no flag is given.
 
 ### dpll_watchlist.py
    This is the dpll algorithim optimized with a watchlist implementation.
