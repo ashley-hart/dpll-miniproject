@@ -112,7 +112,7 @@ def solve(problem):
     vars: list = []
     
     if verbose:
-        print("\n\nDPLL SOLVE(): Attempting to satisfy the problem...")
+        print("\n\nUNIT PROP SOLVE(): Attempting to satisfy the problem...")
         print("=======================================================================")
 
     for i in range(0, problem.num_vars):
@@ -122,13 +122,24 @@ def solve(problem):
     for i in range(0, problem.num_vars):
         partial.append(None)
 
+    # print("vars:", vars)
     is_sat = r_solve(truth_values, partial, current_var, problem.clauses, vars, problem.verbose)
 
     if verbose:
-        print("DPLL SOLVE(): Returning", is_sat)
+        print("UNIT PROP SOLVE(): Returning", is_sat)
         print("=======================================================================")
 
     return is_sat
+
+def get_unit_clauses(clauses, vars, partial):
+    unit_clauses = []
+    
+    for c in clauses:
+        index = vars.index(abs(c[0]))
+        if len(c) == 1 and partial[index] == None:
+            unit_clauses.append(c)
+
+    return unit_clauses
 
 
 # Returns True if SAT or False if all options are exhausted.
@@ -139,11 +150,29 @@ def r_solve(initial_t_vals, initial_partial, current_var, clauses, vars, verbose
     result = None
 
    # Shrink clauses based on a previous assignment with unit propagation
-    if current_var != 0:
-        if partial[current_var - 1] == True:
-            new_clauses = unit_propagation(clauses, (vars[current_var - 1]), verbose)
-        elif partial[current_var - 1] == False:
-            new_clauses = unit_propagation(clauses, (vars[current_var - 1] * -1), verbose)
+    unit_clauses = get_unit_clauses(new_clauses, vars, partial)
+
+    while unit_clauses:
+        c = unit_clauses[0]
+        print("c[0]:", c[0])
+        index = vars.index(abs(c[0]))
+        print("index:",index)
+        print("FOUND UNIT CLAUSES: ", unit_clauses)
+        print(partial[index])
+
+        new_clauses = unit_propagation(new_clauses, c[0], verbose)
+
+        if c[0] > 0:
+            partial[index] = True
+        else:
+            partial[index] = False
+
+        print("partial updated in UP:", partial)
+
+        del unit_clauses[0]
+
+        unit_clauses = get_unit_clauses(new_clauses, vars, partial)
+
         
     if [] in new_clauses:
         return False 
@@ -159,11 +188,12 @@ def r_solve(initial_t_vals, initial_partial, current_var, clauses, vars, verbose
     # assign values to any remaining unassigned variables.
     for i in range(0, len(partial)):
         if partial[i] == None:
-
             # We will try to push true and false onto this for every variable.     
             for a in [True, False]:
 
                 partial[i] = a
+
+                # TRY AND REDUCE CLAUSES BASED ON CURRENT ASSIGNMENT??
 
                 # Define new truth values under partial assignment w/ potentially reduced clauses.
                 t_vals = update_truthtable(t_vals, partial, current_var, new_clauses, verbose)
@@ -174,13 +204,11 @@ def r_solve(initial_t_vals, initial_partial, current_var, clauses, vars, verbose
                     return True
                 # If False, dont waste anymore time on this branch.
                 elif result == False:
-
                     if verbose:
                         print("Backing up...") 
 
                     partial[i] = None
                     continue
-
                 # If None, descend into another call.
                 else: 
                     if verbose:
@@ -188,7 +216,6 @@ def r_solve(initial_t_vals, initial_partial, current_var, clauses, vars, verbose
 
                     if r_solve(t_vals, partial, current_var + 1, new_clauses, vars, verbose) is True:
                         return True
-
                     # Try other option. Don't waste time updating values if we've 
                     elif a != False:
                         partial[i] = None
