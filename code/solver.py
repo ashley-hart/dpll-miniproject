@@ -9,6 +9,7 @@ import lit_elim
 import recursive
 import sys 
 import unit_prop
+import sat_solver
 from problem import Problem
 
 class Solver:
@@ -32,143 +33,7 @@ class Solver:
         self.problem = problem
         self.verbose = problem.verbose
 
- 
-    # Controls which solving approches will be used.
-    def old_solve(self):
-
-        recur_SAT: bool = False
-        up_SAT: bool = False
-        le_SAT: bool = False
-        dpll_SAT: bool = False
-        dpll_w_SAT: bool = False
-
-        if self.verbose:
-            print("\nSOLVER: Attempting to solve " + self.filename)
-            print("=======================================================================")
-
-        if self.verbose: 
-            if self.flag == "":
-                print("flag: NO FLAG GIVEN")
-            else:
-                print("flag: *" + self.flag + "*")
-
-        # If no flag is given solver defaults to DPLL.
-        if self.flag == "":
-            self.flag = "--dpll"
-
-        # Use recursive approach.
-        if self.flag == "--recursive" or self.flag == "-r":
-            if self.verbose: 
-                print("--recursive flag recieved")
-
-            recur_SAT = recursive.solve(self.problem)
-
-            if self.silent:
-                if recur_SAT == False: 
-                    print("Recursive approach failed to find a solution.")
-                else:
-                    print("Recursive approach found a solution.")
-
-        # Use unit propagation approach.
-        elif self.flag == "--unit-prop" or self.flag == "-u":
-            if self.verbose:
-                print("--unit-prop flag received")
-
-            up_SAT = unit_prop.solve(self.problem)
-
-            if self.silent:
-                if up_SAT == False: 
-                    print("Unit propagation approach failed to find a solution.")
-                else: 
-                    print("Unit propagation approach found a solution.")
-
-        # Use pure literal elimination approach. 
-        elif self.flag == "--lit-elim" or self.flag == "-l":
-            if self.verbose:
-                print("--lit-elim flag receieved")
-
-            le_SAT = lit_elim.solve(self.problem)
-
-            if self.silent:
-                if le_SAT == False: 
-                    print("Pure literal elimination approach failed to find a solution.")
-                else: 
-                    print("Pure literal elimination approach found a solution.")
-
-        # Use DPLL algorithm approach.
-        elif self.flag == "--dpll" or self.flag == "-d":
-            if self.verbose:
-                print("--dpll flag recieved")
-
-            dpll_SAT = dpll.solve(self.problem)
-
-            if self.silent:
-                if dpll_SAT == False: 
-                    print("DPLL approach failed to find a solution.")
-                else: 
-                    print("DPLL approach found a solution.")
-
-        # Use DPLL with watchlist approach.
-        elif self.flag == "--dpll-w" or self.flag == "-dw":
-            if self.verbose:
-                print("--dpll-w flag recieved")
-
-            dpll_w_SAT = dpll_watchlist.solve(self.problem)
-
-            if self.silent:
-                if dpll_w_SAT == False: 
-                    print("DPLL w/ watchlist approach failed to find a solution.")
-                else: 
-                    print("DPLL w/ watchlist approach found a solution.")
-
-        # Use everything.        
-        elif self.flag == "--all" or self.flag == "-a":
-            if self.verbose:
-                print("--all flag recieved")
-                print("Using all of the methods.")
-
-            recur_SAT = recursive.solve(self.problem)
-            up_SAT = unit_prop.solve(self.problem)
-            le_SAT = lit_elim.solve(self.problem)
-            dpll_SAT = dpll.solve(self.problem)
-            dpll_w_SAT = dpll_watchlist.solve(self.problem)
-
-            if self.silent:
-                if recur_SAT == False: 
-                    print("Recursive approach failed to find a solution.")
-                else: 
-                    print("Recursive approach found a solution.")
-
-                if up_SAT == False: 
-                    print("Unit propagation approach failed to find a solution.")
-                else: 
-                    print("Unit propagation approach found a solution.")
-                
-                if le_SAT == False:
-                    print("Pure literal elimination approach failed to find a solution.")
-                else:
-                    print("Pure literal elimination approach found a solution.")
-
-                if dpll_SAT == False: 
-                    print("DPLL approach failed to find a solution.")
-                else: 
-                    print("DPLL approach found a solution.")
-
-                if dpll_w_SAT == False: 
-                    print("DPLL w/ watchlist approach failed to find a solution.")
-                else: 
-                    print("DPLL w/ watchlist approach found a solution.")
-        else:
-            flag_input = str(self.flag)
-            print("Given flag: *" + flag_input + "*")
-            print("Flag not recognized. Please verify your input.")    
-
     def solve(self):
-
-        # recur_SAT: bool = False
-        # up_SAT: bool = False
-        # le_SAT: bool = False
-        # dpll_SAT: bool = False
         dpll_w_SAT: bool = False
 
         # Determines if we do a clause reduction per call.
@@ -219,19 +84,19 @@ class Solver:
             if self.verbose:
                 print("--dpll-w flag recieved")
 
-            dpll_w_SAT = dpll_watchlist.solve(self.problem)
+            return dpll_watchlist.solve(self.problem)
 
-            if self.silent:
-                if dpll_w_SAT == False: 
-                    print("DPLL w/ watchlist approach failed to find a solution.")
-                else: 
-                    print("DPLL w/ watchlist approach found a solution.")
+            # if self.silent:
+            #     if dpll_w_SAT == False: 
+            #         print("DPLL w/ watchlist approach failed to find a solution.")
+            #     else: 
+            #         print("DPLL w/ watchlist approach found a solution.")
         else:
             flag_input = str(self.flag)
             print("Given flag: *" + flag_input + "*")
             print("Flag not recognized. Please verify your input.")    
 
-        return 
+        return sat_solver.solve(self.problem, do_CR, do_UP, do_PLE)
 
 
 def main():
@@ -281,10 +146,18 @@ def main():
     is_SAT = s.solve()
     end = time.time()
     solve_time = str(round((end-start), 5))
-    print("solving took: "+solve_time+" seconds")
+
+    result = ""
+
+    if is_SAT:
+        result = "SAT"
+    else:
+        result = "UNSAT"
+    print("[SAT_SOLVER]: " + result)
+    print("[SAT_SOLVER]: Solving took " + solve_time + " seconds")
 
     if verbose:
-        print("SOLVER(): Terminating process.")
+        print("[SAT_SOLVER]: Terminating process")
 
 if __name__ == "__main__":
     main()

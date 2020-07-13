@@ -118,8 +118,8 @@ def dpll(watchlist, clauses, assignment, literals, variables, curr_var,  verbose
 
     new_wl = [[lit for lit in c] for c in watchlist]
 
-    # if None not in assignment:
-    #     return SAT_check(clauses,assignment, verbose)
+    # TODO: ADD UNIT PROPAGATION
+    # TODO: ADD PURE LITERAL ELIMINATION
 
     for a in [True, False]:
         assignment[curr_var] = a
