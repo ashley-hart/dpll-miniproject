@@ -189,25 +189,26 @@
    
   ### WEEK 7
   #### July 13th, 2020
-  - ABSTRACT DUE TODAY 
-  - Final abstract revisions
+  - ABSTRACT DUE TODAY --> SUBMITTED
   - Meeting with Matt @ 3PM --> got ideas for slides 
   - Made unit propagation and literal elimination exhaustive
-  - Refactored code --> created master solver with control system.
+  - Refactored code --> created master solver with control system
   
   #### July 14th, 2020
   - (TODO) Finish refactoring, do more data collection.
   - (TODO) Look into what's slowing down the literal elimination implementation
+  - (TODO) Add unit prop. and lit elim. to watchlist solver
   - (TODO) Improve argument processing w/ Python's argsparse library
-  - (TODO) Collect data --> fill a spreadsheet.
+  - (TODO) Update bench-runner.py --> automate the process of data collection
+  - (TODO) Collect data --> fill a spreadsheet
   
   #### July 15th, 2020
   - Meeting with Mitch @ 12PM
-  - Start thinking about your slide deck.
+  - Start thinking about your slide deck
   - Leadership Alliance workshop
   
   #### July 16th, 2020
-  - Meeting with Soneya 
+  - Meeting with Soneya - TIME TBD
   - UVA Virtual Recruitment Fair @ 3P
   
   #### July 17th, 2020
