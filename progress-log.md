@@ -195,12 +195,10 @@
   - Refactored code --> created master solver with control system
   
   #### July 14th, 2020
-  - (TODO) Finish refactoring, do more data collection.
-  - (TODO) Look into what's slowing down the literal elimination implementation
-  - (TODO) Add unit prop. and lit elim. to watchlist solver
-  - (TODO) Improve argument processing w/ Python's argsparse library
-  - (TODO) Update bench-runner.py --> automate the process of data collection
-  - (TODO) Collect data --> fill a spreadsheet
+  - Finish refactoring, do more data collection.
+  - Looked into what's slowing down the literal elimination implementation
+  - Added unit prop. and lit elim. to watchlist solver --> improve this
+  - Collected data and made a spreadsheet
   
   #### July 15th, 2020
   - Meeting with Mitch @ 12PM
@@ -208,6 +206,7 @@
   - Leadership Alliance workshop
   
   #### July 16th, 2020
+  - (TODO) Improve argument processing w/ Python's argsparse library
   - Meeting with Soneya - TIME TBD
   - UVA Virtual Recruitment Fair @ 3P
   
