@@ -76,6 +76,52 @@ def reduce_t_vals(clauses, partial, t_vals, verbose):
 
     return new_vals
 
+# Reduce a clause set based on the presence of a pure literal.
+# Tries to remove clauses from the clause set. USed by pure literal elimination.
+def reduce_clause_set(clauses, pure_lit, partial, verbose):
+    # new_clauses = [[lit for lit in c] for c in clauses]
+
+    for c in clauses:
+        if pure_lit in c:
+            if len(clauses) == 1:
+                clauses = []
+            else:
+                clauses.remove(c)
+
+    if verbose:
+        print("REDUCE_CLAUSE_SET(): Reducing on pure literal",  pure_lit)
+        print("REDUCE_CLAUSE_SET(): Returning:", clauses)
+
+    return clauses
+
+# Reduce the clause set based on the assigned value of a literal.
+# Makes individual clauses "shorter." Used by unit propagation and recursive reduction.
+def remove_literal(clauses, literal, partial, verbose):
+
+    new_clauses = []
+    temp = []
+
+    # Strip clauses
+    for c in clauses:
+            # If same assignment then remove clause
+        if literal in c:
+            continue
+        for lit in c:
+            # If opposing assignment, then remove literal
+            if lit == (literal * -1):
+                continue
+            else:
+                temp.append(lit)
+
+        new_clauses.append(temp)
+        temp = []
+   
+    if verbose:
+        print("RM_LITERAL(): Reduction based on:", literal)
+        print("RM_LITERAL(): Returning", new_clauses)
+
+    return new_clauses
+
 # Returns all unit clauses that have yet to be satisfied.
 def get_unit_clauses(clauses, vars, partial, verbose):
     unit_clauses = []
@@ -139,47 +185,13 @@ def unit_propagation(clauses, vars, partial, verbose):
 
     return new_clauses
 
-# Reduce the clause set based on the assigned value of a literal.
-# Makes individual clauses "shorter." Used by unit propagation and recursive reduction.
-def remove_literal(clauses, literal, partial, verbose):
-
-    new_clauses = []
-    temp = []
-
-    # Strip clauses
-    for c in clauses:
-            # If same assignment then remove clause
-        if literal in c:
-            continue
-        for lit in c:
-            # If opposing assignment, then remove literal
-            if lit == (literal * -1):
-                continue
-            else:
-                temp.append(lit)
-
-        new_clauses.append(temp)
-        temp = []
-   
-    if verbose:
-        print("RM_LITERAL(): Reduction based on:", literal)
-        print("RM_LITERAL(): Returning", new_clauses)
-
-    return new_clauses
-
 # Scan the clauses and return a list of pure literals.
-def get_pure_literals(clauses, vars, partial, verbose):
+def get_pure_literals(clauses, vars, literals, partial, verbose):
     lits = []
     pure = []
 
-    # Scan clauses and toss in every literal.
-    for c in clauses:
-        for lit in c:
-            if lit not in lits:
-                lits.append(lit)
-
     # Check for purity and add to pure list
-    for l in lits:
+    for l in literals:
         index = vars.index(abs(l))
         if (l * -1) not in lits and partial[index] == None:
             pure.append(l)
@@ -190,70 +202,53 @@ def get_pure_literals(clauses, vars, partial, verbose):
 
     return pure
 
-# Reduce a clause set based on the presence of a pure literal.
-# Tries to remove clauses from the clause set. USed by pure literal elimination.
-def reduce_clause_set(clauses, pure_lit, partial, verbose):
-    new_clauses = [[lit for lit in c] for c in clauses]
-
-    for c in clauses:
-        if pure_lit in c:
-            if len(clauses) == 1:
-                new_clauses = []
-            else:
-                new_clauses.remove(c)
-
-    if verbose:
-        print("REDUCE_CLAUSE_SET(): Reducing on pure literal",  pure_lit)
-        print("REDUCE_CLAUSE_SET(): Returning:", new_clauses)
-
-    return new_clauses
-
-
 # Perform pure literal elimination.
-def pure_literal_elimination(clauses, vars, partial, verbose):
+def pure_literal_elimination(clauses, vars, literals, partial, verbose):
 
     # Attempt to reduce before we try to choose assignments.
-    pure_lits = get_pure_literals(clauses, vars, partial, verbose)
+    pure_lits = get_pure_literals(clauses, vars, literals, partial, verbose)
 
-    new_clauses = [[lit for lit in c] for c in clauses]
+    # new_clauses = [[lit for lit in c] for c in clauses]
 
     while pure_lits:
         curr_lit = pure_lits[0]
-        # If a pure literal is found, do the following:
-        if pure_lits != []:
+        # If a pure literal is found, do the following reduce the clause set
+        clauses = reduce_clause_set(clauses, curr_lit, partial, verbose)
 
-            # Reduce clause set
-            new_clauses = reduce_clause_set(new_clauses, curr_lit, partial, verbose)
+        if curr_lit > 0:
+            partial[vars.index(abs(curr_lit))] = True
+        else:
+            partial[vars.index(abs(curr_lit))] = False
 
-            # Update partial based on pure literals.
-            for p in pure_lits:
-                if p > 0:
-                    partial[abs(p) - 1] = True
-                else: 
-                    partial[abs(p) - 1] = False
-        
         del pure_lits[0]
-        pure_lits = get_pure_literals(new_clauses, vars, partial, verbose)
+        pure_lits = get_pure_literals(clauses, vars, literals, partial, verbose)
 
-    return new_clauses
+    # return new_clauses
+    return clauses
 
+# Attemot to solve the problem.
 def solve(problem, do_CR, do_UP, do_PLE):
     truth_values = [[None for lit in c if lit != 0] for c in problem.clauses]
     partial: list = []
     vars: list = []
+    literals: list = []
     
     if problem.verbose:
         print("\n[SAT_SOLVER]: Attempting to satisfy the problem...")
         print("=======================================================================")
 
+    # Set up vars list and partial assignment
     for i in range(0, problem.num_vars):
         vars.append(i + 1)
-
-    # Set up partial assignment.
-    for i in range(0, problem.num_vars):
         partial.append(None)
 
-    is_sat = solve_helper(truth_values, partial, 0, problem.clauses, vars, do_CR, do_UP, do_PLE, problem.verbose)
+    # Scan clauses and toss in every literal.
+    for c in problem.clauses:
+        for lit in c:
+            if lit not in literals:
+                literals.append(lit)    
+
+    is_sat = solve_helper(truth_values, partial, 0, problem.clauses, vars, literals, do_CR, do_UP, do_PLE, problem.verbose)
 
     if problem.verbose:
         print("[SAT_SOLVER]: Returning", is_sat)
@@ -263,16 +258,17 @@ def solve(problem, do_CR, do_UP, do_PLE):
 
 
 # Returns True if SAT or False if UNSAT
-def solve_helper(initial_t_vals, initial_partial, current_var, clauses, vars, do_CR, do_UP, do_PLE, verbose):
+def solve_helper(initial_t_vals, initial_partial, current_var, clauses, vars, literals, do_CR, do_UP, do_PLE, verbose):
         
     t_vals = [[t_val for t_val in c] for c in initial_t_vals]
-    partial = [partial for partial in initial_partial]
+    # partial = [partial for partial in initial_partial]
     new_clauses = [[lit for lit in c] for c in clauses]
     result = None
 
     if verbose:
         print("\nNEW CALL")
         print("=============================================================")
+        print("partial:", initial_partial)
 
     # If enabled, perform pure literal elimination
     if do_UP:
@@ -294,7 +290,7 @@ def solve_helper(initial_t_vals, initial_partial, current_var, clauses, vars, do
             print("PURE LITERAL ELIMINATION")
             print("===========================")
  
-        new_clauses = pure_literal_elimination(new_clauses, vars, partial, verbose)
+        new_clauses = pure_literal_elimination(new_clauses, vars, literals, initial_partial, verbose)
 
         if new_clauses == []:
             return True
@@ -303,22 +299,24 @@ def solve_helper(initial_t_vals, initial_partial, current_var, clauses, vars, do
             print()
 
     # Match size of t-vals to new clauses
-    t_vals = reduce_t_vals(new_clauses, partial, t_vals, verbose)
+    t_vals = reduce_t_vals(new_clauses, initial_partial, t_vals, verbose)
     reduced_clauses = [[lit for lit in c] for c in new_clauses]
 
     # Base Case - Activated if we have a complete assignment.
-    if None not in partial:
+    if None not in initial_partial:
         if verbose:
-            print("\nBase Case - complete assignment recieved.")
+            print("\nBASE CASE - complete assignment recieved.")
+            print("partial:", initial_partial)
 
-        t_vals = reduce_t_vals(new_clauses, partial, t_vals, verbose)
+        t_vals = reduce_t_vals(new_clauses, initial_partial, t_vals, verbose)
         return clause_check(t_vals, verbose)
+
+    partial = [partial for partial in initial_partial]
 
     # Scan the partial assignment left to right and recursively try to
     # assign values to any remaining unassigned variables.
-    for i in range(0, len(partial)):
-        if partial[i] == None:
-
+    for i in range(0, len(initial_partial)):
+        if initial_partial[i] == None:
             # We will try to push true and false onto this for every variable.     
             for a in [True, False]:
 
@@ -329,6 +327,7 @@ def solve_helper(initial_t_vals, initial_partial, current_var, clauses, vars, do
                 else:
                     literal = vars[i] * -1
      
+                # If enabled, try to reduce the clauses as much as posisble. before descending recursively.
                 if do_CR:
                     # Try to reduce clauses with current assignment.
                     reduced_clauses = remove_literal(new_clauses, literal, partial, verbose)
@@ -371,7 +370,7 @@ def solve_helper(initial_t_vals, initial_partial, current_var, clauses, vars, do
                     if verbose:
                         print("Going down...")
 
-                    if solve_helper(t_vals, partial, current_var + 1, reduced_clauses, vars, do_CR, do_UP, do_PLE,  verbose) is True:
+                    if solve_helper(t_vals, partial, current_var + 1, reduced_clauses, vars, literals, do_CR, do_UP, do_PLE,  verbose) is True:
                         return True
 
                     # Try other option. Don't waste time updating values if we've 
