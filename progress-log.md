@@ -198,15 +198,22 @@
   - Finish refactoring, do more data collection.
   - Looked into what's slowing down the literal elimination implementation
   - Added unit prop. and lit elim. to watchlist solver --> improve this
-  - Collected data and made a spreadsheet
+  - Collected data and made a spreadsheet, developed visuals.
+  - Optimizations are actually slower than basic recursive version. MUST FIX!
   
   #### July 15th, 2020
+  - Ph.D. Student Meeting @ 9AM
   - Meeting with Mitch @ 12PM
   - Start thinking about your slide deck
-  - Leadership Alliance workshop
+  - I believe I stopped the issue where the recursive solver would terminate prematurely.
+  - Spent most of today trying to figure out why PLE is so SLOW. No breakthroughs yet.
+  - Removed old method of keeping up with truth values. New way is cleaner and faster.
+  - Did some clean up.
+  - Leadership Alliance workshop @ 3PM
   
   #### July 16th, 2020
   - (TODO) Improve argument processing w/ Python's argsparse library
+  - (TODO) Figure out why PLE and UP are slower than recursion.
   - Meeting with Soneya - TIME TBD
   - UVA Virtual Recruitment Fair @ 3P
   
