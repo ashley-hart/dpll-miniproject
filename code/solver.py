@@ -144,6 +144,7 @@ def main():
         
     print("[SAT_SOLVER]: " + result)
     print("[SAT_SOLVER]: Solving took " + solve_time + " seconds")
+    # print(solve_time)
 
     if verbose:
         print("[SAT_SOLVER]: Terminating process")
