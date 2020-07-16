@@ -186,8 +186,20 @@ def reduce_clause_set(clauses, pure_lit, partial, verbose):
 
     return clauses
 
+def get_pure_lits(clauses, vars, partial, verbose):
+    pure_literals = []
+    flat_list = [item for sublist in clauses for item in sublist]
+    list_of_literals = list(set(flat_list))
+    for l in list_of_literals:
+        if (not(negate(l) in list_of_literals)):
+            pure_literals.append(l)
+    return pure_literals
+
+def negate(l):
+    l*(-1)
+    
 # Scan the clauses and return a list of pure literals.
-def get_next_pure_lit(clauses, vars, partial, verbose):
+def get_pure_lits_old(clauses, vars, partial, verbose):
     pure = []
     literals = []
 
@@ -218,7 +230,7 @@ def ple(clauses, vars, partial, do_PLE, verbose):
         return clauses
 
     # Grab the next pure literal, if there is one.
-    pure = get_next_pure_lit(clauses, vars, partial, verbose)
+    pure = get_pure_lits(clauses, vars, partial, verbose)
 
     # Operate as long as there are pure literals to get from the clauses.
     while pure:
@@ -242,7 +254,6 @@ def ple(clauses, vars, partial, do_PLE, verbose):
 
         # Remove this pure literal when we finish with it and grab the next one.
         del pure[0]
-        pure = get_next_pure_lit(clauses, vars, partial, verbose)
 
     if verbose:
         print("PLE RETURNING:", clauses)
