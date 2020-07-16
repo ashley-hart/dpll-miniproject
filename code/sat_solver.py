@@ -168,7 +168,7 @@ def get_pure_lits(clauses, vars, partial, verbose):
 
 # Negates a given literal.
 def negate(l):
-    return (l * -1)
+    return l*(-1)
     
 # Scan the clauses and return a list of pure literals.
 def get_pure_lits_old(clauses, vars, partial, verbose):
