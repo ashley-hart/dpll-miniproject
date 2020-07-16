@@ -11,6 +11,8 @@ from the command line.
 By default, the solver operates on a recursion based DPLL algorithim.
 '''
 
+import sys
+
 # Checks a set of truth values derived from a partial assignment and a clause set.
 # Determines if the assignment satisfies the problem.
 def clause_check(t_vals, verbose):
@@ -65,51 +67,17 @@ def SAT_check(clauses, partial, verbose):
 # Reduce the clause set based on the assigned value of a literal.
 # Makes individual clauses "shorter." Used by unit propagation and recursive reduction.
 def remove_literal(clauses, literal, partial, verbose):
-
-    new_clauses = []
-    temp = []
-    can_reduce = True
-
-    # Strip clauses
-    for c in clauses:
-        # If same assignment then remove clause
-        if literal in c:
-            continue
-
-        if can_reduce == False:
-            break
-
-        for lit in c:
-            # If opposing assignment, then remove literal
-            if lit == (literal * -1):
-                if len(c) == 1:
-                    can_reduce = False
-
-                    if verbose:
-                        print("Unremovable unit clause detected.")
-
-                    break
-                continue
-            else:
-                temp.append(lit)
-
-        new_clauses.append(temp)
-        temp = []
+    new_clauses = [[lit for lit in c if (lit != literal*-1)] for c in clauses if literal not in c]
    
     if verbose:
         print("RM_LITERAL(): Reduction based on:", literal)
         print("RM_LITERAL(): Returning", new_clauses)
 
-    return (new_clauses, can_reduce)
+    return new_clauses
 
 # Returns all unit clauses that have yet to be satisfied.
 def get_unit_clauses(clauses, vars, partial, verbose):
-    unit_clauses = []
-    
-    for c in clauses:
-        index = vars.index(abs(c[0]))
-        if len(c) == 1 and partial[index] == None:
-            unit_clauses.append(c)
+    unit_clauses = [c for c in clauses if len(c) == 1]
     
     if verbose:
         print("GET_UNIT_CLAUSES(): Returning:", unit_clauses)
@@ -118,7 +86,6 @@ def get_unit_clauses(clauses, vars, partial, verbose):
 
 # Reduces clauses based on a literal if possible.
 def unit_prop_helper(clauses, literal, verbose):
-
     new_clauses = []
     temp = []
 
@@ -143,20 +110,18 @@ def unit_prop_helper(clauses, literal, verbose):
 
 # Perfrom unit propagation. Utilizes helper functions
 def unit_propagation(clauses, vars, partial, do_UP, verbose):
-
     if not do_UP:
         return clauses
 
-    new_clauses = [[lit for lit in c] for c in clauses]
-
     # Shrink clauses based on a previous assignment with unit propagation
-    unit_clauses = get_unit_clauses(new_clauses, vars, partial, verbose)
+    unit_clauses = get_unit_clauses(clauses, vars, partial, verbose)
 
     while unit_clauses:
         c = unit_clauses[0]
-        index = vars.index(abs(c[0]))
-        new_clauses = unit_prop_helper(new_clauses, c[0], verbose)
+        clauses = remove_literal(clauses, c[0], partial, verbose)
 
+        # ...and update the partial assignment
+        index = vars.index(abs(c[0]))
         if c[0] > 0:
             partial[index] = True
         else:
@@ -164,15 +129,16 @@ def unit_propagation(clauses, vars, partial, do_UP, verbose):
 
         del unit_clauses[0]
 
-        unit_clauses = get_unit_clauses(new_clauses, vars, partial, verbose)
+    if verbose:
+        print("UP RETURNING:", clauses)
+        print("UP PARTIAL:", partial)
 
-    return new_clauses
+    return clauses
 
 
 # Reduce a clause set based on the presence of a pure literal.
-# Tries to remove clauses from the clause set. USed by pure literal elimination.
+# Tries to remove clauses from the clause set. Used by pure literal elimination.
 def reduce_clause_set(clauses, pure_lit, partial, verbose):
-
     for c in clauses:
         if pure_lit in c:
             if len(clauses) == 1:
@@ -186,17 +152,23 @@ def reduce_clause_set(clauses, pure_lit, partial, verbose):
 
     return clauses
 
+# Grabs and returns a set of pure literals. 
 def get_pure_lits(clauses, vars, partial, verbose):
     pure_literals = []
     flat_list = [item for sublist in clauses for item in sublist]
     list_of_literals = list(set(flat_list))
+
     for l in list_of_literals:
         if (not(negate(l) in list_of_literals)):
             pure_literals.append(l)
+
+    if verbose:
+        print("GET_PLS(): Returning", pure_literals)
     return pure_literals
 
+# Negates a given literal.
 def negate(l):
-    l*(-1)
+    return (l * -1)
     
 # Scan the clauses and return a list of pure literals.
 def get_pure_lits_old(clauses, vars, partial, verbose):
@@ -244,9 +216,8 @@ def ple(clauses, vars, partial, do_PLE, verbose):
                 i -= 1
             i += 1
 
-        index = vars.index(abs(curr_lit))
-
         # ...and update the partial assignment
+        index = vars.index(abs(curr_lit))
         if curr_lit > 0:
             partial[index] = True
         else:
@@ -257,9 +228,10 @@ def ple(clauses, vars, partial, do_PLE, verbose):
 
     if verbose:
         print("PLE RETURNING:", clauses)
+        print("PLE adjusted partial to:", partial)
     return clauses
 
-# Returns a 2-tuple: (reduced-clauses, reducible)
+# Returns areduced clause set based on a literal.
 def clause_reduction(assignment, vars, i, partial, clauses, verbose):
 
     if assignment == True:
@@ -269,12 +241,13 @@ def clause_reduction(assignment, vars, i, partial, clauses, verbose):
 
     return remove_literal(clauses, literal, partial, verbose)
 
-
 # Attemot to solve the problem.
 def solve(problem, do_CR, do_UP, do_PLE):
     partial: list = []
     vars: list = []
     
+    sys.setrecursionlimit(10**6) 
+
     if problem.verbose:
         print("\n[SAT_SOLVER]: Attempting to satisfy the problem...")
         print("=======================================================================")
@@ -294,42 +267,54 @@ def solve(problem, do_CR, do_UP, do_PLE):
 
 
 def solve_helper(initial_partial, curr_var, clauses, vars, do_CR, do_UP, do_PLE, verbose):
-    result = None
     partial = [p for p in initial_partial]
-    curr_clauses = [[lit for lit in c] for c in clauses]
+    result = None
 
     if verbose:
         print("\nNEW CALL")
         print("=============================================================")
-        print("partial:", initial_partial)
+        print("partial:", partial)
         print("clauses:", clauses)
 
-    if do_PLE:
+    # If enabled, perform pure literal elimination
+
+    if verbose and do_UP:
+        print("UNIT PROPAGATION")
+        print("===========================")
+
+    # Perform unit propagation
+    clauses = unit_propagation(clauses, vars, partial, do_UP, verbose)
+    
+    if [] in clauses and do_UP:
         if verbose:
-            print("PURE LITERAL ELIMINATION")
-            print("===========================")
-            print("Given clauses:", clauses)
+            print("UP RETURNING FALSE EARLY!")
+        return False 
+        
 
-        clauses = ple(clauses, vars, initial_partial, do_PLE, verbose)
+    if verbose and do_PLE:
+        print("PURE LITERAL ELIMINATION")
+        print("===========================")
+        print("Given clauses:", clauses)
 
-        if clauses == []:
-            if verbose:
-                print("PLE RETURNING TRUE EARLY!")
-                print("partial:", initial_partial)
-            return True
+        clauses = ple(clauses, vars, partial, do_PLE, verbose)
 
+    if clauses == [] and do_PLE:
         if verbose:
-            print("PLE PRODUCED CLAUSES:", clauses)
-            print()    
+            print("PLE RETURNING TRUE EARLY!")
+            print("partial:", partial)
+
+        return True
 
     # Force a stop if we have a complete assignment.
     if None not in initial_partial:
         if verbose:
             print("BASE CASE - Complete assignment reached.")
-        return SAT_check(clauses, initial_partial, verbose)
+        return SAT_check(clauses, partial, verbose)
+    
+    curr_clauses = [[lit for lit in c] for c in clauses]
 
     # Try to find a satisfying solution for every variable that has not been given a fixed value.
-    for i in range(0, len(initial_partial)):
+    for i in range(0, len(partial)):
         if initial_partial[i] == None:
             for a in [True, False]:
 
@@ -350,18 +335,7 @@ def solve_helper(initial_partial, curr_var, clauses, vars, do_CR, do_UP, do_PLE,
                         print("partial:", partial)
 
                     # Try to reduce clauses with current assignment.
-                    # retval is a 2-tuple. The 0th index holds the reduced clauses
-                    # and the 1st holds a boolean that lets us know if we successfully
-                    # reduced the clause set.
-                    retval = clause_reduction(a, vars, i, partial, clauses, verbose)
-
-                    # If we did not reduce the clause set, discard this assignment and move on. 
-                    # Continuing down this path won't be productive.
-                    if retval[1] == False:
-                        continue
-
-                    # If we did reduce the clause set, set curr_clauses to the reduced clause set. 
-                    curr_clauses = retval[0]
+                    curr_clauses = clause_reduction(a, vars, i, partial, curr_clauses, verbose)
 
                 result = SAT_check(curr_clauses, partial, verbose)
 
