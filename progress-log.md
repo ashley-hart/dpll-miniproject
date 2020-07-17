@@ -218,5 +218,9 @@
   - UVA Virtual Recruitment Fair @ 3P
   
   #### July 17th, 2020
+  - Meeting with Soneya @ 10AM
   - Meeting with Matt @ 11AM
+  - Went over the presentation script
+  - Data collection & graph analysis --> data looks better, still some irregularities.
+  - Got useful visuals from Matt for the presentation
   - (TODO) Improve argument processing w/ Python's argsparse library
