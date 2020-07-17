@@ -212,10 +212,11 @@
   - Leadership Alliance workshop @ 3PM
   
   #### July 16th, 2020
-  - (TODO) Improve argument processing w/ Python's argsparse library
-  - (TODO) Figure out why PLE and UP are slower than recursion.
-  - Meeting with Soneya - TIME TBD
+  - Spent most of today trying to speed up unit propagation, still needs work.
+  - Data is showing the desired trends on some large testcases, but not so much elsewhere. 
+  - Began drafting presentation.
   - UVA Virtual Recruitment Fair @ 3P
   
   #### July 17th, 2020
   - Meeting with Matt @ 11AM
+  - (TODO) Improve argument processing w/ Python's argsparse library
