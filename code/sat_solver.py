@@ -38,26 +38,10 @@ def clause_check(t_vals, verbose):
 # Replaces update_t_vals() and reduce_t_vals().
 def SAT_check(clauses, partial, verbose):
     t_vals = []
-    temp = []
 
-    for c in clauses:
-        for lit in c:
-            index = abs(lit) -1
-            if partial[index] == True:
-                if lit > 0:
-                    temp.append(True)
-                else:
-                    temp.append(False)
-            elif partial[index] == False:
-                if lit > 0:
-                    temp.append(False)
-                else:
-                    temp.append(True)
-            else:
-                temp.append(None)
-
-        t_vals.append(temp)
-        temp = []
+    t_vals = [[True if (partial[abs(lit)-1] == True and lit > 0) else False if (partial[abs(lit)-1] == True and lit < 0)
+                else True if (partial[abs(lit)-1] == False and lit < 0) else False if (partial[abs(lit)-1] == False and lit > 0) 
+                else None for lit in c] for c in clauses]
 
     if verbose:
         print("Passing on:", t_vals)
@@ -83,30 +67,6 @@ def get_unit_clauses(clauses, vars, partial, verbose):
         print("GET_UNIT_CLAUSES(): Returning:", unit_clauses)
 
     return unit_clauses
-
-# Reduces clauses based on a literal if possible.
-def unit_prop_helper(clauses, literal, verbose):
-    new_clauses = []
-    temp = []
-
-    for c in clauses: 
-
-        if literal in c and len(c) > 1:     
-            continue
-        elif (literal * -1) in c and len(c) > 1:
-            for lit in c:
-                if lit != (literal * -1):
-                    temp.append(lit)
-        else:
-            temp = [lit for lit in c]
-
-        new_clauses.append(temp)
-        temp = []
-            
-    if verbose:
-        print("UP_HELPER(): Returning", new_clauses)
-
-    return new_clauses
 
 # Perfrom unit propagation. Utilizes helper functions
 def unit_propagation(clauses, vars, partial, do_UP, verbose):
@@ -139,18 +99,20 @@ def unit_propagation(clauses, vars, partial, do_UP, verbose):
 # Reduce a clause set based on the presence of a pure literal.
 # Tries to remove clauses from the clause set. Used by pure literal elimination.
 def reduce_clause_set(clauses, pure_lit, partial, verbose):
-    for c in clauses:
-        if pure_lit in c:
-            if len(clauses) == 1:
-                clauses = []
-            else:
-                clauses.remove(c)
+
+    reduced_clauses = [c for c in clauses if pure_lit not in c]
+    # for c in clauses:
+    #     if pure_lit in c:
+    #         if len(clauses) == 1:
+    #             clauses = []
+    #         else:
+    #             clauses.remove(c)
 
     if verbose:
         print("REDUCE_CLAUSE_SET(): Reducing on pure literal",  pure_lit)
-        print("REDUCE_CLAUSE_SET(): Returning:", clauses)
+        print("REDUCE_CLAUSE_SET(): Returning:", reduced_clauses)
 
-    return clauses
+    return reduced_clauses
 
 # Grabs and returns a set of pure literals. 
 def get_pure_lits(clauses, vars, partial, verbose):
@@ -170,31 +132,6 @@ def get_pure_lits(clauses, vars, partial, verbose):
 def negate(l):
     return l*(-1)
     
-# Scan the clauses and return a list of pure literals.
-def get_pure_lits_old(clauses, vars, partial, verbose):
-    pure = []
-    literals = []
-
-    # NOTE: Remove the break statement to allow this function to grab every pure literal.
-    # Scan clauses and toss in every literal.
-    for c in clauses:
-        for lit in c:
-            if lit not in literals and partial[abs(lit) -1] == None:
-                literals.append(lit)  
-
-    # Check for purity and add to pure list
-    for l in literals:
-        index = vars.index(abs(l))
-        if (l * -1) not in literals and partial[index] == None:
-            pure.append(l)
-            break
-
-    if verbose:
-        print("GET_PURE_LITS(): given literals: ", literals)
-        print("GET_PURE_LITS(): pure literals: ", pure)
-
-    return pure
-
 # Perform pure literal eliminaiton. This function is currently slowing down
 # the runtime in a major way. 
 def ple(clauses, vars, partial, do_PLE, verbose):
@@ -209,12 +146,15 @@ def ple(clauses, vars, partial, do_PLE, verbose):
         curr_lit = pure[0]
 
         # If a pure literal is found, reduce the clause set...
-        i = 0
-        while i < len(clauses):
-            if curr_lit in clauses[i]:
-                clauses.remove(clauses[i])
-                i -= 1
-            i += 1
+        # i = 0
+        # while i < len(clauses):
+        #     if curr_lit in clauses[i]:
+        #         clauses.remove(clauses[i])
+        #         i -= 1
+        #     i += 1
+
+        # NOTE: Trying to see if this is faster --> uses list comprehesion
+        # reduce_clause_set(clauses, curr_lit, partial, verbose)
 
         # ...and update the partial assignment
         index = vars.index(abs(curr_lit))
@@ -327,6 +267,8 @@ def solve_helper(initial_partial, curr_var, clauses, vars, do_CR, do_UP, do_PLE,
                     print("clauses =", curr_clauses)
                     print("partial assignment: ", partial)
 
+                result = SAT_check(curr_clauses, partial, verbose)
+
                 # If enabled, attempt to reduce the clauses with every change to the assignment
                 if do_CR:
                     if verbose:
@@ -337,7 +279,6 @@ def solve_helper(initial_partial, curr_var, clauses, vars, do_CR, do_UP, do_PLE,
                     # Try to reduce clauses with current assignment.
                     curr_clauses = clause_reduction(a, vars, i, partial, curr_clauses, verbose)
 
-                result = SAT_check(curr_clauses, partial, verbose)
 
                 # If True or False, return right away.
                 if result == True:
