@@ -236,7 +236,7 @@ def solve_helper(initial_partial, curr_var, clauses, vars, do_CR, do_UP, do_PLE,
         print("===========================")
         print("Given clauses:", clauses)
 
-        clauses = ple(clauses, vars, partial, do_PLE, verbose)
+    clauses = ple(clauses, vars, partial, do_PLE, verbose)
 
     if clauses == [] and do_PLE:
         if verbose:
