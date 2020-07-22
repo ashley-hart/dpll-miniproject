@@ -224,3 +224,20 @@
   - Data collection & graph analysis --> data looks better, still some irregularities.
   - Got useful visuals from Matt for the presentation
   - (TODO) Improve argument processing w/ Python's argsparse library
+  
+  ### WEEK 8
+  #### July 20, 2020
+  - Meeting with Matt @ 3PM
+  - Produced first version of presentation slides
+  - Trying to optimize code for PLE procedure --> too many list comprehensions
+  - Changed SAT_check() to make clause_check() obsolete
+  - Considering a full rewrite of the solver. 
+  
+  #### July 21, 2020
+  - Added script to notes on PowerPoint slides.
+  - Prepared slides and data for Wednesday's presentation
+  - Practiced the talk.\
+  
+  #### July 22nd, 2020
+  - (TODO) Remove lists and list updates from sat_solver.py where possible.
+ 
