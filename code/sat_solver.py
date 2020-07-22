@@ -247,10 +247,10 @@ def solve_helper(initial_partial, curr_var, clauses, vars, do_CR, do_UP, do_PLE,
     clauses = ple(clauses, vars, partial, do_PLE, verbose)
 
     if len(clauses) == 0:
-        print("PLE RETURNING TRUE EARLY!")
-        print("partial:", partial)
-        print("clauses:", clauses)
-        # if verbose:
+        if verbose:
+            print("PLE RETURNING TRUE EARLY!")
+            print("partial:", partial)
+            print("clauses:", clauses)
 
         return True
 
@@ -264,7 +264,7 @@ def solve_helper(initial_partial, curr_var, clauses, vars, do_CR, do_UP, do_PLE,
 
     # Try to find a satisfying solution for every variable that has not been given a fixed value.
     for i in range(0, len(partial)):
-        if initial_partial[i] == None:
+        if partial[i] == None:
             for a in [True, False]:
 
                 # Update partial assignment
@@ -280,7 +280,10 @@ def solve_helper(initial_partial, curr_var, clauses, vars, do_CR, do_UP, do_PLE,
                 curr_clauses = clause_reduction(a, vars, i, partial, curr_clauses, verbose)
 
                 if [] in curr_clauses:
-                    # print("Bad reduction, continuing on....")
+                    if verbose:
+                        print("Bad reduction, continuing on....")
+                        print("curr_clauses:", curr_clauses)
+                    curr_clauses = [[lit for lit in c] for c in clauses]
                     continue
 
                 result = SAT_check(curr_clauses, partial, verbose)
