@@ -236,8 +236,16 @@
   #### July 21, 2020
   - Added script to notes on PowerPoint slides.
   - Prepared slides and data for Wednesday's presentation
-  - Practiced the talk.\
+  - Practiced the talk.
   
   #### July 22nd, 2020
-  - (TODO) Remove lists and list updates from sat_solver.py where possible.
+  - Gave practice talk at Wednesday morning meeting. 
+  - Meeting with Mitch
+  - Mitch and I are unsure of further reductions, putting data struture optimizations on hold.
+  - Fixed issue with clause reductions.
+  - Made some pigeonhole principle benchmarks with cnfgen tool.
+  
+  #### July 23rd, 2020
+  - (TODO) Produce a new data set
+  - (TODO) Clean repository, code and update README.md's
  
