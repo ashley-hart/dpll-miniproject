@@ -234,8 +234,10 @@
   - Considering a full rewrite of the solver. 
   
   #### July 21, 2020
-  - (TODO) Add script to notes on PowerPoint slides.
+  - Added script to notes on PowerPoint slides.
+  - Prepared slides and data for Wednesday's presentation
+  - Practiced the talk.\
+  
+  #### July 22nd, 2020
   - (TODO) Remove lists and list updates from sat_solver.py where possible.
-  - (TODO) Prepare slides and data for Wednesday's presentation
-  - (TODO) Practice the talk.
  
