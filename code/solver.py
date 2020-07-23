@@ -73,9 +73,9 @@ class Solver:
             do_UP = True
             do_PLE = True
         # Use DPLL with watchlist approach.
-        elif self.flag == "--dpll-w" or self.flag == "-dw":
+        elif self.flag == "--dpll-watchlist" or self.flag == "-dw":
             if self.verbose:
-                print("--dpll-w flag recieved")
+                print("--dpll-watchlist flag recieved")
 
             return dpll_watchlist.solve(self.problem)
         else:
@@ -135,16 +135,14 @@ def main():
     end = time.time()
     solve_time = str(round((end-start), 5))
 
-    result = ""
-
     if is_SAT:
         result = "SAT"
     else:
         result = "UNSAT"
         
-    # print("[SAT_SOLVER]: " + result)
-    # print("[SAT_SOLVER]: Solving took " + solve_time + " seconds")
-    print(solve_time)
+    print("[SAT_SOLVER]: " + result)
+    print("[SAT_SOLVER]: Solving took " + solve_time + " seconds")
+    # print(solve_time)
 
     if verbose:
         print("[SAT_SOLVER]: Terminating process")

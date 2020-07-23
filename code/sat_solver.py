@@ -42,32 +42,6 @@ def SAT_check(clauses, partial, verbose):
     else True if (partial[abs(lit)-1] == False and lit < 0) else False if (partial[abs(lit)-1] == False and lit > 0) 
     else None for lit in c] for c in clauses]
 
-    # This is an alternative version of this function that would (hopefully) eliminate
-    # the need for clause_check()
-    # is_SAT = True
-
-    # for c in clauses:
-    #     seen_True  = False
-    #     seen_None = False
-    #     for lit in c:
-    #         if lit > 0:
-    #             if partial[lit - 1] == True:
-    #                 seen_True = True
-    #                 continue
-    #         elif lit < 0:
-    #             if partial[abs(lit) - 1] == False:
-    #                 seen_True = True
-    #                 continue
-    #         if partial[abs(lit) - 1] == None:
-    #             seen_None = True
-            
-    #     if seen_True == False:
-    #         if seen_None == True:
-    #             is_SAT = None
-    #         else:    
-    #             is_SAT = False
-    #         break
-
     return clause_check(t_vals, verbose)
 
 # Reduce the clause set based on the assigned value of a literal.
