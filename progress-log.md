@@ -246,6 +246,11 @@
   - Made some pigeonhole principle benchmarks with cnfgen tool.
   
   #### July 23rd, 2020
-  - (TODO) Produce a new data set
+  - Produced a new data set
+  - Meeting with Soneya @4PM
+  - Leadershp Alliance Virtual Recuitment Fairs
+  - PLE is still bottlenecking...
+  
+  #### July 24th, 2020
   - (TODO) Clean repository, code and update README.md's
  
