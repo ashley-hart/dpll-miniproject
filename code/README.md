@@ -26,7 +26,7 @@
    
    `user@System python3 parser.py dimacs_file.cnf --verbose`
     
-   IMPORTANT: As of June 26th, additional flags were added to improvw user-friendliness:
+   IMPORTANT: As of June 26th, additional flags were added to improve user-friendliness:
    
       * -r --> shorthand for --recursive
       * -u --> shorthand for --unit-prop 
@@ -36,6 +36,9 @@
       * -a --> shorthand for --all
       * -v --> shorthand for --verbose
    
+### sat_solver.py 
+  Searches for and returns whether or not a satisfiying assignment was found for the given problem. This solver is built on top of a recursive backtracking algorithim that can     be optimized. By default, the solver will use every optimization it has availible to solve the problem. Flags for unit propagation and pure literal elimination will enable      those specific optimizations and run them alongside the recursive solver. 
+
 ### problem.py
    Contains all data pertaining to the problem and handles file parsing upon initialization. More information to come.
    This class replaces parser.py.
