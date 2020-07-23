@@ -253,4 +253,6 @@
   
   #### July 24th, 2020
   - (TODO) Clean repository, code and update README.md's
+  - (TODO) Look into generator expressions
+  - (TODO) Reduce talk and improve slides
  
