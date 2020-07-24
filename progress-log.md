@@ -254,7 +254,8 @@
   #### July 24th, 2020
   - Trying to get an idea of public README.md
   - Attended Harvard's Recruitment Fair
-  - Looked into generator expressions
+  - Looked into generator expressions --> they *might* improve the runtime...
   - Practiced the talk --> going with the data we have for now, trying to learn more about PLE and Python to improve my code.
+  
   
  
