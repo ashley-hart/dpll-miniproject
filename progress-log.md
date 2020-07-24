@@ -257,5 +257,10 @@
   - Looked into generator expressions --> they *might* improve the runtime...
   - Practiced the talk --> going with the data we have for now, trying to learn more about PLE and Python to improve my code.
   
+  ### WEEK 9
+  #### July 25th, 2020
+  - (TODO) Compile data on a mix of SAT/UNSAT Benchmarks
+  - Meeting with Matt @3PM
+  
   
  
