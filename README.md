@@ -5,6 +5,9 @@ Hossain
 ## Table of Contents
 * [Motivation](#Motivation)
 * [Technologies](#Technologies)
+* [Setup](#Setup)
+* [Solving Process](#Solving Process)
+* [Status](#Status)
 
 ## Motivation
 We are developing a SAT solver from scratch based on the DPLL algorithm. The
