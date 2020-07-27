@@ -6,7 +6,7 @@ Hossain
 * [Motivation](#Motivation)
 * [Technologies](#Technologies)
 * [Setup](#Setup)
-* [Solving Process](#Solving Process)
+* [Process](#Process)
 * [Status](#Status)
 
 ## Motivation
@@ -33,7 +33,7 @@ Some benchmarks were created with:
 ## Setup
 This project requires Python3. *This section is still under construction.*
 
-## Solving Process
+## Process
 *This section is still under construction.*
 
 ## Status
