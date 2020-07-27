@@ -246,6 +246,21 @@
   - Made some pigeonhole principle benchmarks with cnfgen tool.
   
   #### July 23rd, 2020
-  - (TODO) Produce a new data set
-  - (TODO) Clean repository, code and update README.md's
+  - Produced a new data set
+  - Meeting with Soneya @4PM
+  - Leadershp Alliance Virtual Recuitment Fairs
+  - PLE is still bottlenecking...
+  
+  #### July 24th, 2020
+  - Trying to get an idea of public README.md
+  - Attended Harvard's Recruitment Fair
+  - Looked into generator expressions --> they *might* improve the runtime...
+  - Practiced the talk --> going with the data we have for now, trying to learn more about PLE and Python to improve my code.
+  
+  ### WEEK 9
+  #### July 25th, 2020
+  - (TODO) Compile data on a mix of SAT/UNSAT Benchmarks
+  - Meeting with Matt @3PM
+  
+  
  
