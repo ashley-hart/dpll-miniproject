@@ -258,9 +258,14 @@
   - Practiced the talk --> going with the data we have for now, trying to learn more about PLE and Python to improve my code.
   
   ### WEEK 9
-  #### July 25th, 2020
-  - (TODO) Compile data on a mix of SAT/UNSAT Benchmarks
-  - Meeting with Matt @3PM
+  #### July 27th, 2020
+  - Reworked logic based on Mitch's DPLL implementation and algorithim pseudocode
+  - Repository made public 
+  - Began process of updating README files
+  - Meeting with Matt @3PM --> very cool lecture on 
+  - Submitted slides as a PDF to Ramy
   
-  
- 
+ #### July 28th, 2020
+   - (TODO) Compile data on a mix of SAT/UNSAT Benchmarks
+   - (TODO) Examine times on Mitch's DPLL implementation
+   - Dry run of breakout room @ 4PM w/ Ramy
