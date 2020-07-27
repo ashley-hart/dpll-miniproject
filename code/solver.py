@@ -32,7 +32,6 @@ class Solver:
     def solve(self):
 
         # Determines if we do a clause reduction per call.
-        do_CR = None 
         do_UP = None
         do_PLE = None
 
@@ -45,7 +44,6 @@ class Solver:
             if self.verbose: 
                 print("--recursive flag recieved")
 
-            do_CR = True
             do_UP = False
             do_PLE = False
         # Use unit propagation approach.
@@ -53,7 +51,6 @@ class Solver:
             if self.verbose:
                 print("--unit-prop flag received")
 
-            do_CR = True
             do_UP = True
             do_PLE = False
         # Use pure literal elimination approach. 
@@ -61,7 +58,6 @@ class Solver:
             if self.verbose:
                 print("--lit-elim flag receieved")
 
-            do_CR = True
             do_UP = False
             do_PLE = True
         # Use DPLL algorithm approach.
@@ -69,7 +65,6 @@ class Solver:
             if self.verbose:
                 print("--dpll flag recieved")
 
-            do_CR = True
             do_UP = True
             do_PLE = True
         # Use DPLL with watchlist approach.
@@ -83,7 +78,7 @@ class Solver:
             print("Given flag: *" + flag_input + "*")
             print("Flag not recognized. Please verify your input.")    
 
-        return sat_solver.solve(self.problem, do_CR, do_UP, do_PLE)
+        return sat_solver.solve(self.problem, do_UP, do_PLE)
 
 
 # TODO: Simplify with Python's argparse library
@@ -142,7 +137,7 @@ def main():
         
     print("[SAT_SOLVER]: " + result)
     print("[SAT_SOLVER]: Solving took " + solve_time + " seconds")
-    # print(solve_time)
+    print(solve_time)
 
     if verbose:
         print("[SAT_SOLVER]: Terminating process")

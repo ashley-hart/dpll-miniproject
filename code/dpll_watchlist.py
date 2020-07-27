@@ -81,7 +81,7 @@ def solve(problem):
     variables = []
     assignment = []
 
-    for c in problem.clauses:
+    for c in problem.formula:
         for lit in c:
             if abs(lit) not in variables:
                 variables.append(abs(lit))
@@ -97,7 +97,7 @@ def solve(problem):
     literals.sort(key=abs)
     variables.sort()
 
-    watchlist = init_watchlist(literals, problem.clauses, problem.verbose)
+    watchlist = init_watchlist(literals, problem.formula, problem.verbose)
 
     if problem.verbose:
         print("variables:", variables)
@@ -105,7 +105,8 @@ def solve(problem):
         print("watchlist:", watchlist)
         print("assignment:", assignment)
 
-    result = dpll(watchlist, problem.clauses, assignment, literals, variables, 0, problem.verbose)
+    # Todo, fix doUP and doPLE assignments.
+    result = dpll(watchlist, problem.formula, assignment, literals, variables, 0, True, True, problem.verbose)
 
     if problem.verbose:
         print("Final result:", result)
@@ -114,12 +115,8 @@ def solve(problem):
     return result
 
 
-def dpll(watchlist, clauses, assignment, literals, variables, curr_var,  verbose):
-
+def dpll(watchlist, clauses, assignment, literals, variables, curr_var, do_UP, do_PLE, verbose):
     new_wl = [[lit for lit in c] for c in watchlist]
-
-    # TODO: ADD UNIT PROPAGATION
-    # TODO: ADD PURE LITERAL ELIMINATION
 
     for a in [True, False]:
         assignment[curr_var] = a
@@ -143,7 +140,7 @@ def dpll(watchlist, clauses, assignment, literals, variables, curr_var,  verbose
         if None not in assignment:
             return True
 
-        if dpll(new_wl, clauses, assignment, literals, variables, curr_var + 1,  verbose):
+        if dpll(new_wl, clauses, assignment, literals, variables, curr_var + 1, True, True, verbose):
             return True
 
         assignment[curr_var] = None
