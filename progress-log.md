@@ -266,6 +266,20 @@
   - Submitted slides as a PDF to Ramy
   
  #### July 28th, 2020
-   - (TODO) Compile data on a mix of SAT/UNSAT Benchmarks
-   - (TODO) Examine times on Mitch's DPLL implementation
    - Dry run of breakout room @ 4PM w/ Ramy
+   - Studying for final exam and rehearsing talk. Hitting time target consistently!
+   
+ #### July 29th, 2020
+   - Meetings galore!
+   - 9AM Meeting with Ph.D students and faculty
+   - 10AM Meeting with Mitch 
+   - 12PM Meeting w/ Dr. Crenshaw and Ms. Robinson
+   - 12:30PM UVA Leadership Alliance Closing Ceremony
+   - Rehearse talk
+   - (TODO) Update README.md files
+   
+   #### July 30th, 2020
+   - Meeting with Soneya 4PM --> go through the talk
+   
+   #### July 31st, 2020
+   - Virtual LANS Presentation at 4PM (4:20 is when I start)
