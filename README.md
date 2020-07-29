@@ -20,7 +20,7 @@ Future development goals include:
 * Implementing optimizations such as conflict clause learning
 * Exploring literal selection heuristics
 * Improving argument handling and program structure
-* Reimplemntation of a SAT Solver in a lower-level language 
+* Reimplementation of a SAT Solver in a lower-level language 
 
 ## Technologies
 This project is created with:
