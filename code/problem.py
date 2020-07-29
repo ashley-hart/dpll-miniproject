@@ -14,7 +14,7 @@ class Problem:
     filename = ""
     flag = ""
 
-    clauses = []
+    formula = []
     solutions = []
 
     verbose = None
@@ -39,8 +39,8 @@ class Problem:
     def get_flag(self):
         return self.flag
 
-    def get_clauses(self):
-        return self.clauses
+    def get_formula(self):
+        return self.formula
     
     def get_solutions(self):
         return self.solutions
@@ -96,7 +96,7 @@ class Problem:
                     for i in range(0, len(tokens)):
                         tokens[i] = int(tokens[i])
 
-                    self.clauses.append(tokens)
+                    self.formula.append(tokens)
 
                 # TODO: Figure out how to trigger this code
                 else:
@@ -112,7 +112,7 @@ class Problem:
     # Print acquired data for debugging purposes.
     def pretty_print(self):
         print("p ", self.format_type, " ", self.num_vars, " ", self.num_clauses)
-        for value in self.clauses:
+        for value in self.formula:
             for num in value:
                 if int(num) != 0:
                     print(num, " ", end="")
