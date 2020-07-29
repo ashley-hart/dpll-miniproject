@@ -6,7 +6,6 @@ Hossain
 * [Motivation](#Motivation)
 * [Technologies](#Technologies)
 * [Setup](#Setup)
-* [Process](#Process)
 * [Status](#Status)
 
 ## Motivation
@@ -21,6 +20,7 @@ Future development goals include:
 * Implementing optimizations such as conflict clause learning
 * Exploring literal selection heuristics
 * Improving argument handling and program structure
+* Reimplemntation of a SAT Solver in a lower-level language 
 
 ## Technologies
 This project is created with:
@@ -31,10 +31,12 @@ Some benchmarks were created with:
 * [cnfgen](https://massimolauria.net/cnfgen/) by Massimo Lauria and contributors
 
 ## Setup
-This project requires Python3. *This section is still under construction.*
+TL;DR: Use this command from the central folder to get things going:
+`python3 code/solver.py [filename]`
 
-## Process
-*This section is still under construction.*
+This project requires Python3. Feel free to clone this repository onto your system if 
+you would like to experiment with the code. The [code](code) directory has much more 
+information about how to run and compile the program.
 
 ## Status
 This project is actively being developed. If you have any inquires about our
