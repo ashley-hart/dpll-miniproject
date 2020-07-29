@@ -36,7 +36,7 @@ TL;DR: Use this command from the central folder to get things going:
 
 This project requires Python3. Feel free to clone this repository onto your system if 
 you would like to experiment with the code. The [code](code) directory has much more 
-information about how to run and compile the program.
+information about how to compile and run the program.
 
 ## Status
 This project is actively being developed. If you have any inquires about our
