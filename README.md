@@ -17,7 +17,7 @@ Alliance and will be developed over time.
 
 Future development goals include:
 * Improving runtime consistency across benchmarks
-* Implementing optimizations such as conflict clause learning
+* Implementing optimizations such as [conflict clause learning](https://en.wikipedia.org/wiki/Conflict-driven_clause_learning#:~:text=In%20computer%20science%2C%20conflict%2Ddriven,entire%20formula%20evaluates%20to%20true.)
 * Exploring literal selection heuristics
 * Improving argument handling and program structure
 * Reimplementation of a SAT Solver in a lower-level language 
