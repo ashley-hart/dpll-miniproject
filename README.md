@@ -39,5 +39,4 @@ you would like to experiment with the code. The [code](code) directory has much 
 information about how to compile and run the program.
 
 ## Status
-This project is actively being developed. If you have any inquires about our
-work feel free to send an e-mail to Ashley.
+This project has been put on hold. If you have any questions please send an email to Ashley.
